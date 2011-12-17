@@ -1,6 +1,5 @@
 <?php
 class DbLogin{
-	
 	public function __construct(){
 		$this->login();
 	}

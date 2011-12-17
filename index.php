@@ -5,9 +5,6 @@ function __autoload($class_name){
 session_start();
 $dbLogin = new DbLogin();
 
-if(isset($_POST['signupUser'])){
-	$regUser = new Signup();
-}
 if(isset($_GET['page'])){
 	$curPage = $_GET['page'];
 } else {
