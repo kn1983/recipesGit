@@ -1,0 +1,19 @@
+#container {
+	width: 960px;
+	margin: 0 auto;
+	background-color: #ccc;
+	overflow: hidden;
+}
+#header {
+	background-color: #ff00ff;
+}
+#sidebar {
+	width: 350px;
+	float: left;
+	background-color: yellow;
+}
+#content {
+	width: 610px;
+	float: left;
+	background-color: #eee;
+}
