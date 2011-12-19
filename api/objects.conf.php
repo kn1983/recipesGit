@@ -38,6 +38,28 @@ $_OBJECTS = array(
 				'args' => array()
 			)
 		)
+	),
+	'recipe' => array(
+		'description' => 'The recipe object',
+		'methods' => array(
+			'add' => array(
+				'description' => "Add recipe",
+				'args' => array(
+					'recipeTitle' => array(
+						'type' => 'string',
+						'required' => true
+					),
+					'recipeDescription' => array(
+						'type' => 'string',
+						'required' => true
+					),
+					'portions' => array(
+						'type' => 'numeric',
+						'required' => true
+					)
+				)
+			)
+		)
 	)
 );
 ?>

@@ -11,6 +11,9 @@ $_PAGES = array(
 	),
 	'loggedIn' => array(
 		'loginRequired' => true
+	),
+	'addRecipe' => array(
+		'loginRequired' => true
 	)
 );
 ?>

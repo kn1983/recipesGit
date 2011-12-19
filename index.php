@@ -19,17 +19,19 @@ if(isset($_GET['page'])){
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<script type="text/javascript" src="js/jquery-1.6.4.js"></script>
 		<script type="text/javascript" src="js/userFunc.js"></script>
+		<script type="text/javascript" src="js/recipeFunc.js"></script>
 		<link href="css/style.css" type="text/css" rel="stylesheet">
 	</head>
 	<body>
 		<div id="container">
 			<div id="header">
+				<h1><a href="index.php">Recept</a></h1>
 				<?php if(isset($_SESSION['user']) && $_SESSION['user']){ ?>
 					<ul id="mainMenu">
-						<li><a href="index.php">Recept</a></li>
+						<li><a href="index.php">Visa recept</a></li>
 						<li><a href="#">Sök recept</a></li>
 						<li><a href="#">Mina recept</a></li>
-						<li><a href="#">Lägg till recept</a></li>
+						<li><a href="index.php?page=addRecipe">Lägg till recept</a></li>
 						<li><a href="#">Inköpslista</a></li>
 						<li><a href="#">Mitt skafferi</a></li>
 						<li><a href="#" id="logout">Logga ut</a></li>
