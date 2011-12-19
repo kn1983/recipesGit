@@ -1,4 +1,8 @@
 <?php
+require_once "classes/DbLogin.class.php";
+session_start();
+$dbLogin = new DbLogin();
+
 $actions = parseURLtoActions();
 $format = array_shift($actions);
  
@@ -22,5 +26,4 @@ function parseURLtoActions(){
   }
   return $actions;
 }
- 
 ?>

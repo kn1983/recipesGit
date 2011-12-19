@@ -13,6 +13,6 @@
 			<dt><label for="regEmail">E-post</label></dt>
 			<dd><input type="text" id="regEmail" name="regEmail" /></dd>
 		</dl>
-		<button type="submit" name="signupUser">Registrera dig</button>
+		<button id="signupUser">Registrera dig</button>
 	</form>
 </div>
