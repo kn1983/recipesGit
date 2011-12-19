@@ -6,7 +6,7 @@ window.recUtilities.addRecipe = function addRecipe(){
 	},"json");
 };
 $(function(){
-	$('#addRecipe').click(function(){
+	$('#addRecipeBtn').click(function(){
 		window.recUtilities.addRecipe();
 		return false;
 	});

@@ -1,7 +1,7 @@
 <?php
 $_OBJECTS = array(
 	'user' => array(
-		'description' => "The user object",
+		'description' => "The user object.",
 		'methods' => array(
 			'signup' => array(
 				'description' => "Signup user",
@@ -40,7 +40,7 @@ $_OBJECTS = array(
 		)
 	),
 	'recipe' => array(
-		'description' => 'The recipe object',
+		'description' => 'The recipe object.',
 		'methods' => array(
 			'add' => array(
 				'description' => "Add recipe",

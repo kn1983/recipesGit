@@ -13,6 +13,6 @@
 		<div id="ingredients">
 		<p><button id="addIngredient">+ Ingrediens</button></p>
 		</div>
-		<p><button id="addRecipe">Lägg till recept</button></p>
+		<p><button id="addRecipeBtn">Lägg till recept</button></p>
 	</form>
 </div>
