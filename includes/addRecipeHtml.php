@@ -11,8 +11,8 @@
 				<dd><input type="text" id="portions" name="portions" maxlength="3" size="3"/></dd>
 		</dl>
 		<div id="ingredients">
-		<p><button id="addIngredient">+ Ingrediens</button></p>
 		</div>
+		<p><button id="addIngredient">+ Ingrediens</button></p>
 		<p><button id="addRecipeBtn">Lägg till recept</button></p>
 	</form>
 </div>

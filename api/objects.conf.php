@@ -40,7 +40,7 @@ $_OBJECTS = array(
 		)
 	),
 	'recipe' => array(
-		'description' => 'The recipe object.',
+		'description' => 'The recipe object',
 		'methods' => array(
 			'add' => array(
 				'description' => "Add recipe",
@@ -58,6 +58,13 @@ $_OBJECTS = array(
 						'required' => true
 					)
 				)
+			)
+		)
+	),
+	'ingredient' => array(
+		'description' => 'The ingredient object',
+		'methods' => array(
+			'add' => array(
 			)
 		)
 	)

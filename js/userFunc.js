@@ -27,6 +27,7 @@ window.recUtilities.submitUser = function submitUser(){
 	} else {
 		alert("Fel användarnamn eller lösenord");
 	}
+	return false;
 };
 
 //Login user
@@ -46,6 +47,7 @@ window.recUtilities.loginUser = function loginUser(){
 	} else {
 		alert("Fel användarnamn eller lösenord");
 	}
+	return false;
 };
 
 //Logut user 
@@ -54,23 +56,16 @@ window.recUtilities.logoutUser = function logoutUser(){
 	$.getJSON(url, function(data){
 		window.location = "index.php";
 	});
+	return false;
 };
 
 $(function(){
 	//Signup user
-	$('#signupUser').click(function(){
-		window.recUtilities.submitUser();
-		return false;
-	});
+	$('#signupUser').click(window.recUtilities.submitUser);
 	
 	//Login user
-	$('#login').click(function(){
-		window.recUtilities.loginUser();
-		return false;
-	});
+	$('#login').click(window.recUtilities.loginUser);
 	
 	//Logout user
-	$('#logout').click(function(){
-		window.recUtilities.logoutUser();
-	});
+	$('#logout').click(window.recUtilities.logoutUser);
 });
