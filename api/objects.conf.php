@@ -56,6 +56,10 @@ $_OBJECTS = array(
 					'portions' => array(
 						'type' => 'numeric',
 						'required' => true
+					),
+					'ingredients' => array(
+						'type' => 'array',
+						'required' => true
 					)
 				)
 			)

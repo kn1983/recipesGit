@@ -4,7 +4,7 @@ function runAPI($format, $actions){
   $object_name = array_shift($actions);
   $method_name = array_shift($actions);
   $args = $_POST;
- 
+
   //Check if object exist in $_OBJECTS aray
   if(in_array($object_name, array_keys($_OBJECTS))){
     $allowed_args = $_OBJECTS[$object_name]['methods'][$method_name]['args'];
@@ -22,11 +22,11 @@ function runAPI($format, $actions){
         if(!isset($args[$arg]) || !$args[$arg]){
           $missing_args[] = $arg;
         }else{
-          $clean_args[$arg] = mysql_real_escape_string($args[$arg]);
+          $clean_args[$arg] = $args[$arg];
         }
       }else{
         if(isset($args[$arg])){
-          $clean_args[$arg] = mysql_real_escape_string($args[$arg]);
+          $clean_args[$arg] = $args[$arg];
         }
       }
     }
@@ -88,6 +88,8 @@ function validateType($arg, $type){
     return is_numeric($arg);
   } else if($type == 'string'){
     return is_string($arg);
+  } else {
+    return true;
   }
 }
 
