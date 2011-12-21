@@ -4,20 +4,19 @@ function runAPI($format, $actions){
   $object_name = array_shift($actions);
   $method_name = array_shift($actions);
   $args = $_POST;
-
-  //Check if object exist in $_OBJECTS aray
+ 
   if(in_array($object_name, array_keys($_OBJECTS))){
     $allowed_args = $_OBJECTS[$object_name]['methods'][$method_name]['args'];
     $missing_args = array();
     $clean_args = array();
-    $invalid_type = array();
-    $validArgs = true;
-
-    //Check if the arguments are allowed
+    
     foreach($allowed_args as $arg => $arg_conf){
-      $type = argType($arg_conf);
+      // if(isset($args_conf['type']) && $args_conf['type']){
+      //   $type = $arg_conf['type'];
+      // } else {
+      //   $type = "";
+      // }
 
-      //Adds the arguments that are missing to an array
       if(isset($arg_conf['required']) && $arg_conf['required']){
         if(!isset($args[$arg]) || !$args[$arg]){
           $missing_args[] = $arg;
@@ -25,39 +24,19 @@ function runAPI($format, $actions){
           $clean_args[$arg] = $args[$arg];
         }
       }else{
-        if(isset($args[$arg])){
+        if(isset($args[$arg]))
           $clean_args[$arg] = $args[$arg];
-        }
       }
     }
-    //Check if argument type is valid
-    foreach($clean_args as $key => $val){
-      $type = $_OBJECTS[$object_name]['methods'][$method_name]['args'][$key]['type'];
-      if(!validateType($val, $type)){
-        $invalid_type[] = $key;
-      }
-    }
-
-    //Prints the arguments that are missing
-    if(count($missing_args) > 0 ){
+    if(count($missing_args) > 0){
       echo "Missing required arguments!";
       print_r($missing_args);
-      $validArgs = false;
-    }
-
-    //Prints the arguments that have invalid type
-    if(count($invalid_type) > 0 ){
-      echo "Wrong type!";
-      print_r($invalid_type);
-      $validArgs = false;
-    }
-
-    //Executes the method in the class if the arguments are valid
-    if($validArgs) {
+    }else{
       $args = $clean_args;
       require_once("classes/".$object_name.".class.php");
  
       $object_name = "_".$object_name;
+ 
       $object = new $object_name();
  
       if(method_exists($object,$method_name)){
@@ -71,8 +50,7 @@ function runAPI($format, $actions){
     echo "Object is not allowed!";
   }
 }
-
-//Output json or text
+ 
 function output($data, $format = 'json'){
   switch($format){
     case 'json':

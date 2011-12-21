@@ -59,7 +59,21 @@ $_OBJECTS = array(
 					),
 					'ingredients' => array(
 						'type' => 'array',
-						'required' => true
+						'required' => false
+						'args' => array(
+							'ingredient' => array(
+								'type' => 'string',
+								'required' => true
+							),
+							'amount' => array(
+								'type' => 'numeric',
+								'required' => true
+							),
+							'unit' => array(
+								'type' => 'string',
+								'required' => true
+							)
+						)
 					)
 				)
 			)
