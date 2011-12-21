@@ -30,7 +30,6 @@ function runAPI($format, $actions){
         }
       }
     }
-
     //Check if argument type is valid
     foreach($clean_args as $key => $val){
       $type = $_OBJECTS[$object_name]['methods'][$method_name]['args'][$key]['type'];
@@ -70,26 +69,6 @@ function runAPI($format, $actions){
     }
   }else{
     echo "Object is not allowed!";
-  }
-}
-
-//Sets the type
-function argType($arg_conf){
-  if(isset($arg_conf['type']) && $arg_conf['type']){
-    return $arg_conf['type'];
-  } else {
-    return false;
-  }
-}
-
-//Validate the type for the arguments
-function validateType($arg, $type){
-  if ($type == 'numeric'){
-    return is_numeric($arg);
-  } else if($type == 'string'){
-    return is_string($arg);
-  } else {
-    return true;
   }
 }
 
