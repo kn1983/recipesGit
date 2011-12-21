@@ -10,11 +10,13 @@ window.recUtilities.addRecipe = function addRecipe(){
 };
 
 window.recUtilities.addIngRow = function addIngRow(){
-	var row = $('<ul/>');
-	var amount = $('<li/>').append($('<label>Mängd</label><input type="text" name="ingredients[amount][]" />'));
-	var unit = $('<li/>').append($('<label>Enhet</label><input type="text" name="ingredients[unit][]" />'));
-	var ingredient = $('<li/>').append($('<label>Ingrediens</label><input type="text" name="ingredients[ingredient][]" />'));
+	var row = $('<ul/>').addClass('ingredientRow');
 	var container = $('#ingredients');
+	var ingNum = container.find('.ingredientRow').length;
+
+	var amount = $('<li/>').append($('<label>Mängd</label><input type="text" name="ingredients['+ ingNum +'][amount]" />'));
+	var unit = $('<li/>').append($('<label>Enhet</label><input type="text" name="ingredients['+ ingNum +'][unit]" />'));
+	var ingredient = $('<li/>').append($('<label>Ingrediens</label><input type="text" name="ingredients['+ ingNum +'][ingredient]" />'));
 	
 	row.append(amount, unit, ingredient);
 	container.append(row);

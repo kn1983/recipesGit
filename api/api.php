@@ -1,6 +1,7 @@
 <?php
 function runAPI($format, $actions){
   require_once("objects.conf.php");
+  require_once("classes/Validate.class.php");
   $object_name = array_shift($actions);
   $method_name = array_shift($actions);
   $args = $_POST;
@@ -12,10 +13,12 @@ function runAPI($format, $actions){
     
     foreach($allowed_args as $arg => $arg_conf){
       // if(isset($args_conf['type']) && $args_conf['type']){
-      //   $type = $arg_conf['type'];
+      // $type = $arg_conf['type'];
       // } else {
-      //   $type = "";
+      // $type = "";
       // }
+      // $validate = new Validate($allowedArgs, $args);
+      // $validate->validateArgs();
 
       if(isset($arg_conf['required']) && $arg_conf['required']){
         if(!isset($args[$arg]) || !$args[$arg]){
