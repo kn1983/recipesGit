@@ -7,33 +7,28 @@ function runAPI($format, $actions){
   $args = $_POST;
  
   if(in_array($object_name, array_keys($_OBJECTS))){
-    $allowed_args = $_OBJECTS[$object_name]['methods'][$method_name]['args'];
-    $missing_args = array();
+    $allowedArgs = $_OBJECTS[$object_name]['methods'][$method_name]['args'];
+    // $missing_args = array();
     $clean_args = array();
     
-    foreach($allowed_args as $arg => $arg_conf){
-      // if(isset($args_conf['type']) && $args_conf['type']){
-      // $type = $arg_conf['type'];
-      // } else {
-      // $type = "";
-      // }
-      // $validate = new Validate($allowedArgs, $args);
-      // $validate->validateArgs();
+      $validate = new Validate($allowedArgs, $args);
+      $missingArgs = $validate->validateArgs();
 
-      if(isset($arg_conf['required']) && $arg_conf['required']){
-        if(!isset($args[$arg]) || !$args[$arg]){
-          $missing_args[] = $arg;
-        }else{
-          $clean_args[$arg] = $args[$arg];
-        }
-      }else{
-        if(isset($args[$arg]))
-          $clean_args[$arg] = $args[$arg];
-      }
-    }
-    if(count($missing_args) > 0){
+    // foreach($allowed_args as $arg => $arg_conf){
+    //   if(isset($arg_conf['required']) && $arg_conf['required']){
+    //     if(!isset($args[$arg]) || !$args[$arg]){
+    //       $missing_args[] = $arg;
+    //     }else{
+    //       $clean_args[$arg] = $args[$arg];
+    //     }
+    //   }else{
+    //     if(isset($args[$arg]))
+    //       $clean_args[$arg] = $args[$arg];
+    //   }
+    // }
+    if(count($missingArgs) > 0){
       echo "Missing required arguments!";
-      print_r($missing_args);
+      print_r($missingArgs);
     }else{
       $args = $clean_args;
       require_once("classes/".$object_name.".class.php");

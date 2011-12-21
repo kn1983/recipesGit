@@ -8,21 +8,23 @@ class Validate{
 	}
 	public function validateArgs(){
 		$missingArgs = array();
-		foreach($this->allowed_args as $arg => $arg_conf){
-	      if(isset($arg_conf['required']) && $arg_conf['required']){
-	        if(!isset($this->args[$arg]) || !$this->args[$arg]){
-	          $missingArgs[] = $arg;
-	        }else{
-	          // $clean_args[$arg] = $this->args[$arg];
-	        }
-	      }else{
-	        // if(isset($args[$arg]))
-	          // $clean_args[$arg] = $args[$arg];
-	      }
+		foreach($this->allowedArgs as $arg => $argConf){
+	     	if(isset($argConf['required']) && $argConf['required']){
+		        if(!isset($this->args[$arg]) || !$this->args[$arg]){
+		          $missingArgs[] = $arg;
+		        }else{
+		          // $cleanArgs[$arg] = $args[$arg];
+		        }
+	      	}else{
+	        	if(isset($this->args[$arg])){
+	        		
+	        	}
+	          // $cleanArgs[$arg] = $args[$arg];
+	      	}
 	    }
 	    return $missingArgs;
 	}
-	// private function argExist($arg, $argConf){
-	// }
+	private function argExist($arg, $argConf){
+	}
 }
 ?>

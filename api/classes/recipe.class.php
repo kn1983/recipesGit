@@ -8,7 +8,7 @@ class _recipe {
 		}
 	}
 	public function add($args){
-			$cleanArgs = $this->cleanArgs($args);
+			// $cleanArgs = $this->cleanArgs($args);
 		// $query = "INSERT INTO recipes (title, description, author, portions)
 		// VALUES('{$cleanArgs['recipeTitle']}', '{$cleanArgs['recipeDescription']}', '{$this->user}', '{$cleanArgs['portions']}')";
 		
@@ -21,21 +21,21 @@ class _recipe {
 		// }
 	}
 	private function cleanArgs($args){
-		print_r($args);
-		$clean_args = array();
-		foreach ($args as $key => $value){
-			if(is_array($value)){
-				$ingredients = $value;
-				foreach($ingredients as $key => $value){
-					 $value['amount'];
-					 $value['unit'];
-					 $value['ingredient'];
-				}
-			} else {
-				$clean_args[$key] = mysql_real_escape_string($value);
-			}
-		}
-		return $clean_args;
+	// 	print_r($args);
+	// 	$clean_args = array();
+	// 	foreach ($args as $key => $value){
+	// 		if(is_array($value)){
+	// 			$ingredients = $value;
+	// 			foreach($ingredients as $key => $value){
+	// 				 $value['amount'];
+	// 				 $value['unit'];
+	// 				 $value['ingredient'];
+	// 			}
+	// 		} else {
+	// 			$clean_args[$key] = mysql_real_escape_string($value);
+	// 		}
+	// 	}
+	// 	return $clean_args;
 	}
 }
 ?>
