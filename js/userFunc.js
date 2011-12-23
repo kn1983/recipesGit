@@ -38,11 +38,11 @@ window.recUtilities.loginUser = function loginUser(){
 	
 	if(user != "" && password != ""){
 		$.post(url, {user: user, password: password}, function(data){
-			if(data.success == true){
-				window.location = "index.php";
-			} else {
-				alert(data.msg);
-			}
+			// if(data.success == true){
+			// 	window.location = "index.php";
+			// } else {
+			// 	alert(data.msg);
+			// }
 		},"json");
 	} else {
 		alert("Fel användarnamn eller lösenord");

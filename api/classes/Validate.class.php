@@ -1,30 +1,54 @@
 <?php
+require_once("classes/Resoponse.class.php");
 class Validate{
-	private $allowedArgs;
+	private $response;
 	private $args;
-	function __construct($allowedArgs, $args){
-		$this->allowedArgs = $allowedArgs;
+	private $allowedArgs = array();
+	public $missingArgs = array();
+
+	function __construct($args, $allowedArgs){
+		$this->response = new Response();
 		$this->args = $args;
+		$this->allowedArgs = $allowedArgs;
 	}
 	public function validateArgs(){
-		$missingArgs = array();
 		foreach($this->allowedArgs as $arg => $argConf){
-	     	if(isset($argConf['required']) && $argConf['required']){
-		        if(!isset($this->args[$arg]) || !$this->args[$arg]){
-		          $missingArgs[] = $arg;
-		        }else{
-		          // $cleanArgs[$arg] = $args[$arg];
-		        }
-	      	}else{
-	        	if(isset($this->args[$arg])){
-	        		
-	        	}
-	          // $cleanArgs[$arg] = $args[$arg];
-	      	}
-	    }
-	    return $missingArgs;
+			$this->checkRequiredArgs($arg, $argConf);
+			// $this->validateType($arg, $argConf);
+			// if(isset($argConf['type']) && $argConf['type'] == 'array'){
+			// 	$this->validateArgs()
+			// }
+
+			// if(isset($argConf['type']) && $argConf['type'] == 'array'){
+				// print_r($args[$arg]);
+			// }
+		}
+		if(count($this->missingArgs) > 0){
+			$this->response->addError($this->missingArgs);
+			$this->response->setGeneralMsg("Missing required Arguments");
+		}
+		return $this->response;
 	}
-	private function argExist($arg, $argConf){
+	private function validateType($arg){
+		if(isset($argConf['type']) && $argConf['type']){
+			$type = $argConf['type'];
+			if($type == 'array'){
+				// print_r($arg);
+			// 	foreach($arg as $key => $value){
+			// 		$this->validateArgs($args, $value);
+			}
+			// }
+		}
+	}
+	private function checkRequiredArgs($arg, $argConf){
+		if(isset($argConf['required']) && $argConf['required']){
+		    if(!isset($this->args[$arg]) || !$this->args[$arg]){
+		        $this->missingArgs[] = $arg; 
+		    }
+		}
+	}
+	private function validateStrin(){
+		
 	}
 }
 ?>

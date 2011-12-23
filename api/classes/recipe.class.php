@@ -1,14 +1,17 @@
 <?php
-require_once 'ingredient.class.php';
+require_once('ingredient.class.php');
+require_once("classes/Resoponse.class.php");
 class _recipe {
 	private $user;
+	private $response;
 	function __construct(){
+		$this->response = new Response();
 		if(isset($_SESSION['user']) && $_SESSION['user']){
 			$this->user = $_SESSION['user'];
 		}
 	}
 	public function add($args){
-			// $cleanArgs = $this->cleanArgs($args);
+		// $cleanArgs = $this->cleanArgs($args);
 		// $query = "INSERT INTO recipes (title, description, author, portions)
 		// VALUES('{$cleanArgs['recipeTitle']}', '{$cleanArgs['recipeDescription']}', '{$this->user}', '{$cleanArgs['portions']}')";
 		
@@ -19,6 +22,10 @@ class _recipe {
 		// 	$ingredient = new _ingredient();
 		// 	$ingredient->add($ingArgs);
 		// }
+		$data = array("id" => 123456);
+
+		$this->response->addData($data);
+		return $this->response;
 	}
 	private function cleanArgs($args){
 	// 	print_r($args);
@@ -37,5 +44,7 @@ class _recipe {
 	// 	}
 	// 	return $clean_args;
 	}
+	// $response->addData($minArray);
+	// return $response;
 }
 ?>

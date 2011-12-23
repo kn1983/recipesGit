@@ -1,14 +1,19 @@
 <?php
+require_once("classes/Resoponse.class.php");
 class _user {
+	private $response;
 	function __construct(){
+		$this->response = new Response();
 	}
 	
 	//Login user
 	public function login($args){
 		if($this->validLogin($args)){
-			return array("success" => true, "msg" => "");
+			return $this->response;
 		} else {
-			return array("false" => false, "msg" => "Fel användarnamn eller lösenord");
+			$this->response->addError("Invalid login");
+			$this->response->setGeneralMsg("Wrong username or password!");
+			return $this->response;
 		}
 	}
 	
@@ -24,7 +29,6 @@ class _user {
 		
 		if($row['user'] == $user && $row['password'] == $password){
 			$_SESSION['user'] = $row['id'];
-			// $_SESSION['user'] = $user;
 			return true;
 		} else {
 			return false;
