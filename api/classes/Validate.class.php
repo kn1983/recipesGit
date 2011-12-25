@@ -9,6 +9,8 @@ class Validate{
 		// $this->args = $args;
 		// $this->allowedArgs = $allowedArgs;
 	}
+
+	//validate arguments
 	public function validateArgs($args, $allowedArgs){
 		foreach($allowedArgs as $arg => $argConf){
 			$this->checkRequiredArgs($args, $arg, $argConf);
@@ -27,6 +29,7 @@ class Validate{
 		}
 		return $this->response;
 	}
+
 	private function validateType($arg){
 		if(isset($argConf['type']) && $argConf['type']){
 			$type = $argConf['type'];
@@ -38,6 +41,7 @@ class Validate{
 			// }
 		}
 	}
+	//Check if required arguments exist
 	private function checkRequiredArgs($args, $arg, $argConf){
 		if(isset($argConf['required']) && $argConf['required']){
 		    if(!isset($args[$arg]) || !$args[$arg]){
