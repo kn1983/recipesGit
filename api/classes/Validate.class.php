@@ -2,18 +2,16 @@
 require_once("classes/Resoponse.class.php");
 class Validate{
 	private $response;
-	private $args;
-	private $allowedArgs = array();
 	public $missingArgs = array();
 
-	function __construct($args, $allowedArgs){
+	function __construct(){
 		$this->response = new Response();
-		$this->args = $args;
-		$this->allowedArgs = $allowedArgs;
+		// $this->args = $args;
+		// $this->allowedArgs = $allowedArgs;
 	}
-	public function validateArgs(){
-		foreach($this->allowedArgs as $arg => $argConf){
-			$this->checkRequiredArgs($arg, $argConf);
+	public function validateArgs($args, $allowedArgs){
+		foreach($allowedArgs as $arg => $argConf){
+			$this->checkRequiredArgs($args, $arg, $argConf);
 			// $this->validateType($arg, $argConf);
 			// if(isset($argConf['type']) && $argConf['type'] == 'array'){
 			// 	$this->validateArgs()
@@ -40,15 +38,16 @@ class Validate{
 			// }
 		}
 	}
-	private function checkRequiredArgs($arg, $argConf){
+	private function checkRequiredArgs($args, $arg, $argConf){
 		if(isset($argConf['required']) && $argConf['required']){
-		    if(!isset($this->args[$arg]) || !$this->args[$arg]){
+		    if(!isset($args[$arg]) || !$args[$arg]){
 		        $this->missingArgs[] = $arg; 
 		    }
 		}
 	}
-	private function validateStrin(){
-		
+	//Validate email
+	public function email($email){
+		return preg_match('/^[\_]*([a-z0-9]+(\.|\_*)?)+@([a-z][a-z0-9\-]+(\.|\-*\.))+[a-z]{2,6}$/', $email);
 	}
 }
 ?>

@@ -16,17 +16,17 @@ window.recUtilities.submitUser = function submitUser(){
 	var form = $('#signup');
 	var url = "api/index.php?json/user/signup";
 	
-	if(window.recUtilities.validateEmail(email) && user!="" && password!=""){
+	// if(window.recUtilities.validateEmail(email) && user!="" && password!=""){
 		$.post(url, form.serialize(), function(data){
 			if(data.success == true){
 				window.location = "index.php?page=regComplete";
 			} else {
-				alert(data.msg);
+				console.debug(data);
 			}
 		},"json");
-	} else {
-		alert("Fel användarnamn eller lösenord");
-	}
+	// } else {
+		// alert("Fel användarnamn eller lösenord");
+	// }
 	return false;
 };
 
@@ -38,14 +38,14 @@ window.recUtilities.loginUser = function loginUser(){
 	
 	if(user != "" && password != ""){
 		$.post(url, {user: user, password: password}, function(data){
-			// if(data.success == true){
-			// 	window.location = "index.php";
-			// } else {
-			// 	alert(data.msg);
-			// }
+			if(data.success == true){
+				window.location = "index.php";
+			} else {
+				alert(data.generalMessage);
+			}
 		},"json");
 	} else {
-		alert("Fel användarnamn eller lösenord");
+		alert("Fel användarnamn eller lösenord!");
 	}
 	return false;
 };

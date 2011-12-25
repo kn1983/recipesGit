@@ -10,7 +10,7 @@ function runAPI($format, $actions){
  
   if(in_array($object_name, array_keys($_OBJECTS))){
     $allowedArgs = $_OBJECTS[$object_name]['methods'][$method_name]['args'];
-    $validate = new Validate($args, $allowedArgs);
+    $validate = new Validate();
     $return = $validate->validateArgs($args, $allowedArgs);
     
     if(!$return->checkSuccess()){
