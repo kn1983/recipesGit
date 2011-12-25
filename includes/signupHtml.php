@@ -13,6 +13,8 @@
 			<dt><label for="regEmail">E-post</label></dt>
 			<dd><input type="text" id="regEmail" name="regEmail" /></dd>
 		</dl>
+		<div class="errors">
+		</div>
 		<button id="signupUser">Registrera dig</button>
 	</form>
 </div>

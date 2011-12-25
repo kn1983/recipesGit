@@ -15,18 +15,23 @@ window.recUtilities.submitUser = function submitUser(){
 	var email = $('#regEmail').val();
 	var form = $('#signup');
 	var url = "api/index.php?json/user/signup";
+	var errorsDiv = $('#signup .errors');
+	errorsDiv.empty();
 	
-	// if(window.recUtilities.validateEmail(email) && user!="" && password!=""){
+	if(user!="" && user!="" && password!=""){
 		$.post(url, form.serialize(), function(data){
 			if(data.success == true){
 				window.location = "index.php?page=regComplete";
 			} else {
-				console.debug(data);
+				var errors = data.errors;
+				for(var i = 0; i < errors.length; i++){
+					errorsDiv.append('<p>' + errors[i] + '</p>');
+				}
 			}
 		},"json");
-	// } else {
-		// alert("Fel användarnamn eller lösenord");
-	// }
+	} else {
+		errorsDiv.append('<p>Du måste fylla i alla fält</p>');
+	}
 	return false;
 };
 
@@ -45,7 +50,7 @@ window.recUtilities.loginUser = function loginUser(){
 			}
 		},"json");
 	} else {
-		alert("Fel användarnamn eller lösenord!");
+		alert("Du måste ange användarnamn och lösenord!");
 	}
 	return false;
 };
