@@ -1,6 +1,7 @@
 <?php
 require_once("classes/Resoponse.class.php");
 require_once("classes/Validate.class.php");
+require_once("classes/Clean.class.php");
 class _user {
 	private $response;
 	private $validate;
@@ -22,8 +23,8 @@ class _user {
 	
 	//Check username and password for the login form
 	private function validLogin($args){
-		$user = $this->cleanArg($args['user']);
-		$password = md5($this->cleanArg($args['password']));
+		$user = Clean::cleanArg($args['user']);
+		$password = md5(Clean::cleanArg($args['password']));
 		$query = "SELECT id, user, password 
 				  FROM users
 				  WHERE user='{$user}'";
@@ -62,7 +63,7 @@ class _user {
 
 	//Check if user exist in the table users
 	private function userExist($args){
-		$user = $this->cleanArg($args['regUser']);
+		$user = Clean::cleanArg($args['regUser']);
 		$query = "SELECT user FROM users
 		          WHERE user='{$user}'";
 		
@@ -76,21 +77,15 @@ class _user {
 	
 	//Add the the user to the table users
 	private function addUser($args){
-		$user = $this->cleanArg($args['regUser']);
-		$password = md5($this->cleanArg($args['regPassword']));
-		$email = $this->cleanArg($args['regEmail']);
+		$user = Clean::cleanArg($args['regUser']);
+		$password = md5(Clean::cleanArg($args['regPassword']));
+		$email = Clean::cleanArg($args['regEmail']);
 		$query = "INSERT INTO users (user, password, email)
 		 		  VALUES('{$user}', '{$password}', '{$email}')";
 		$result = mysql_query($query)or die(mysql_error());
 		if(!$result){
 			$this->response->addError("Could not add user!");
 		}
-	}
-
-	private function cleanArg($arg){
-		$arg = strip_tags($arg);
-		$arg = mysql_real_escape_string($arg);
-		return $arg;
 	}
 }
 ?>

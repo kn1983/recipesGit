@@ -22,7 +22,6 @@ function runAPI($format, $actions){
       if(method_exists($object,$method_name)){
         $return = $object->$method_name($args);
         echo $return->output();
-        // echo $response->output($return, "Success!");
       }else{
         echo "Method $method_name does not exist in $object_name!";
       }

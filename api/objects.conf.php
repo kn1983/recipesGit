@@ -8,14 +8,17 @@ $_OBJECTS = array(
 				'args' => array(
 					'regUser' => array(
 						'type' => 'string',
+						'maxlen' => 100,
 						'required' => true
 					),
 					'regPassword' => array(
 						'type' => 'string',
+						'maxlen' => 100,
 						'required' => true
 					),
 					'regEmail' => array(
 						'type' => 'string',
+						'maxlen' => 100,
 						'required' => true
 					)
 				)
@@ -25,10 +28,12 @@ $_OBJECTS = array(
 				'args' => array(
 					'user' => array(
 						'type' => 'string',
+						'maxlen' => 100,
 						'required' => true
 					),
 					'password' => array(
 						'type' => 'string',
+						'maxlen' => 100,
 						'required' => true
 					)
 				)
@@ -47,14 +52,17 @@ $_OBJECTS = array(
 				'args' => array(
 					'recipeTitle' => array(
 						'type' => 'string',
+						'maxlen' => 60,
 						'required' => true
 					),
 					'recipeDescription' => array(
 						'type' => 'string',
+						'maxlen' => 2000,
 						'required' => true
 					),
 					'portions' => array(
 						'type' => 'numeric',
+						'maxlen' => 10,
 						'required' => true
 					),
 					'ingredients' => array(

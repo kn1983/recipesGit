@@ -1,13 +1,14 @@
 <?php
 require_once("classes/Resoponse.class.php");
+require_once("classes/Clean.class.php");
 class _ingredient{
 	private $response;
 	function __construct($recipe){
 		$this->response = new Response();
-		$this->recipe = $this->cleanArg($recipe);
+		$this->recipe = Clean::cleanArg($recipe);
 	}
 	public function add($args){
-
+		// $this->validateIngredients($args);
 		$ingredient = $this->ingredientExist($args);
 		if($ingredient == -1){
 			$ingredient =  $this->insertIngredient($args);
@@ -16,10 +17,15 @@ class _ingredient{
 		return $this->response;
 		
 	}
+	// private function validateIngredients($args){
+	// 	if($args['ingredient']
+	// 	$args['amount'];
+	// 	$args['unit'];
+	// }
 	private function addIngToRecipe($args, $ingredient){
-		$ing = $this->cleanArg($ingredient);
-		$amount = $this->cleanArg($args['amount']);
-		$unit = $this->cleanArg($args['unit']);
+		$ing = Clean::cleanArg($ingredient);
+		$amount = Clean::cleanArg($args['amount']);
+		$unit = Clean::cleanArg($args['unit']);
 
 		$query = "INSERT INTO recipecontains (recipe, ingredient, unit, amount)
 		VALUES ({$this->recipe}, {$ing}, {$unit}, {$amount})";
@@ -27,7 +33,7 @@ class _ingredient{
 		
 	}
 	private function ingredientExist($args){
-		$ingredient = $this->cleanArg($args['ingredient']);
+		$ingredient = Clean::cleanArg($args['ingredient']);
 		$query = "SELECT id, ingredient FROM ingredients
 		 	    WHERE ingredient='{$ingredient}'
 		 	    LIMIT 1";
@@ -41,19 +47,13 @@ class _ingredient{
 		}
 	}
 	private function insertIngredient($args){
-		$ingredient = $this->cleanArg($args['ingredient']);
+		$ingredient = Clean::cleanArg($args['ingredient']);
 		$query = "INSERT INTO ingredients (ingredient)
 		VALUES ('{$ingredient}')";
 		$result = mysql_query($query) or die(mysql_error());
 		if($result){
 			return mysql_insert_id();
 		}
-	}
-	
-	private function cleanArg($arg){
-		$arg = strip_tags($arg);
-		$arg = mysql_real_escape_string($arg);
-		return $arg;
 	}
 }
 ?>
