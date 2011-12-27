@@ -1,10 +1,11 @@
 window.recUtilities.addRecipe = function addRecipe(){
 	var url = "api/index.php/?/json/recipe/add";
 	var form = $('#addRecipe');
-	var test = form.serialize();
-	console.debug(test);
+
 	$.post(url, form.serialize(), function(data){
-		// console.debug(data.id);
+		if(data.success == true){
+			alert("success");
+		}
 	},"json");
 	return false;
 };
@@ -13,11 +14,18 @@ window.recUtilities.addIngRow = function addIngRow(){
 	var row = $('<ul/>').addClass('ingredientRow');
 	var container = $('#ingredients');
 	var ingNum = container.find('.ingredientRow').length;
-
 	var amount = $('<li/>').append($('<label>Mängd</label><input type="text" name="ingredients['+ ingNum +'][amount]" />'));
-	var unit = $('<li/>').append($('<label>Enhet</label><input type="text" name="ingredients['+ ingNum +'][unit]" />'));
+	var units = $('<select/>').append('<option>Välj enhet...</option>').addClass('units').attr('name', 'ingredients['+ ingNum +'][unit]');
+	var unit = $('<li/>').append($('<label>Enhet</label>'), units);
 	var ingredient = $('<li/>').append($('<label>Ingrediens</label><input type="text" name="ingredients['+ ingNum +'][ingredient]" />'));
-	
+	var url = "api/index.php/?/json/units/get";
+
+	$.getJSON(url, function(data){
+		$.each(data.data, function(index, value){
+			var option = $('<option/>').val(value.id).text(value.name);
+			units.append(option);
+		});
+	});
 	row.append(amount, unit, ingredient);
 	container.append(row);
 };

@@ -1,5 +1,5 @@
 <?php
-require_once('ingredient.class.php');
+require_once("ingredient.class.php");
 require_once("classes/Resoponse.class.php");
 class _recipe {
 	private $user;
@@ -11,40 +11,36 @@ class _recipe {
 		}
 	}
 	public function add($args){
-		// $cleanArgs = $this->cleanArgs($args);
-		// $query = "INSERT INTO recipes (title, description, author, portions)
-		// VALUES('{$cleanArgs['recipeTitle']}', '{$cleanArgs['recipeDescription']}', '{$this->user}', '{$cleanArgs['portions']}')";
-		
-		// $result = mysql_query($query)or die(mysql_error());
-		// if($result){
-		// 	$recipe = mysql_insert_id();
-		// 	$ingArgs = array("recipe" => $recipe, "ingredients" => $args['ingredients']);
-		// 	$ingredient = new _ingredient();
-		// 	$ingredient->add($ingArgs);
-		// }
-		$data = array("id" => 123456);
+		$title = $this->cleanArg($args['recipeTitle']);
+		$description = $this->cleanArg($args['recipeDescription']);
+		$portions = $this->cleanArg($args['portions']);
 
-		$this->response->addData($data);
+		$query = "INSERT INTO recipes (title, description, author, portions)
+		VALUES('{$title}', '{$description}', '{$this->user}', '{$portions}')";
+		
+		$result = mysql_query($query)or die(mysql_error());
+		if($result){
+			$recipe = mysql_insert_id();
+			$ingredients = $args['ingredients'];
+			for($i = 0; $i < count($ingredients); $i++){
+				$ingredient = new _ingredient($recipe);
+				$ret = $ingredient->add($ingredients[$i]);
+				// if(!$ret->checkSuccess){
+				return $this->response;
+				// }
+
+			}
+			return $this->response;
+		} else {
+			$this->response->addError('Couldnt add the recipe');
+		}
 		return $this->response;
 	}
-	private function cleanArgs($args){
-	// 	print_r($args);
-	// 	$clean_args = array();
-	// 	foreach ($args as $key => $value){
-	// 		if(is_array($value)){
-	// 			$ingredients = $value;
-	// 			foreach($ingredients as $key => $value){
-	// 				 $value['amount'];
-	// 				 $value['unit'];
-	// 				 $value['ingredient'];
-	// 			}
-	// 		} else {
-	// 			$clean_args[$key] = mysql_real_escape_string($value);
-	// 		}
-	// 	}
-	// 	return $clean_args;
+
+	private function cleanArg($arg){
+		$arg = strip_tags($arg);
+		$arg = mysql_real_escape_string($arg);
+		return $arg;
 	}
-	// $response->addData($minArray);
-	// return $response;
 }
 ?>

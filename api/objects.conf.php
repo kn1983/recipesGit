@@ -59,21 +59,7 @@ $_OBJECTS = array(
 					),
 					'ingredients' => array(
 						'type' => 'array',
-						'required' => true,
-						'args' => array(
-							'ingredient' => array(
-								'type' => 'string',
-								'required' => true
-							),
-							'amount' => array(
-								'type' => 'numeric',
-								'required' => true
-							),
-							'unit' => array(
-								'type' => 'string',
-								'required' => true
-							)
-						)
+						'required' => true
 					)
 				)
 			)
@@ -83,7 +69,27 @@ $_OBJECTS = array(
 		'description' => 'The ingredient object',
 		'methods' => array(
 			'add' => array(
+				'ingredient' => array(
+					'type' => 'string',
+					'required' => true
+				),
+				'amount' => array(
+					'type' => 'numeric',
+					'required' => true
+				),
+				'unit' => array(
+					'type' => 'string',
+					'required' => true
+				)
 			)
+		)
+	),
+	'units' => array(
+		'description' => 'Units',
+		'methods' => array(
+			'get' => array(
+				'args' => array()
+			) 
 		)
 	)
 );

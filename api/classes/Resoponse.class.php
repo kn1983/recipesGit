@@ -55,7 +55,6 @@ class Response{
 			'data' => $this->data
 		);
 		return json_encode($ret);
-		// return false;
 	}
 }
 ?>
