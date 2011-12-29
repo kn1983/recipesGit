@@ -70,7 +70,11 @@ $_OBJECTS = array(
 						'required' => true
 					)
 				)
-			)
+			),
+			'listRecipes' => array(
+				'description' => 'Lists all recipes',
+				'args' => array()
+			) 
 		)
 	),
 	'ingredient' => array(

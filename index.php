@@ -2,9 +2,9 @@
 function __autoload($class_name){
 	require_once 'classes/'. $class_name. '.class.php';
 }
+require_once "includes/pagesConf.php";
 session_start();
 $dbLogin = new DbLogin();
-
 if(isset($_GET['page'])){
 	$curPage = $_GET['page'];
 } else {
@@ -20,6 +20,7 @@ if(isset($_GET['page'])){
 		<script type="text/javascript" src="js/jquery-1.6.4.js"></script>
 		<script type="text/javascript" src="js/userFunc.js"></script>
 		<script type="text/javascript" src="js/recipeFunc.js"></script>
+		<script type="text/javascript" src="js/displayRecipesFunc.js"></script>
 		<link href="css/style.css" type="text/css" rel="stylesheet">
 	</head>
 	<body>
@@ -28,8 +29,8 @@ if(isset($_GET['page'])){
 				<h1><a href="index.php">Recept</a></h1>
 				<?php if(isset($_SESSION['user']) && $_SESSION['user']){ ?>
 					<ul id="mainMenu">
-						<li><a href="index.php">Visa recept</a></li>
-						<li><a href="#">Sök recept</a></li>
+						<li><a href="index.php?page=recipes">Visa recept</a></li>
+						<li><a href="index.php?page=searchRecipes">Sök recept</a></li>
 						<li><a href="#">Mina recept</a></li>
 						<li><a href="index.php?page=addRecipe">Lägg till recept</a></li>
 						<li><a href="#">Inköpslista</a></li>
@@ -51,7 +52,7 @@ if(isset($_GET['page'])){
 				</form>
 				<? } ?>
 			</div>
-			<?php $page = new Page($curPage); ?>
+			<?php $page = new Page($curPage, $_PAGES); ?>
 		</div>
 	</body>
 </html>

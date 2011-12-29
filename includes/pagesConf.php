@@ -7,13 +7,29 @@ $_PAGES = array(
 		'loginRequired' => false
 	),
 	'recipes' => array(
-		'loginRequired' => false
-	),
-	'loggedIn' => array(
-		'loginRequired' => true
+		'loginRequired' => false,
+		'args' => array(
+			'category' => array(),
+			'recipe' => array(),
+			'author' => array()
+		)
 	),
 	'addRecipe' => array(
 		'loginRequired' => true
+	),
+	'recipes' => array(
+		'loginRequired' => false
+	),
+	'recipe' => array(
+		'loginRequired' => false,
+		'args' => array(
+			'id' => array(
+				'required' => true
+			)
+		)
+	),
+	'searchRecipes' => array(
+		'loginRequired' => false
 	)
 );
 ?>
