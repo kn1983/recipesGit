@@ -36,15 +36,14 @@ class _recipe {
 		return $this->response;
 	}
 	public function listRecipes($args){
-			$select = "SELECT recipes.id, recipes.title, users.user, recipes.category ";
-			$from = "FROM recipes, users, categories ";
-			$where = "WHERE users.id=recipes.author ";
+			$select = "SELECT recipes.id, recipes.title, categories.category, categories.id AS categoryid ";
+			$from = "FROM recipes ";
+			$join = "INNER JOIN categories ON categories.id=recipes.category ";
+			$where = " ";
 			if(isset($args['category']) && $args['category']){
-				$where .= "AND recipes.category={$args['category']} ";
+				$where .= "WHERE recipes.category={$args['category']} ";
 			}
-			$group = "GROUP BY recipes.title ";
-
-			$query = $select .= $from .= $where .= $group;
+			$query = $select .= $from .= $join .= $where;
 
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){

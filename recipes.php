@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<?php require_once 'includes/headHtml.php' ?>
-	<body>
+	<body class="recipes">
 		<div id="container">
 			<?php require_once 'includes/headerHtml.php'; ?>
 			<div id="sidebar">
@@ -12,8 +12,7 @@
 				</div>
 			</div>
 			<div id="content">
-				<div id="recipe">
-				</div>
+				kjhgjkhgjkhgkjhgkjg
 			</div>
 		</div>
 	</body>
