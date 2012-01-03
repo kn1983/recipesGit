@@ -13,8 +13,8 @@ class Response{
 		$this->success = false;
 	}
 
-	public function addData($data){
-		$this->data[] = $data;
+	public function addData($type, $data){
+		$this->data[$type] = $data;
 	}
 	public function setGeneralMsg($msg){
 		$this->msg = $msg;

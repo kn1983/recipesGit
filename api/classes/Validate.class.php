@@ -14,8 +14,11 @@ class Validate{
 	public function validateArgs($args, $allowedArgs){
 		foreach($allowedArgs as $arg => $argConf){
 			$this->checkRequiredArgs($args, $arg, $argConf);
-			$this->validateType($args, $arg, $argConf);
-			$this->validateLength($args, $arg, $argConf);
+
+			if(isset($args[$arg]) && $args[$arg]){
+				$this->validateType($args, $arg, $argConf);
+				$this->validateLength($args, $arg, $argConf);
+			}
 		}
 		if(count($this->missingArgs) > 0){
 			$this->response->addError($this->missingArgs);

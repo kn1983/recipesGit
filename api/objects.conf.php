@@ -65,6 +65,10 @@ $_OBJECTS = array(
 						'maxlen' => 10,
 						'required' => true
 					),
+					'category' => array(
+						'type' => 'numeric',
+						'required' => true
+					),
 					'ingredients' => array(
 						'type' => 'array',
 						'required' => true
@@ -73,7 +77,25 @@ $_OBJECTS = array(
 			),
 			'listRecipes' => array(
 				'description' => 'Lists all recipes',
+				'args' => array(
+					'category' => array(
+						'type' => 'numeric',
+						'required' => false
+					)
+				)
+			),
+			'listCategories' => array(
+				'description' => 'Lists all categories',
 				'args' => array()
+			),
+			'display' => array(
+				'description' => 'Displays one recipe',
+				'args' => array(
+					'recipe' => array(
+						'type' => 'numeric',
+						'required' => true
+					)
+				)
 			) 
 		)
 	),

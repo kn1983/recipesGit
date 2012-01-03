@@ -9,9 +9,11 @@ class _units{
 		$query = "SELECT id, name FROM units";
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result)>0){
+			$units = array();
 			while($row = mysql_fetch_assoc($result)){
-				$this->response->addData($row);
+				$units[] = $row;
 			}
+			$this->response->addData('units', $units);
 			return $this->response;
 		}
 	}	

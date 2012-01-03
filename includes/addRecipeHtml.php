@@ -1,4 +1,4 @@
-<div id="sidebar">Sidebar goes here</div>
+<!-- <div id="sidebar">Sidebar goes here</div>
 <div id="content">
 	<h2>Lägg till recept</h2>
 	<form id="addRecipe" action="index.php" method="post">
@@ -15,4 +15,4 @@
 		<p><button id="addIngredient">+ Ingrediens</button></p>
 		<p><button id="addRecipeBtn">Lägg till recept</button></p>
 	</form>
-</div>
+</div> -->
