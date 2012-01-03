@@ -40,7 +40,6 @@ window.recUtilities.recMenu = function recMenu(){
 		var list = $('<ul/>');
 		categories.empty();
 
-
 		$.each(data.data.categories, function(index, value){
 			var li = $('<li id="category' +  value.id + '">');
 			var a = $('<a href="#">' + value.category + '</a>');
@@ -81,14 +80,24 @@ window.recUtilities.displayRecipe = function displayRecipe(args){
 		if(data.success == true){
 			var recipeContainer = $('#recipe');
 			var recipe = data.data.recipe;
-			var recipeTitle = $('<h2/>').text(recipe.title);
+			var ingredients = data.data.ingredients;
+			var title = $('<h2/>').text(recipe.title);
+			var description = $('<p/>').text(recipe.description);
+			var author = $('<p>Skapat av ' + recipe.author + '</p>')
+			var portions = $('<p>Portioner ' + recipe.portions + '</p>');
+			var ingContainer = $('<div/>').attr('id', 'ingredients');
+			var ingTitle = $('<h3/>').text('Ingredienser');
+			var ingList = $('<ul/>');
 			recipeContainer.empty();
-			recipeContainer.append(recipeTitle);
+			ingContainer.append(ingTitle, ingList);
+			recipeContainer.append(title, author, portions, ingContainer, description);
 
+			$.each(ingredients, function(key, value){
+				var li = $('<li><span class="amount">' + value.amount +'</span><span class="unit">' + value.unit + '</span><span class="ingredient">' + value.ingredient + '</span></li>')
+				ingList.append(li);
+				console.debug(value);
+			});
 
-
-			// var recipe = data.data[0];
-			// console.debug(recipe.recipe);
 		} else {
 			console.debug('error');
 		}

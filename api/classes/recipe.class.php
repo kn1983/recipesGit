@@ -12,18 +12,11 @@ class _recipe {
 		}
 	}
 	public function add($args){
-		$title = $args['recipeTitle'];
-		$description = $args['recipeDescription'];
-		$portions = $args['portions'];
+		$title = Clean::cleanArg($args['recipeTitle']);
+		$description = Clean::cleanArg($args['recipeDescription']);
+		$portions = Clean::cleanArg($args['portions']);
+		$category = Clean::cleanArg($args['category']);
 		$ingredients = $args['ingredients'];
-		$category = $args['category'];
-
-		$title = Clean::cleanArg($title);
-		$description = Clean::cleanArg($description);
-		$portions = Clean::cleanArg($portions);
-		$category = Clean::cleanArg($category);
-
-
 
 		$query = "INSERT INTO recipes (title, description, author, portions, category)
 		VALUES('{$title}', '{$description}', '{$this->user}', '{$portions}', '{$category}')";
@@ -94,9 +87,10 @@ class _recipe {
 	}
 	private function getRecipe($args){
 		$recipe = $args['recipe'];
-		$query = "SELECT recipes.title, recipes.description, recipes.portions
-				  FROM recipes
+		$query = "SELECT recipes.title, recipes.description, recipes.portions, users.user as author
+				  FROM recipes, users
 				  WHERE recipes.id={$recipe}
+				  AND recipes.author=users.id
 				  LIMIT 1";
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
