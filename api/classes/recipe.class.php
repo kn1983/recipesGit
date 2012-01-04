@@ -36,12 +36,17 @@ class _recipe {
 		return $this->response;
 	}
 	public function listRecipes($args){
-			$select = "SELECT recipes.id, recipes.title, categories.category, categories.id AS categoryid ";
+			$select = "SELECT recipes.id, recipes.title, categories.category, categories.id AS categoryid, users.user as author ";
 			$from = "FROM recipes ";
-			$join = "INNER JOIN categories ON categories.id=recipes.category ";
+			$join = "INNER JOIN categories 
+							ON categories.id=recipes.category
+					INNER JOIN users
+							ON users.id=recipes.author ";
 			$where = " ";
 			if(isset($args['category']) && $args['category']){
 				$where .= "WHERE recipes.category={$args['category']} ";
+			} else if(isset($args['author']) && $args['author']){
+				$where .= "WHERE recipes.author={$args['author']} ";
 			}
 			$query = $select .= $from .= $join .= $where;
 
@@ -53,7 +58,7 @@ class _recipe {
 			}
 			$this->response->addData('recipes', $recipes);
 		} else {
-			$this->response->addError("No reipes on this category!");
+			$this->response->addError("No reipes on this author!");
 		}
 		return $this->response;
 	}
@@ -69,6 +74,18 @@ class _recipe {
 		}
 		return $this->response;
 	}
+	public function listAuthors($args){
+		$query = "SELECT id, user as author FROM users";
+		$result = mysql_query($query) or die(mysql_error());
+		if($result && mysql_num_rows($result) > 0){
+			$authors = array();
+			while($row = mysql_fetch_assoc($result)){
+				$authors[] = $row;
+			}
+			$this->response->addData('authors', $authors);
+		}
+		return $this->response;
+	}
 	public function display($args){
 		$recipe = $this->getRecipe($args);
 		$ingredients = $this->getIngredients($args);
@@ -76,7 +93,7 @@ class _recipe {
 		if($recipe == -1){
 			$this->response->addError('Couldnt fetch the recipe!');
 		} else if($ingredients == -1){
-			$this->response->addError('Couldnt feth the ingredients!');
+			$this->response->addError('Couldnt fetch the ingredients!');
 		} else {
 			$this->response->addData('ingredients', $ingredients);
 			$this->response->addData('recipe', $recipe);

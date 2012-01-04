@@ -88,6 +88,10 @@ $_OBJECTS = array(
 				'description' => 'Lists all categories',
 				'args' => array()
 			),
+			'listAuthors' => array(
+				'description' => 'Lists all categories',
+				'args' => array()
+			),
 			'display' => array(
 				'description' => 'Displays one recipe',
 				'args' => array(

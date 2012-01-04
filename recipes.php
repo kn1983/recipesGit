@@ -6,6 +6,7 @@
 		<div id="container">
 			<?php require_once 'includes/headerHtml.php'; ?>
 			<div id="sidebar">
+				<p><a href="#">Visa alla recept</a></p>
 				<div id="categories">
 				</div>
 				<div id="authors">

@@ -20,8 +20,10 @@ window.recUtilities.submitUser = function submitUser(){
 	
 	if(user!="" && user!="" && password!=""){
 		$.post(url, form.serialize(), function(data){
+			var content = $('.signup #content');
 			if(data.success == true){
-				window.location = "index.php?page=regComplete";
+				content.empty();
+				content.append('<p>').text('Tack för din registrering! Du är nu välkommen att logga in.');
 			} else {
 				var errors = data.errors;
 				for(var i = 0; i < errors.length; i++){
