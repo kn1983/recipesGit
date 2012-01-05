@@ -1,26 +1,4 @@
-$(function(){
-	var filter = {
-		category: function(param){
-			var args = {
-				category: param
-			};
-			window.recUtilities.listRecipes(args);
-		},
-		author: function(param){
-			var args = {
-				author: param
-			}
-			window.recUtilities.listRecipes(args);	
-		},
-		recipe: function(param){
-			var args = {
-				recipe: param	
-			};
-			window.recUtilities.displayRecipe(args);
-		}	
-	};
-
-
+$(function(){	
 	updateState(location.hash);
 	$(window).hashchange(function() { 
 		updateState(location.hash); 
@@ -30,11 +8,12 @@ $(function(){
 		var urlParams = hashStr.split("/");
 		var paramKey = urlParams[0];
 		var paramVal = urlParams[1];
+		var filter = recUti.filterRecipes();
 
 		if(typeof filter[paramKey] !== "undefined" && typeof paramVal !== "undefined"){
 			filter[paramKey](paramVal);
 		} else {
-			window.recUtilities.listRecipes();
+			filter.allRecipes();
 		}
 	}
 });

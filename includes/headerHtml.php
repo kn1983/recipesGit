@@ -4,7 +4,7 @@
 		<ul id="mainMenu">
 			<li><a href="recipes.php">Visa recept</a></li>
 			<li><a href="index.php?page=searchRecipes">Sök recept</a></li>
-			<li><a href="#">Mina recept</a></li>
+			<li><a href="myRecipes.php">Mina recept</a></li>
 			<li><a href="addRecipe.php">Lägg till recept</a></li>
 			<li><a href="#">Inköpslista</a></li>
 			<li><a href="#">Mitt skafferi</a></li>

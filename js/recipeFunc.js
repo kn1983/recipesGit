@@ -1,8 +1,6 @@
-window.recUtilities.addRecipe = function addRecipe(){
+recUti.addRecipe = function addRecipe(){
 	var url = "api/index.php/?/json/recipe/add";
 	var form = $('#addRecipe');
-
-	console.debug(form.serialize());
 
 	$.post(url, form.serialize(), function(data){
 		if(data.success == true){
@@ -12,7 +10,7 @@ window.recUtilities.addRecipe = function addRecipe(){
 	return false;
 };
 
-window.recUtilities.fetchCategories = function fetchCategories(){
+recUti.fetchCategories = function fetchCategories(){
 	var url = "api/index.php/?/json/recipe/listCategories";
 	$.getJSON(url, function(data){
 		if(data.success == true){
@@ -26,18 +24,9 @@ window.recUtilities.fetchCategories = function fetchCategories(){
 			console.debug("Couldnt find the categories");
 		}
 	});
-		// console.debug(data);
-		// if(data.success === true){
-
-		// // Create main categories
-		// var categories = $('#categories');
-		// var title = $('<h2/>').text('Kategorier');
-		// var list = $('<ul/>');
-		// categories.empty();
-		// $.each(data.data.categories, function(index, value){
 }
 
-window.recUtilities.addIngRow = function addIngRow(){
+recUti.addIngRow = function addIngRow(){
 	var row = $('<ul/>').addClass('ingredientRow');
 	var container = $('#ingredients');
 	var ingNum = container.find('.ingredientRow').length;
@@ -57,11 +46,121 @@ window.recUtilities.addIngRow = function addIngRow(){
 	container.append(row);
 };
 
+recUti.filterRecipes = function(){
+	var content = $('.recipes #content');
+	content.empty();
+
+	function listRecipes(args){
+		var url = "api/index.php/?/json/recipe/listRecipes";
+		$.post(url, args, function(data){
+			if(data.success == true){
+				var recipe = data.data.recipes;
+				var ul = $('<ul/>');
+				var title = $('<h2/>');
+				$.each(recipe, function(index, value){
+					var li = $('<li><a href="#recipe/' + value.id + '">' + value.title + '</a></li>');
+					ul.append(li);
+
+					if(typeof args != "undefined" && 'category' in args){
+						title.text(value.category);
+					} else if (typeof args != "undefined" && 'author' in args){
+						title.text(value.author);	
+					} else {
+						title.text("Alla recept");
+					}
+				});
+				content.append(title, ul);
+			} else {
+				content.append("<p>Inga recept kunde hittas!</p>");
+			}
+		},"json");
+	}
+
+	return {
+		allRecipes: function(){
+			listRecipes();
+		},
+		category: function(param){
+			var args = {
+				category: param
+			};
+			listRecipes(args);
+		},
+		author: function(param){
+			var args = {
+				author: param
+			}
+			listRecipes(args);	
+		},
+		recipe: function(param){
+			var args = {
+				recipe: param	
+			};
+			var url = "api/index.php/?/json/recipe/display";
+			$.post(url, args, function(data){
+				if(data.success == true){
+					var recipe = data.data.recipe;
+					var ingredients = data.data.ingredients;
+					var title = $('<h2/>').text(recipe.title);
+					var description = $('<p/>').text(recipe.description);
+					var author = $('<p>Skapat av ' + recipe.author + '</p>')
+					var portions = $('<p>Portioner ' + recipe.portions + '</p>');
+					var ingContainer = $('<div/>').attr('id', 'ingredients');
+					var ingTitle = $('<h3/>').text('Ingredienser');
+					var ingList = $('<ul/>');
+				
+					content.append(title, author, portions, ingContainer, description);
+					content.append(ingTitle, ingList);
+
+					$.each(ingredients, function(key, value){
+						var li = $('<li><span class="amount">' + value.amount +'</span><span class="unit">' + value.unit + '</span><span class="ingredient">' + value.ingredient + '</span></li>')
+						ingList.append(li);
+					});
+
+				} else {
+					console.debug('error');
+				}
+			},"json");
+		}
+	}
+};
+
+recUti.sidebarMenu = function(sidebar){
+	sidebar.empty();
+	sidebar.append('<p><a href="#">Visa alla recept</a></p>');
+
+	return {
+		addMenu: function(url, menuItems, title, fieldName){
+			$.getJSON(url, function(data){
+				if(data.success === true){
+					var menuContainer = $('<div/>');
+					var sidebarTitle = $('<h2/>').text(title);
+					var list = $('<ul/>');
+					$.each(data.data[menuItems], function(index, value){
+						var li = $('<li id="' + fieldName +  value.id + '">');
+						var a = $('<a href="#' + fieldName + '/' + value.id + '">' + value[fieldName] + '</a>');
+						li.append(a);
+						list.append(li);
+					});
+						menuContainer.append(sidebarTitle, list);
+						sidebar.append(menuContainer);
+				} else {
+					console.debug("Success false");
+				}
+			});
+		}
+	}
+};
+
 $(function(){
-	window.recUtilities.fetchCategories();
-	$('#addRecipeBtn').click(window.recUtilities.addRecipe);
+	var menu = recUti.sidebarMenu($('.recipes #sidebar'));
+	menu.addMenu("api/index.php/?/json/recipe/listCategories", "categories", "Kategorier", "category");
+	menu.addMenu("api/index.php/?/json/recipe/listAuthors", "authors", "Användarnas recept", "author");
+	recUti.fetchCategories();
+	
+	$('#addRecipeBtn').click(recUti.addRecipe);
 	$('#addIngredient').click(function(){
-		window.recUtilities.addIngRow();
+		recUti.addIngRow();
 		return false;
 	});
 });

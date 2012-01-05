@@ -1,5 +1,5 @@
-window.recUtilities = {};
-window.recUtilities.validateEmail = function validateEmail(email){
+recUti = {};
+recUti.validateEmail = function validateEmail(email){
 	var pattern = /^[\_]*([a-z0-9]+(\.|\_*)?)+@([a-z][a-z0-9\-]+(\.|\-*\.))+[a-z]{2,6}$/;
 	if(email && email.match(pattern)){
 		return true;
@@ -9,7 +9,7 @@ window.recUtilities.validateEmail = function validateEmail(email){
 };
 
 //Signup user
-window.recUtilities.submitUser = function submitUser(){
+recUti.submitUser = function submitUser(){
 	var user = $('#regUser').val();
 	var password = $('#regPassword').val();
 	var email = $('#regEmail').val();
@@ -38,7 +38,7 @@ window.recUtilities.submitUser = function submitUser(){
 };
 
 //Login user
-window.recUtilities.loginUser = function loginUser(){
+recUti.loginUser = function loginUser(){
 	var user = $('#user').val();
 	var password = $('#password').val();
 	var url = "api/index.php?json/user/login";
@@ -46,7 +46,7 @@ window.recUtilities.loginUser = function loginUser(){
 	if(user != "" && password != ""){
 		$.post(url, {user: user, password: password}, function(data){
 			if(data.success == true){
-				window.location = "index.php";
+				location = "index.php";
 			} else {
 				alert(data.generalMessage);
 			}
@@ -58,21 +58,21 @@ window.recUtilities.loginUser = function loginUser(){
 };
 
 //Logut user 
-window.recUtilities.logoutUser = function logoutUser(){
+recUti.logoutUser = function logoutUser(){
 	var url = "api/index.php?json/user/logout";
 	$.getJSON(url, function(data){
-		window.location = "index.php";
+		location = "index.php";
 	});
 	return false;
 };
 
 $(function(){
 	//Signup user
-	$('#signupUser').click(window.recUtilities.submitUser);
+	$('#signupUser').click(recUti.submitUser);
 	
 	//Login user
-	$('#login').click(window.recUtilities.loginUser);
+	$('#login').click(recUti.loginUser);
 	
 	//Logout user
-	$('#logout').click(window.recUtilities.logoutUser);
+	$('#logout').click(recUti.logoutUser);
 });
