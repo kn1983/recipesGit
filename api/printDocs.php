@@ -1,7 +1,7 @@
 <?php
  
 function printDocs(){
-  require_once("objects.conf.php");
+  require_once('objects.conf.php');
  
   foreach($_OBJECTS as $obj => $obj_info){
  

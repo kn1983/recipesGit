@@ -1,5 +1,5 @@
 <?php
-require_once("classes/Resoponse.class.php");
+require_once('classes/Resoponse.class.php');
 class Validate{
 	private $response;
 	public $missingArgs = array();

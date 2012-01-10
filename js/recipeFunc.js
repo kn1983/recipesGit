@@ -1,49 +1,57 @@
-recUti.addRecipe = function addRecipe(){
-	var url = "api/index.php/?/json/recipe/add";
-	var form = $('#addRecipe');
-
-	$.post(url, form.serialize(), function(data){
-		if(data.success == true){
-	// 		alert("success");
-		}
-	},"json");
-	return false;
-};
-
-recUti.fetchCategories = function fetchCategories(){
-	var url = "api/index.php/?/json/recipe/listCategories";
-	$.getJSON(url, function(data){
-		if(data.success == true){
-			var categories = data.data.categories;
-			var select = $('#selCategories');
-			$.each(categories, function(index, value){
-				var option = $('<option/>').val(value.id).text(value.category);
-				select.append(option);
-			})
-		} else {
-			console.debug("Couldnt find the categories");
-		}
-	});
-}
-
-recUti.addIngRow = function addIngRow(){
-	var row = $('<ul/>').addClass('ingredientRow');
-	var container = $('#ingredients');
-	var ingNum = container.find('.ingredientRow').length;
-	var amount = $('<li/>').append($('<label>Mängd</label><input type="text" name="ingredients['+ ingNum +'][amount]" />'));
-	var units = $('<select/>').append('<option>Välj enhet...</option>').addClass('units').attr('name', 'ingredients['+ ingNum +'][unit]');
-	var unit = $('<li/>').append($('<label>Enhet</label>'), units);
-	var ingredient = $('<li/>').append($('<label>Ingrediens</label><input type="text" name="ingredients['+ ingNum +'][ingredient]" />'));
-	var url = "api/index.php/?/json/units/get";
-
-	$.getJSON(url, function(data){
-		$.each(data.data.units, function(index, value){
-			var option = $('<option/>').val(value.id).text(value.name);
-			units.append(option);
+recUti.recipeForm = function(){
+	function renderCategorySelect(){
+		var url = "api/index.php/?/json/recipe/listCategories";
+		$.getJSON(url, function(data){
+			if(data.success == true){
+				var categories = data.data.categories;
+				var select = $('#selCategories');
+				$.each(categories, function(index, value){
+					var option = $('<option/>').val(value.id).text(value.category);
+					select.append(option);
+				})
+			} else {
+				console.debug("Couldnt find the categories");
+			}
 		});
-	});
-	row.append(amount, unit, ingredient);
-	container.append(row);
+	}
+	renderCategorySelect();
+	var ret = {
+		submitRec: function(){
+			var url = "api/index.php/?/json/recipe/add";
+			var form = $('#addRecipe');
+
+			$.post(url, form.serialize(), function(data){
+				if(data.success == true){
+					// alert("success");
+				}
+			},"json");	
+		},
+		addIngBtn: $('#addIngredient').bind("click", function(event){
+			var row = $('<ul/>').addClass('ingredientRow');
+			var container = $('#ingredients');
+			var ingNum = container.find('.ingredientRow').length;
+			var amount = $('<li/>').append($('<label>Mängd</label><input type="text" name="ingredients['+ ingNum +'][amount]" />'));
+			var units = $('<select/>').append('<option>Välj enhet...</option>').addClass('units').attr('name', 'ingredients['+ ingNum +'][unit]');
+			var unit = $('<li/>').append($('<label>Enhet</label>'), units);
+			var ingredient = $('<li/>').append($('<label>Ingrediens</label><input type="text" name="ingredients['+ ingNum +'][ingredient]" />'));
+			var url = "api/index.php/?/json/units/get";
+
+			$.getJSON(url, function(data){
+				$.each(data.data.units, function(index, value){
+					var option = $('<option/>').val(value.id).text(value.name);
+					units.append(option);
+				});
+			});
+			row.append(amount, unit, ingredient);
+			container.append(row);
+			return false;
+		}),
+		submitBtn: $('#addRecipeBtn').bind("click", function(event){
+			ret.submitRec();
+			return false;
+		})
+	};
+	return ret;	
 };
 
 recUti.filterRecipes = function(){
@@ -100,11 +108,11 @@ recUti.filterRecipes = function(){
 			$.post(url, args, function(data){
 				if(data.success == true){
 					var recipe = data.data.recipe;
-					var ingredients = data.data.ingredients;
-					var title = $('<h2/>').text(recipe.title);
-					var description = $('<p/>').text(recipe.description);
-					var author = $('<p>Skapat av ' + recipe.author + '</p>')
-					var portions = $('<p>Portioner ' + recipe.portions + '</p>');
+					var recInfo = recipe.info;
+					var title = $('<h2/>').text(recInfo.title);
+					var description = $('<p/>').text(recInfo.description);
+					var author = $('<p>Skapat av ' + recInfo.author + '</p>')
+					var portions = $('<p>Portioner ' + recInfo.portions + '</p>');
 					var ingContainer = $('<div/>').attr('id', 'ingredients');
 					var ingTitle = $('<h3/>').text('Ingredienser');
 					var ingList = $('<ul/>');
@@ -112,7 +120,7 @@ recUti.filterRecipes = function(){
 					content.append(title, author, portions, ingContainer, description);
 					content.append(ingTitle, ingList);
 
-					$.each(ingredients, function(key, value){
+					$.each(recipe.ingredients, function(key, value){
 						var li = $('<li><span class="amount">' + value.amount +'</span><span class="unit">' + value.unit + '</span><span class="ingredient">' + value.ingredient + '</span></li>')
 						ingList.append(li);
 					});
@@ -156,11 +164,5 @@ $(function(){
 	var menu = recUti.sidebarMenu($('.recipes #sidebar'));
 	menu.addMenu("api/index.php/?/json/recipe/listCategories", "categories", "Kategorier", "category");
 	menu.addMenu("api/index.php/?/json/recipe/listAuthors", "authors", "Användarnas recept", "author");
-	recUti.fetchCategories();
-	
-	$('#addRecipeBtn').click(recUti.addRecipe);
-	$('#addIngredient').click(function(){
-		recUti.addIngRow();
-		return false;
-	});
+	var recipeForm = recUti.recipeForm();
 });

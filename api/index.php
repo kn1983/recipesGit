@@ -1,5 +1,6 @@
 <?php
-require_once "classes/DbLogin.class.php";
+// $_START = microtime();
+require_once 'classes/DbLogin.class.php';
 session_start();
 $dbLogin = new DbLogin();
 
@@ -13,7 +14,7 @@ if($format == "docs"){
   require_once("api.php");
   runAPI($format, $actions);
 }
- 
+// echo microtime() - $_START;
 // returns the Actions in an array
 function parseURLtoActions(){
   $getkeys = array_keys($_GET);

@@ -7,5 +7,5 @@
 	<script type="text/javascript" src="js/filterRecipes.js"></script>
 	<script type="text/javascript" src="js/userFunc.js"></script>
 	<script type="text/javascript" src="js/recipeFunc.js"></script>
-	<script type="text/javascript" src="js/displayRecipesFunc.js"></script>
+	<script type="text/javascript" src="js/myRecipes.js"></script>
 </head>

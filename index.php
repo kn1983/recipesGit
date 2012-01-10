@@ -2,11 +2,13 @@
 <!DOCTYPE html>
 <html>
 	<?php require_once 'includes/headHtml.php' ?>
-	<body>
+	<body class="recipes">
 		<div id="container">
 			<?php require_once 'includes/headerHtml.php'; ?>
-			<div id="sidebar">Sidebar goes here</div>
-			<div id="content">Content goes here</div>
+			<div id="sidebar">
+			</div>
+			<div id="content">
+			</div>
 		</div>
 	</body>
 </html>

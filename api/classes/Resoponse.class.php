@@ -25,28 +25,7 @@ class Response{
 		} else {
 			return false;
 		}
-	}
-
-	// public static function success(){
-	// 	$ret = array(
-	// 		'success' => true,
-	// 		'generalMessage' => "",
-	// 		'errors' => "",
-	// 		'data' => ""
-	// 	); 
-	// 	return json_encode($ret);
-	// }
-	
-	public static function error(){
-		$ret = array(
-			'success' => false,
-			'generalMessage' => "",
-			'errors' => "",
-			'data' => ""
-		); 
-		return json_encode($ret);
 	}	
-
 	public function output(){
 		$ret = array(
 			'success' => $this->success,

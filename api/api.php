@@ -1,8 +1,8 @@
 <?php
 function runAPI($format, $actions){
-  require_once("objects.conf.php");
-  require_once("classes/Validate.class.php");
-  require_once("classes/Resoponse.class.php");
+  require_once('objects.conf.php');
+  require_once('classes/Validate.class.php');
+  require_once('classes/Resoponse.class.php');
   $response = new Response();
   $object_name = array_shift($actions);
   $method_name = array_shift($actions);

@@ -1,7 +1,7 @@
 <?php
-require_once("classes/Resoponse.class.php");
-require_once("classes/Validate.class.php");
-require_once("classes/Clean.class.php");
+require_once('classes/Resoponse.class.php');
+require_once('classes/Validate.class.php');
+require_once('classes/Clean.class.php');
 class _ingredient{
 	private $response;
 	private $validate;

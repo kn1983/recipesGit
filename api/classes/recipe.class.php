@@ -1,7 +1,7 @@
 <?php
-require_once("ingredient.class.php");
-require_once("classes/Resoponse.class.php");
-require_once("classes/Clean.class.php");
+require_once('ingredient.class.php');
+require_once('classes/Resoponse.class.php');
+require_once('classes/Clean.class.php');
 class _recipe {
 	private $user;
 	private $response;
@@ -35,6 +35,15 @@ class _recipe {
 		}
 		return $this->response;
 	}
+	public function display($args){
+		$recipeWithIng = $this->getRecipeWithIng($args);
+		if(!$recipeWithIng){
+			$this->response->addError('Couldnt fetch the recipe!');
+			return $this->response;
+		}
+		$this->response->addData('recipe', $recipeWithIng);
+		return $this->response;
+	}
 	public function listRecipes($args){
 			$select = "SELECT recipes.id, recipes.title, categories.category, categories.id AS categoryid, users.user as author ";
 			$from = "FROM recipes ";
@@ -47,6 +56,8 @@ class _recipe {
 				$where .= "WHERE recipes.category={$args['category']} ";
 			} else if(isset($args['author']) && $args['author']){
 				$where .= "WHERE recipes.author={$args['author']} ";
+			} else if(isset($args['myRecipes']) && $args['myRecipes'] == true){
+				$where .= "WHERE recipes.author={$_SESSION['user']} ";
 			}
 			$query = $select .= $from .= $join .= $where;
 
@@ -86,53 +97,71 @@ class _recipe {
 		}
 		return $this->response;
 	}
-	public function display($args){
-		$recipe = $this->getRecipe($args);
-		$ingredients = $this->getIngredients($args);
-
-		if($recipe == -1){
-			$this->response->addError('Couldnt fetch the recipe!');
-		} else if($ingredients == -1){
-			$this->response->addError('Couldnt fetch the ingredients!');
-		} else {
-			$this->response->addData('ingredients', $ingredients);
-			$this->response->addData('recipe', $recipe);
-			// $this->response->addData('recipe', $data);
-		}
-		return $this->response;
-	}
-	private function getRecipe($args){
+	// private function getRecipe($args){
+	// 	$recipe = $args['recipe'];
+	// 	$query = "SELECT recipes.title, recipes.description, recipes.portions, users.user as author
+	// 			  FROM recipes, users
+	// 			  WHERE recipes.id={$recipe}
+	// 			  AND recipes.author=users.id
+	// 			  LIMIT 1";
+	// 	$result = mysql_query($query) or die(mysql_error());
+	// 	if($result && mysql_num_rows($result) > 0){
+	// 		$row = mysql_fetch_assoc($result);
+	// 		return $row;
+	// 	} else {
+	// 		return -1;
+	// 	}
+	// }
+	private function getRecipeWithIng($args){
 		$recipe = $args['recipe'];
-		$query = "SELECT recipes.title, recipes.description, recipes.portions, users.user as author
-				  FROM recipes, users
-				  WHERE recipes.id={$recipe}
-				  AND recipes.author=users.id
-				  LIMIT 1";
-		$result = mysql_query($query) or die(mysql_error());
-		if($result && mysql_num_rows($result) > 0){
-			$row = mysql_fetch_assoc($result);
-			return $row;
-		} else {
-			return -1;
-		}
-	}
-	private function getIngredients($args){
-		$recipe = $args['recipe'];
-		$query = "SELECT ingredients.ingredient, units.name AS unit, recipecontains.amount
-				  FROM ingredients, units, recipecontains
-				  WHERE ingredients.id=recipecontains.ingredient
-				  AND units.id=recipecontains.unit
-				  AND recipecontains.recipe={$recipe}";
+		$query = "SELECT recipes.title, recipes.description, recipes.portions, users.user as author, ingredients.ingredient, units.name AS unit, recipecontains.amount
+				FROM recipes, users, ingredients, units, recipecontains
+				WHERE ingredients.id=recipecontains.ingredient
+				AND units.id=recipecontains.unit
+				AND recipecontains.recipe={$recipe}
+				AND recipes.id={$recipe}
+				AND recipes.author=users.id";
 		$result = mysql_query($query)or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
-			$ingredients = array();
-			while($row = mysql_fetch_assoc($result)){
-				$ingredients[] = $row;
-			}
-			return $ingredients;
+			$recipe = "";
+			// $ingredients = array();
+			$row = mysql_fetch_assoc($result);
+			// $recipe = array("title"=>$row["title"], "description"=>$row["description"], "portions"=>$row["portions"], "author" => $row['author']);
+			$recipe['info'] = array("title"=>$row["title"], "description"=>$row["description"], "portions"=>$row["portions"], "author" => $row['author']);
+			do{
+				$recipe['ingredients'][] = array("unit" => $row['unit'], "amount" => $row['amount'], "ingredient" => $row['ingredient']);				
+			}while($row = mysql_fetch_assoc($result));
+			// return array("recipe" => $recipe, "ingredients" => $ingredients);
+			return $recipe;
 		} else {
-			return -1;
+			return false;
 		}
 	}
+	// private function getIngredients($args){
+	// 	$recipe = $args['recipe'];
+	// 	$query = "SELECT ingredients.ingredient, units.name AS unit, recipecontains.amount
+	// 			  FROM ingredients, units, recipecontains
+	// 			  WHERE ingredients.id=recipecontains.ingredient
+	// 			  AND units.id=recipecontains.unit
+	// 			  AND recipecontains.recipe={$recipe}";
+	// 	$result = mysql_query($query)or die(mysql_error());
+	// 	if($result && mysql_num_rows($result) > 0){
+	// 		$ingredients = array();
+	// 		while($row = mysql_fetch_assoc($result)){
+	// 			$ingredients[] = $row;
+	// 		}
+	// 		return $ingredients;
+	// 	} else {
+	// 		return -1;
+	// 	}
+	// }
+	// private function excecuteQuery($query){
+	// 	$result = mysql_query($query) or die(mysql_error());
+	// 	if($result && mysql_num_rows($result > 0)){
+	// 		return $result;
+	// 	} else {
+	// 		return -1;
+	// 	}
+	// }
 }
 ?>
