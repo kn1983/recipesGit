@@ -20,8 +20,10 @@ function runAPI($format, $actions){
       $object_name = "_".$object_name;
       $object = new $object_name();
       if(method_exists($object,$method_name)){
-        $return = $object->$method_name($args);
-        echo $return->output();
+        if($format == 'json'){
+          $return = $object->$method_name($args);
+          echo $return->output();
+        }
       }else{
         echo "Method $method_name does not exist in $object_name!";
       }

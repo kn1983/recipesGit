@@ -35,7 +35,7 @@ class _recipe {
 		}
 		return $this->response;
 	}
-	public function display($args){
+	public function get($args){
 		$recipeWithIng = $this->getRecipeWithIng($args);
 		if(!$recipeWithIng){
 			$this->response->addError('Couldnt fetch the recipe!');
@@ -69,7 +69,7 @@ class _recipe {
 			}
 			$this->response->addData('recipes', $recipes);
 		} else {
-			$this->response->addError("No reipes on this author!");
+			$this->response->addError("Couldn't fetch the recipes!");
 		}
 		return $this->response;
 	}
@@ -97,21 +97,6 @@ class _recipe {
 		}
 		return $this->response;
 	}
-	// private function getRecipe($args){
-	// 	$recipe = $args['recipe'];
-	// 	$query = "SELECT recipes.title, recipes.description, recipes.portions, users.user as author
-	// 			  FROM recipes, users
-	// 			  WHERE recipes.id={$recipe}
-	// 			  AND recipes.author=users.id
-	// 			  LIMIT 1";
-	// 	$result = mysql_query($query) or die(mysql_error());
-	// 	if($result && mysql_num_rows($result) > 0){
-	// 		$row = mysql_fetch_assoc($result);
-	// 		return $row;
-	// 	} else {
-	// 		return -1;
-	// 	}
-	// }
 	private function getRecipeWithIng($args){
 		$recipe = $args['recipe'];
 		$query = "SELECT recipes.title, recipes.description, recipes.portions, users.user as author, ingredients.ingredient, units.name AS unit, recipecontains.amount
@@ -137,6 +122,21 @@ class _recipe {
 			return false;
 		}
 	}
+		// private function getRecipe($args){
+	// 	$recipe = $args['recipe'];
+	// 	$query = "SELECT recipes.title, recipes.description, recipes.portions, users.user as author
+	// 			  FROM recipes, users
+	// 			  WHERE recipes.id={$recipe}
+	// 			  AND recipes.author=users.id
+	// 			  LIMIT 1";
+	// 	$result = mysql_query($query) or die(mysql_error());
+	// 	if($result && mysql_num_rows($result) > 0){
+	// 		$row = mysql_fetch_assoc($result);
+	// 		return $row;
+	// 	} else {
+	// 		return -1;
+	// 	}
+	// }
 	// private function getIngredients($args){
 	// 	$recipe = $args['recipe'];
 	// 	$query = "SELECT ingredients.ingredient, units.name AS unit, recipecontains.amount

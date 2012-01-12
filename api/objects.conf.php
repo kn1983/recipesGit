@@ -92,7 +92,7 @@ $_OBJECTS = array(
 				'description' => 'Lists all categories',
 				'args' => array()
 			),
-			'display' => array(
+			'get' => array(
 				'description' => 'Displays one recipe',
 				'args' => array(
 					'recipe' => array(

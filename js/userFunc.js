@@ -1,4 +1,4 @@
-recUti = {};
+// recUti = {};
 recUti.user = function(){
 	var ret = {
 		submit: function(){
