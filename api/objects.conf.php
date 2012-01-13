@@ -84,14 +84,23 @@ $_OBJECTS = array(
 					)
 				)
 			),
-			'listCategories' => array(
-				'description' => 'Lists all categories',
+			'getCatsAndAuthors' => array(
+				'description' => 'Get categories and authors',
 				'args' => array()
 			),
-			'listAuthors' => array(
-				'description' => 'Lists all categories',
+			'getAllCategories' => array(
+				'description' => 'Get all categories',
 				'args' => array()
 			),
+
+			// 'listCategories' => array(
+			// 	'description' => 'Lists all categories',
+			// 	'args' => array()
+			// ),
+			// 'listAuthors' => array(
+			// 	'description' => 'Lists all categories',
+			// 	'args' => array()
+			// ),
 			'get' => array(
 				'description' => 'Displays one recipe',
 				'args' => array(

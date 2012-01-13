@@ -73,7 +73,16 @@ class _recipe {
 		}
 		return $this->response;
 	}
-	public function listCategories($args){
+	public function getAllCategories($args){
+		$this->getCategories();
+		return $this->response;
+	}
+	public function getCatsAndAuthors($args){
+		$this->getCategories();
+		$this->getAuthors();
+		return $this->response;
+	}
+	private function getCategories(){
 		$query = "SELECT id, category FROM categories";
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
@@ -83,9 +92,8 @@ class _recipe {
 			}
 			$this->response->addData('categories', $categories);
 		}
-		return $this->response;
 	}
-	public function listAuthors($args){
+	private function getAuthors(){
 		$query = "SELECT id, user as author FROM users";
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
@@ -95,7 +103,7 @@ class _recipe {
 			}
 			$this->response->addData('authors', $authors);
 		}
-		return $this->response;
+		// return $this->response;
 	}
 	private function getRecipeWithIng($args){
 		$recipe = $args['recipe'];
