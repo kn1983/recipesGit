@@ -12,7 +12,7 @@ session_start();
 		<script type="text/javascript" src="js/jquery.hashchange-1.0.0.js"></script>
 		<script type="text/javascript" src="js/printPage.js"></script>
 		<script type="text/javascript" src="js/userFunc.js"></script>
-		<script type="text/template" id="filterRecipes">
+		<script type="text/template" id="sidebarRecipes">
 			<h2>Kategorier</h2>
 			<p><a href="#">Visa alla recept</a></p>
 			<ul>
@@ -30,7 +30,7 @@ session_start();
 	        <% } %>
 	        </ul>
 		</script>
-		<script type="text/template" id="listRecipes">
+		<script type="text/template" id="contentRecipeList">
 			<h2>Recept</h2>
 			<ul>
 			<% for (var index = 0; index < recipes.length; index++){ %>
@@ -39,7 +39,7 @@ session_start();
 			<% } %>
 			</ul>
 		</script>
-		<script type="text/template" id="addRecipe">
+		<script type="text/template" id="contentAddRecipe">
 			<h2>Lägg till recept</h2>
 			<form id="addRecipe" action="index.php" method="post">
 				<dl>
@@ -65,7 +65,7 @@ session_start();
 				</div>
 			</form>
 		</script>
-		<script type="text/template" id="displayRecipe">
+		<script type="text/template" id="contentDisplayRecipe">
 			<h2><%= recInfo.title %></h2>
 			<div>Portioner <span class="portions"><%= recInfo.portions %></span></div>
 			<div><p><%= recInfo.description %></p></div>
@@ -78,6 +78,15 @@ session_start();
 						<span><%= ingredient.unit %></span>
 						<span><%= ingredient.ingredient %></span>
 					</li>
+				<% } %>
+			</ul>
+		</script>
+		<script type="text/template" id="sidebarMyRecipes">
+			<h2>Mina recept</h2>
+			<ul>
+				<% for(var index = 0; index < recipes.length; index++){ %>
+				<% var recipe = recipes[index]; %>
+				<li><a href="#myRecipes/recipe/<%= recipe.id %>"><%= recipe.title %></a></li>
 				<% } %>
 			</ul>
 		</script>

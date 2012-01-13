@@ -13,8 +13,8 @@ recUti.renderPage = function(page, urlParams){
 		body.attr('id', 'recipes');
 	}
 
+	//Render sidebar
 	var curBodyId = $('body').attr('id');
-
 	if(prevBodyId !== curBodyId){
 		sidebar.removeClass('loaded');
 		sidebar.empty();
@@ -22,6 +22,8 @@ recUti.renderPage = function(page, urlParams){
 			rendSidebar[page](page);
 		}
 	}
+
+	//Render content
 	content.empty();
 	if(typeof cont[page] !== "undefined"){
 		if(urlParams.length > 1){
@@ -42,10 +44,20 @@ recUti.renderSidebar = function(page){
 				var categories = data.data.categories;
 				var authors = data.data.authors;
 				if(data.success){
-                    var output = _.template($('#filterRecipes').html(), { categories : categories, authors: authors } );
+                    var output = _.template($('#sidebarRecipes').html(), { categories : categories, authors: authors } );
         			$('#sidebar').html(output);
 				}
 			});
+		},
+		myRecipes: function(){
+			var url = "api/index.php/?/json/recipe/listRecipes";
+			$.post(url, {myRecipes: true}, function(data){
+				if(data.success){
+					var recipes = data.data.recipes;
+					var output = _.template($('#sidebarMyRecipes').html(), { recipes : recipes} );
+        			$('#sidebar').html(output);
+				}
+			},"json");
 		}
 	}
 };
@@ -65,7 +77,7 @@ recUti.renderContent = function(page){
 					if(data.success){
 						var recInfo = data.data.recipe.info;
 						var ingredients = data.data.recipe.ingredients;
-						var output = _.template($('#displayRecipe').html(), {recInfo: recInfo, ingredients: ingredients});
+						var output = _.template($('#contentDisplayRecipe').html(), {recInfo: recInfo, ingredients: ingredients});
 						$('#recipes #content').html(output);
 					}
 				},"json");
@@ -75,7 +87,7 @@ recUti.renderContent = function(page){
 					if(data.success){
 						var recipes = data.data.recipes;
 						if(data.success){
-		                    var output = _.template($('#listRecipes').html(), {recipes: recipes});
+		                    var output = _.template($('#contentRecipeList').html(), {recipes: recipes});
 		        			$('#recipes #content').html(output);
 						}
 					} else {
@@ -89,7 +101,7 @@ recUti.renderContent = function(page){
 			$.getJSON(url, function(data){
 				var categories = data.data.categories;
 				if(data.success){
-                    var output = _.template($('#addRecipe').html(), { categories : categories} );
+                    var output = _.template($('#contentAddRecipe').html(), { categories : categories} );
         			$('#content').html(output);
 				}
 			});
