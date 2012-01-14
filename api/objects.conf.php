@@ -68,11 +68,11 @@ $_OBJECTS = array(
 					'category' => array(
 						'type' => 'numeric',
 						'required' => true
-					),
-					'ingredients' => array(
-						'type' => 'array',
-						'required' => true
 					)
+					// 'ingredients' => array(
+					// 	'type' => 'array',
+					// 	'required' => true
+					// )
 				)
 			),
 			'listRecipes' => array(

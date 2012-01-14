@@ -41,7 +41,7 @@ session_start();
 		</script>
 		<script type="text/template" id="contentAddRecipe">
 			<h2>Lägg till recept</h2>
-			<form id="addRecipe" action="index.php" method="post">
+			<form id="addRecForm" action="index.php" method="post">
 				<dl>
 					<dt><label for="recipeTitle">Titel</label></dt>
 						<dd><input type="text" id="recipeTitle" name="recipeTitle" /></dd>
@@ -61,9 +61,9 @@ session_start();
 						</dd>
 				</dl>
 				<p><button id="saveRecipeBtn">Spara recept</button>
-				<div id="ingredients">
-				</div>
 			</form>
+			<div id="ingredients">
+			</div>
 		</script>
 		<script type="text/template" id="contentDisplayRecipe">
 			<h2><%= recInfo.title %></h2>
@@ -87,6 +87,24 @@ session_start();
 				<% for(var index = 0; index < recipes.length; index++){ %>
 				<% var recipe = recipes[index]; %>
 				<li><a href="#myRecipes/recipe/<%= recipe.id %>"><%= recipe.title %></a></li>
+				<% } %>
+			</ul>
+		</script>
+		<script type="text/template" id="contentMyRecipes">
+			<h2><%= recInfo.title %></h2>
+			<div>Portioner <span class="portions"><%= recInfo.portions %></span></div>
+			<div><p><%= recInfo.description %></p></div>
+			<p><button id="editRecipe">Editera recept</button>
+			<h3>Ingredienser</h3>
+			<ul>
+				<% for(var index = 0; index < ingredients.length; index++){ %>
+					<% ingredient = ingredients[index]; %>
+					<li><button class="removeIng">X</button>
+						<span><%= ingredient.amount %></span>
+						<span><%= ingredient.unit %></span>
+						<span><%= ingredient.ingredient %></span>
+						<button class="editIng">Editera</button>
+					</li>
 				<% } %>
 			</ul>
 		</script>

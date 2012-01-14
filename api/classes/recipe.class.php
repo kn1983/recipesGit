@@ -16,20 +16,21 @@ class _recipe {
 		$description = Clean::cleanArg($args['recipeDescription']);
 		$portions = Clean::cleanArg($args['portions']);
 		$category = Clean::cleanArg($args['category']);
-		$ingredients = $args['ingredients'];
+		// $ingredients = $args['ingredients'];
 
 		$query = "INSERT INTO recipes (title, description, author, portions, category)
 		VALUES('{$title}', '{$description}', '{$this->user}', '{$portions}', '{$category}')";
 		$result = mysql_query($query)or die(mysql_error());
 		if($result){
 			$recipe = mysql_insert_id();
-			for($i = 0; $i < count($ingredients); $i++){
-				$ingredient = new _ingredient($recipe);
-				$ret = $ingredient->add($ingredients[$i]);
-				if($ret->checkSuccess() == false){
-					return $ret;
-				}
-			}
+			$this->response->addData('recipe', $recipe);
+			// for($i = 0; $i < count($ingredients); $i++){
+			// 	$ingredient = new _ingredient($recipe);
+			// 	$ret = $ingredient->add($ingredients[$i]);
+			// 	if($ret->checkSuccess() == false){
+			// 		return $ret;
+			// 	}
+			// }
 		} else {
 			$this->response->addError('Couldnt add the recipe');
 		}
@@ -117,14 +118,11 @@ class _recipe {
 		$result = mysql_query($query)or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
 			$recipe = "";
-			// $ingredients = array();
 			$row = mysql_fetch_assoc($result);
-			// $recipe = array("title"=>$row["title"], "description"=>$row["description"], "portions"=>$row["portions"], "author" => $row['author']);
 			$recipe['info'] = array("title"=>$row["title"], "description"=>$row["description"], "portions"=>$row["portions"], "author" => $row['author']);
 			do{
 				$recipe['ingredients'][] = array("unit" => $row['unit'], "amount" => $row['amount'], "ingredient" => $row['ingredient']);				
 			}while($row = mysql_fetch_assoc($result));
-			// return array("recipe" => $recipe, "ingredients" => $ingredients);
 			return $recipe;
 		} else {
 			return false;

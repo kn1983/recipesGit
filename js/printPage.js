@@ -36,7 +36,6 @@ recUti.renderPage = function(page, urlParams){
 	}
 };
 recUti.renderSidebar = function(page){
-
 	return {
 		recipes: function(){
 			var url = "api/index.php/?/json/recipe/getCatsAndAuthors";
@@ -63,24 +62,28 @@ recUti.renderSidebar = function(page){
 };
 recUti.renderContent = function(page){
 	var content = $('#content');
-	return {
+	function displayRecipe(args, template){
+		var url = "api/index.php/?/json/recipe/get";
+
+		$.post(url, args, function(data){
+			if(data.success){
+				var recInfo = data.data.recipe.info;
+				var ingredients = data.data.recipe.ingredients;
+				var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients});
+				$('#content').html(output);
+			}
+		},"json");
+	}
+	var ret = {
 		recipes: function(subPage, subPageId){
 			var args = {};
+			args[subPage] = subPageId;
 			if(typeof subPage !== "undefined"){
 				args[subPage] = subPageId;
 			}
 			if(typeof subPage !== "undefined" && subPage === 'recipe'){
-				var url = "api/index.php/?/json/recipe/get";
-				args[subPage] = subPageId;
-
-				$.post(url, args, function(data){
-					if(data.success){
-						var recInfo = data.data.recipe.info;
-						var ingredients = data.data.recipe.ingredients;
-						var output = _.template($('#contentDisplayRecipe').html(), {recInfo: recInfo, ingredients: ingredients});
-						$('#recipes #content').html(output);
-					}
-				},"json");
+				var template = $('#contentDisplayRecipe');
+				displayRecipe(args, template);
 			} else {
 				var url = "api/index.php/?/json/recipe/listRecipes";
 				$.post(url, args, function(data){
@@ -96,6 +99,16 @@ recUti.renderContent = function(page){
 				},"json");			
 			}	
 		},
+		myRecipes: function(subPage, subPageId){
+			var args = {};
+			args[subPage] = subPageId;
+			if(typeof subPage !== "undefined"){
+				args[subPage] = subPageId;
+				console.debug(args);
+			}
+			var template = $('#contentMyRecipes');
+			displayRecipe(args, template);
+		},
 		addRecipe: function(){
 			var url = "api/index.php/?/json/recipe/getAllCategories";
 			$.getJSON(url, function(data){
@@ -103,10 +116,22 @@ recUti.renderContent = function(page){
 				if(data.success){
                     var output = _.template($('#contentAddRecipe').html(), { categories : categories} );
         			$('#content').html(output);
+        			$('#saveRecipeBtn').click(function(){
+        				var recData = $('#addRecForm').serialize();
+						var url = "api/index.php/?/json/recipe/add";
+						$.post(url, recData, function(data){
+							if(data.success){
+								var args = data.data;
+								var template = $('#contentMyRecipes');
+							}
+						},"json");
+						return false;
+					});
 				}
 			});
 		}
 	}
+	return ret;
 };
 
 $(function(){
