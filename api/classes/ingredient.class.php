@@ -8,27 +8,34 @@ class _ingredient{
 	function __construct(){
 		$this->response = new Response();
 		$this->validate = new Validate();
-		// $this->recipe = Clean::cleanArg($recipe);
+	}
+	public function remove($args){
+		$ingredient = Clean::cleanArg($args['ingredient']);
+		$recipe = Clean::cleanArg($args['recipe']);
+	
+		$query = "DELETE FROM recipecontains
+				  WHERE recipe={$recipe}
+				  AND ingredient={$ingredient}";
+		mysql_query($query)or die(mysql_error());
+		return $this->response;
 	}
 	public function add($args){
-		$ingredient = Clean::cleanArg($args['ingredient']);
-		$amount = Clean::cleanArg($args['amount']);
-		$unit = Clean::cleanArg($args['unit']);
-
 		$ingredient = $this->ingredientExist($args);
-		if(!$ingredient{
+		if(!$ingredient){
 			$ingredient =  $this->insertIngredient($args);
 		}
 		$this->addIngToRecipe($args, $ingredient);
 		return $this->response;
+		
 	}
 	private function addIngToRecipe($args, $ingredient){
+		$recipe = Clean::cleanArg($args['recipe']);
 		$ing = Clean::cleanArg($ingredient);
 		$amount = Clean::cleanArg($args['amount']);
 		$unit = Clean::cleanArg($args['unit']);
 
 		$query = "INSERT INTO recipecontains (recipe, ingredient, unit, amount)
-		VALUES ({$this->recipe}, {$ing}, {$unit}, {$amount})";
+		VALUES ({$recipe}, {$ing}, {$unit}, {$amount})";
 		$result = mysql_query($query) or die(mysql_error());
 		
 	}

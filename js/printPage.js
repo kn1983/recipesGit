@@ -60,6 +60,28 @@ recUti.renderSidebar = function(page){
 		}
 	}
 };
+recUti.recipe = function(recipe){
+	return {
+		addIngredient: function(ingData){
+			var url = "api/index.php/?/json/ingredient/add";
+			$.post(url, ingData, function(data){
+				if(data.success){
+					var cont = recUti.renderContent('myRecipes');
+					cont.myRecipes('recipe', recipe);
+				}
+			},"json");
+		},
+		removeIng: function(ingredient){
+			var url = "api/index.php/?/json/ingredient/remove";
+			$.post(url, {recipe: recipe, ingredient: ingredient}, function(data){
+				if(data.success){
+					var cont = recUti.renderContent('myRecipes');
+					cont.myRecipes('recipe', recipe);
+				}
+			},"json");
+		}
+	}
+}
 recUti.renderContent = function(page){
 	var content = $('#content');
 	function displayRecipe(args, template){
@@ -67,6 +89,7 @@ recUti.renderContent = function(page){
 		$.post(url, args, function(data){
 			if(data.success){
 				var recInfo = data.data.recipe.info;
+				var recFunc = recUti.recipe(recInfo.id);
 				var ingredients = data.data.recipe.ingredients;
 				if(typeof ingredients === "undefined"){
 					ingredients = "";
@@ -76,12 +99,27 @@ recUti.renderContent = function(page){
 					var units = data.data.units;
 					var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients, units: units});
 					$('#content').html(output);
-				});
-				
-				var addIng = $('#addIngredient');
-				addIng.click(function(){
-					$(this).hide();
-					return false;
+					var addIng = $('#addIngredient');
+					addIng.click(function(){
+						$(this).hide();
+						$('#newIngWrapper').removeClass('hidden');
+						return false;
+					});
+
+					var removeIng = $('.removeIng');
+					removeIng.click(function(){
+						if(confirm("Är du säker på att du vill ta bort ingrediensen")){
+							var id = $(this).attr('id');
+							var ingId = id.substring(id.indexOf('_')+1, id.length);
+							recFunc.removeIng(ingId);
+						}
+					});
+					var addIng = $('#saveIng');
+					addIng.click(function(){
+						var ingForm = $('#addIngForm').serialize();
+						recFunc.addIngredient(ingForm);
+						return false;
+					});
 				});
 			}
 		},"json");
@@ -144,9 +182,8 @@ recUti.renderContent = function(page){
 						var url = "api/index.php/?/json/recipe/add";
 						$.post(url, recData, function(data){
 							if(data.success){
-								var args = data.data;
-								var template = $('#contentMyRecipes');
-								displayRecipe(args, template);
+								var recipe = data.data.recipe;
+								location.hash = "#myRecipes/recipe/" + recipe;
 							}
 						},"json");
 						return false;

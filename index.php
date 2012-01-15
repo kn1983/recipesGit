@@ -105,7 +105,7 @@ session_start();
 					<ul>
 						<% for(var index = 0; index < ingredients.length; index++){ %>
 							<% ingredient = ingredients[index]; %>
-							<li><button class="removeIng">X</button>
+							<li><button id="delIng_<%= ingredient.id %>"class="removeIng">X</button>
 								<span><%= ingredient.amount %></span>
 								<span><%= ingredient.unit %></span>
 								<span><%= ingredient.ingredient %></span>
@@ -115,7 +115,8 @@ session_start();
 					</ul>
 				<% } %>
 				<p><button id="addIngredient">+ Ingrediens</button>
-				<div class="newIngWrapper">
+				<div id="newIngWrapper" class="hidden">
+					<form id="addIngForm" method="post" action="index.php">
 					<label for="ingredient">Ingrediens</label>
 					<input type="text" name="ingredient" id="ingredient" />
 
@@ -123,13 +124,16 @@ session_start();
 					<input type="text" name="amount" id="amount" />
 
 					<label for="unit">Enhet</label>
-					<select id="units">
+					<select id="units" name="unit">
+						<option value="">Välj enhet</option>
 						<% for(var index = 0; index < units.length; index++){%>
 							<% var unit = units[index]; %>
 							<option value="<%= unit.id %>"><%= unit.name%></option>
 						<% } %>
 					</select>
-					<button id="saveIng">Lägg till</button>						
+					<input type="hidden" name="recipe" value="<%= recInfo.id %>" />
+					<button id="saveIng">Lägg till</button>	
+					</form>					
 				</div>
 			</div>
 		</script>

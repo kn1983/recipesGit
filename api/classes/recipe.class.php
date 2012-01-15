@@ -146,7 +146,7 @@ class _recipe {
 	}
 		private function getRecipe($args){
 		$recipe = $args['recipe'];
-		$query = "SELECT recipes.title, recipes.description, recipes.portions, users.user as author
+		$query = "SELECT recipes.id, recipes.title, recipes.description, recipes.portions, users.user as author
 				  FROM recipes, users
 				  WHERE recipes.id={$recipe}
 				  AND recipes.author=users.id
@@ -161,7 +161,7 @@ class _recipe {
 	}
 	private function getIngredients($args){
 		$recipe = $args['recipe'];
-		$query = "SELECT ingredients.ingredient, units.name AS unit, recipecontains.amount
+		$query = "SELECT ingredients.id, ingredients.ingredient, units.name AS unit, recipecontains.amount
 				  FROM ingredients, units, recipecontains
 				  WHERE ingredients.id=recipecontains.ingredient
 				  AND units.id=recipecontains.unit

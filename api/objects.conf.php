@@ -112,17 +112,35 @@ $_OBJECTS = array(
 		'description' => 'The ingredient object',
 		'methods' => array(
 			'add' => array(
-				'ingredient' => array(
-					'type' => 'string',
-					'required' => true
-				),
-				'amount' => array(
-					'type' => 'numeric',
-					'required' => true
-				),
-				'unit' => array(
-					'type' => 'string',
-					'required' => true
+				'args' => array(
+					'ingredient' => array(
+						'type' => 'string',
+						'required' => true
+					),
+					'amount' => array(
+						'type' => 'numeric',
+						'required' => true
+					),
+					'unit' => array(
+						'type' => 'string',
+						'required' => true
+					),
+					'recipe' => array(
+						'type' => 'numeric',
+						'required' => true
+					)
+				)
+			),
+			'remove' => array(
+				'args' => array(
+					'ingredient' => array(
+						'type' => 'numeric',
+						'required' => true
+					),
+					'recipe' => array(
+						'type' => 'numeric',
+						'required' => true
+					)
 				)
 			)
 		)
