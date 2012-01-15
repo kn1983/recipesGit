@@ -5,41 +5,23 @@ require_once('classes/Clean.class.php');
 class _ingredient{
 	private $response;
 	private $validate;
-	function __construct($recipe){
+	function __construct(){
 		$this->response = new Response();
 		$this->validate = new Validate();
-		$this->recipe = Clean::cleanArg($recipe);
+		// $this->recipe = Clean::cleanArg($recipe);
 	}
 	public function add($args){
-		if(isset($args['ingredient'], $args['amount'], $args['unit']) && $args['ingredient'] !="" && $args['amount'] !="" && $args['unit'] !=""){
-			$ingredient = $args['ingredient'];
-			$amount = $args['amount'];
-			$unit = $args['unit'];
+		$ingredient = Clean::cleanArg($args['ingredient']);
+		$amount = Clean::cleanArg($args['amount']);
+		$unit = Clean::cleanArg($args['unit']);
 
-			if(!is_numeric($amount)){
-				$this->response->addError('amount');
-				$this->response->setGeneralMsg('The argument has wrong type!');
-				return $this->response;
-			}
-
-			//TODO fix the validation
-			$ingredient = $this->ingredientExist($args);
-			if($ingredient == -1){
-				$ingredient =  $this->insertIngredient($args);
-			}
-			$this->addIngToRecipe($args, $ingredient);
-
-		} else {
-			$this->response->addError('Missing required arguments!');
+		$ingredient = $this->ingredientExist($args);
+		if(!$ingredient{
+			$ingredient =  $this->insertIngredient($args);
 		}
+		$this->addIngToRecipe($args, $ingredient);
 		return $this->response;
-		
 	}
-	// private function validateIngredients($args){
-	// 	if($args['ingredient']
-	// 	$args['amount'];
-	// 	$args['unit'];
-	// }
 	private function addIngToRecipe($args, $ingredient){
 		$ing = Clean::cleanArg($ingredient);
 		$amount = Clean::cleanArg($args['amount']);
@@ -61,7 +43,7 @@ class _ingredient{
 			$row = mysql_fetch_assoc($result);
 			return $row['id'];
 		} else {
-			return -1;
+			return false;
 		}
 	}
 	private function insertIngredient($args){

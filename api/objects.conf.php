@@ -69,10 +69,6 @@ $_OBJECTS = array(
 						'type' => 'numeric',
 						'required' => true
 					)
-					// 'ingredients' => array(
-					// 	'type' => 'array',
-					// 	'required' => true
-					// )
 				)
 			),
 			'listRecipes' => array(
@@ -101,7 +97,7 @@ $_OBJECTS = array(
 			// 	'description' => 'Lists all categories',
 			// 	'args' => array()
 			// ),
-			'get' => array(
+			'getRecipeWithIng' => array(
 				'description' => 'Displays one recipe',
 				'args' => array(
 					'recipe' => array(

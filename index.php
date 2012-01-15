@@ -52,7 +52,7 @@ session_start();
 					<dt><label for="selCategories">Kategorier</label></dt>
 						<dd>
 							<select id="selCategories" name="category">
-								<option>Välj Kategori...</option>
+								<option value="">Välj Kategori...</option>
 								<% for(var index = 0; index < categories.length; index++){ %>
 									<% var category = categories[index]; %>
 									<option value="<%= category.id %>"><%= category.category %></option>
@@ -69,17 +69,19 @@ session_start();
 			<h2><%= recInfo.title %></h2>
 			<div>Portioner <span class="portions"><%= recInfo.portions %></span></div>
 			<div><p><%= recInfo.description %></p></div>
-			<h3>Ingredienser</h3>
-			<ul>
-				<% for(var index = 0; index < ingredients.length; index++){ %>
-					<% ingredient = ingredients[index]; %>
-					<li>
-						<span><%= ingredient.amount %></span>
-						<span><%= ingredient.unit %></span>
-						<span><%= ingredient.ingredient %></span>
-					</li>
-				<% } %>
-			</ul>
+			<% if(ingredients.length > 0){ %>
+				<h3>Ingredienser</h3>
+				<ul>
+					<% for(var index = 0; index < ingredients.length; index++){ %>
+						<% ingredient = ingredients[index]; %>
+						<li>
+							<span><%= ingredient.amount %></span>
+							<span><%= ingredient.unit %></span>
+							<span><%= ingredient.ingredient %></span>
+						</li>
+					<% } %>
+				</ul>
+			<% } %>
 		</script>
 		<script type="text/template" id="sidebarMyRecipes">
 			<h2>Mina recept</h2>
@@ -91,22 +93,45 @@ session_start();
 			</ul>
 		</script>
 		<script type="text/template" id="contentMyRecipes">
-			<h2><%= recInfo.title %></h2>
-			<div>Portioner <span class="portions"><%= recInfo.portions %></span></div>
-			<div><p><%= recInfo.description %></p></div>
-			<p><button id="editRecipe">Editera recept</button>
-			<h3>Ingredienser</h3>
-			<ul>
-				<% for(var index = 0; index < ingredients.length; index++){ %>
-					<% ingredient = ingredients[index]; %>
-					<li><button class="removeIng">X</button>
-						<span><%= ingredient.amount %></span>
-						<span><%= ingredient.unit %></span>
-						<span><%= ingredient.ingredient %></span>
-						<button class="editIng">Editera</button>
-					</li>
+			<div class="recInfoWrapper">
+				<h2><%= recInfo.title %></h2>
+				<div>Portioner <span class="portions"><%= recInfo.portions %></span></div>
+				<div><p><%= recInfo.description %></p></div>
+				<p><button id="editRecipe">Editera recept</button>
+			</div>
+			<div class="ingredientsWrapper">
+				<% if (ingredients.length > 0){ %>
+					<h3>Ingredienser</h3>
+					<ul>
+						<% for(var index = 0; index < ingredients.length; index++){ %>
+							<% ingredient = ingredients[index]; %>
+							<li><button class="removeIng">X</button>
+								<span><%= ingredient.amount %></span>
+								<span><%= ingredient.unit %></span>
+								<span><%= ingredient.ingredient %></span>
+								<button class="editIng">Editera</button>
+							</li>
+						<% } %>
+					</ul>
 				<% } %>
-			</ul>
+				<p><button id="addIngredient">+ Ingrediens</button>
+				<div class="newIngWrapper">
+					<label for="ingredient">Ingrediens</label>
+					<input type="text" name="ingredient" id="ingredient" />
+
+					<label for="amount">Mängd</label>
+					<input type="text" name="amount" id="amount" />
+
+					<label for="unit">Enhet</label>
+					<select id="units">
+						<% for(var index = 0; index < units.length; index++){%>
+							<% var unit = units[index]; %>
+							<option value="<%= unit.id %>"><%= unit.name%></option>
+						<% } %>
+					</select>
+					<button id="saveIng">Lägg till</button>						
+				</div>
+			</div>
 		</script>
 	</head>
 	<body>

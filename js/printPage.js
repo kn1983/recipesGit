@@ -63,14 +63,26 @@ recUti.renderSidebar = function(page){
 recUti.renderContent = function(page){
 	var content = $('#content');
 	function displayRecipe(args, template){
-		var url = "api/index.php/?/json/recipe/get";
-
+		var url = "api/index.php/?/json/recipe/getRecipeWithIng";
 		$.post(url, args, function(data){
 			if(data.success){
 				var recInfo = data.data.recipe.info;
 				var ingredients = data.data.recipe.ingredients;
-				var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients});
-				$('#content').html(output);
+				if(typeof ingredients === "undefined"){
+					ingredients = "";
+				}
+				url = "api/index.php/?/json/units/get";
+				$.getJSON(url, function(data){
+					var units = data.data.units;
+					var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients, units: units});
+					$('#content').html(output);
+				});
+				
+				var addIng = $('#addIngredient');
+				addIng.click(function(){
+					$(this).hide();
+					return false;
+				});
 			}
 		},"json");
 	}
@@ -83,7 +95,19 @@ recUti.renderContent = function(page){
 			}
 			if(typeof subPage !== "undefined" && subPage === 'recipe'){
 				var template = $('#contentDisplayRecipe');
-				displayRecipe(args, template);
+				var url = "api/index.php/?/json/recipe/getRecipeWithIng";
+				$.post(url, args, function(data){
+					if(data.success){
+						var recInfo = data.data.recipe.info;
+						var ingredients = data.data.recipe.ingredients;
+
+						if(typeof ingredients === "undefined"){
+							ingredients = "";
+						}
+						var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients});
+						$('#content').html(output);
+					}
+				},"json");
 			} else {
 				var url = "api/index.php/?/json/recipe/listRecipes";
 				$.post(url, args, function(data){
@@ -104,7 +128,6 @@ recUti.renderContent = function(page){
 			args[subPage] = subPageId;
 			if(typeof subPage !== "undefined"){
 				args[subPage] = subPageId;
-				console.debug(args);
 			}
 			var template = $('#contentMyRecipes');
 			displayRecipe(args, template);
@@ -123,6 +146,7 @@ recUti.renderContent = function(page){
 							if(data.success){
 								var args = data.data;
 								var template = $('#contentMyRecipes');
+								displayRecipe(args, template);
 							}
 						},"json");
 						return false;
