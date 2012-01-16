@@ -61,13 +61,14 @@ recUti.renderSidebar = function(page){
 	}
 };
 recUti.recipe = function(recipe){
-	var cont = recUti.renderContent('myRecipes');
+	var renderContent = recUti.renderContent('myRecipes');
+	var renderSidebar = recUti.renderSidebar('myRecipes');
 	return {
 		addIngredient: function(ingData){
 			var url = "api/index.php/?/json/ingredient/add";
 			$.post(url, ingData, function(data){
 				if(data.success){
-					cont.myRecipes('recipe', recipe);
+					renderContent.myRecipes('recipe', recipe);
 				}
 			},"json");
 		},
@@ -75,7 +76,7 @@ recUti.recipe = function(recipe){
 			var url = "api/index.php/?/json/ingredient/remove";
 			$.post(url, {recipe: recipe, ingredient: ingredient}, function(data){
 				if(data.success){
-					cont.myRecipes('recipe', recipe);
+					renderContent.myRecipes('recipe', recipe);
 				}
 			},"json");
 		},
@@ -85,7 +86,8 @@ recUti.recipe = function(recipe){
 			var url = "api/index.php/?/json/recipe/edit";
 			$.post(url, recipeData, function(data){
 				if(data.success){
-					cont.myRecipes('recipe', recipe);
+					renderContent.myRecipes('recipe', recipe);
+					renderSidebar.myRecipes();
 				}
 			},"json");
 		}
@@ -188,7 +190,6 @@ recUti.renderContent = function(page){
 			if(typeof subPage !== "undefined"){
 				args[subPage] = subPageId;
 			}
-			console.debug(args);
 			var template = $('#contentMyRecipes');
 			displayRecipe(args, template);
 		},

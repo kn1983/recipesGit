@@ -95,8 +95,12 @@ session_start();
 		<script type="text/template" id="contentMyRecipes">
 			<div id="recInfoWrapper">
 				<h2><%= recInfo.title %></h2>
+				<div>Kategori <span class="category"><%= recInfo.category %></span></div>
 				<div>Portioner <span class="portions"><%= recInfo.portions %></span></div>
-				<div><p><%= recInfo.description %></p></div>
+				<div>
+					<h3>Beskrivning</h3>
+					<p><%= recInfo.description %></p>
+				</div>
 				<p><button id="editRecipe">Editera recept</button>
 			</div>
 			<form id="saveRecipeForm" class="hidden" method="post" action="index.php">
@@ -104,18 +108,12 @@ session_start();
 					<dt><label for="recipeTitle">Titel</label></dt>
 					<dd><input type="text" id="recipeTitle"  name="recipeTitle" value="<%= recInfo.title %>" /></dd>
 
-					<dt><label for="portions">Portioner</label></dt>
-					<dd><input type="text" id="portions" name="portions" value="<%= recInfo.portions %>" /></dd>
-
-					<dt><label for="recipeDescription">Beskrivning</label></dt>
-					<dd><textarea id="recipeDescription" name="recipeDescription"><%= recInfo.description %></textarea></dd>
-
 					<dt><label for="category">Kategori</label></dt>
 					<dd>
 						<select id="category" name="category">
 							<% for(var index = 0; index < categories.length; index++){ %>
 								<% var category = categories[index]; %>
-								<% if(category.id == recInfo.category){ %>
+								<% if(category.id == recInfo.categoryId){ %>
 									<option value="<%= category.id %>" selected="selected"><%= category.category %></option>
 								<% } else { %>
 									<option value="<%= category.id %>"><%= category.category %></option>
@@ -123,6 +121,12 @@ session_start();
 							<% } %>
 						</select>
 					</dd>
+
+					<dt><label for="portions">Portioner</label></dt>
+					<dd><input type="text" id="portions" name="portions" value="<%= recInfo.portions %>" /></dd>
+
+					<dt><label for="recipeDescription">Beskrivning</label></dt>
+					<dd><textarea id="recipeDescription" name="recipeDescription"><%= recInfo.description %></textarea></dd>
 				</dl>
 
 				<input type="hidden" name="recipe" id="recipe" value="<%= recInfo.id %>" />

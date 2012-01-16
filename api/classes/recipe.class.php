@@ -153,10 +153,11 @@ class _recipe {
 	}
 	private function getRecipe($args){
 		$recipe = $args['recipe'];
-		$query = "SELECT recipes.id, recipes.title, recipes.description, recipes.portions, recipes.category, users.user as author
-				  FROM recipes, users
+		$query = "SELECT recipes.id, recipes.title, recipes.description, recipes.portions, categories.id AS categoryId, categories.category, users.user as author
+				  FROM recipes, users, categories
 				  WHERE recipes.id={$recipe}
 				  AND recipes.author=users.id
+				  AND recipes.category=categories.id
 				  LIMIT 1";
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
