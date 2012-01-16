@@ -88,20 +88,44 @@ $_OBJECTS = array(
 				'description' => 'Get all categories',
 				'args' => array()
 			),
-
-			// 'listCategories' => array(
-			// 	'description' => 'Lists all categories',
-			// 	'args' => array()
-			// ),
-			// 'listAuthors' => array(
-			// 	'description' => 'Lists all categories',
-			// 	'args' => array()
-			// ),
 			'getRecipeWithIng' => array(
 				'description' => 'Displays one recipe',
 				'args' => array(
 					'recipe' => array(
 						'type' => 'numeric',
+						'required' => true
+					)
+				)
+			),
+			'getRecipeIngUnitsAndCats' => array(
+				'description' => 'Get the recipe, the ingredients, the units and the categories',
+				'args' => array(
+					'recipe' => array(
+						'type' => 'numeric',
+						'required' => true
+					)	
+				)
+			),
+			'edit' => array(
+				'description' => 'Edit the recipe',
+				'args' => array(
+					'recipe' => array(
+						'type' => 'numeric',
+						'required' => true
+					),
+					'recipeTitle' => array(
+						'type' => 'string',
+						'maxlen' => 60,
+						'required' => true
+					),
+					'recipeDescription' => array(
+						'type' => 'string',
+						'maxlen' => 2000,
+						'required' => true
+					),
+					'portions' => array(
+						'type' => 'numeric',
+						'maxlen' => 10,
 						'required' => true
 					)
 				)
