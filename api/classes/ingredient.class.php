@@ -20,13 +20,27 @@ class _ingredient{
 		return $this->response;
 	}
 	public function add($args){
-		$ingredient = $this->ingredientExist($args);
+		$ingredient = $this->ingredientExist($args['ingredient']);
 		if(!$ingredient){
-			$ingredient =  $this->insertIngredient($args);
+			$ingredient =  $this->insertIngredient($args['ingredient']);
 		}
 		$this->addIngToRecipe($args, $ingredient);
 		return $this->response;
 		
+	}
+	public function update($args){
+		if($this->ingredientExistInRecipe($args)){
+			$this->response->setGeneralMsg('The ingredient is already up to date!');
+			return $this->response;
+		} else {
+			return $this->response;
+		}
+		// $ingredient = $this->ingredientExist($args['ingredient']);
+		// if(!$ingredient){
+		// 	$ingredient =  $this->insertIngredient($args['ingredient']);
+		// }
+		// $this->addIngToRecipe($args, $ingredient);
+		// return $this->response;
 	}
 	private function addIngToRecipe($args, $ingredient){
 		$recipe = Clean::cleanArg($args['recipe']);
@@ -39,11 +53,29 @@ class _ingredient{
 		$result = mysql_query($query) or die(mysql_error());
 		
 	}
-	private function ingredientExist($args){
+	private function ingredientExistInRecipe($args){
+		$ingId = Clean::cleanArg($args['ingredientId']);
 		$ingredient = Clean::cleanArg($args['ingredient']);
+		$recipe = Clean::cleanArg($args['recipe']);
+
+		$query = "SELECT ingredients.ingredient 
+				  FROM recipecontains, ingredients
+				  WHERE recipecontains.ingredient='{$ingId}'
+				  AND recipecontains.recipe='{$recipe}'
+				  AND ingredients.ingredient='{$ingredient}'
+				  LIMIT 1";
+		$result = mysql_query($query) or die(mysql_error());
+		if($result && mysql_num_rows($result)>0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	private function ingredientExist($ing){
+		$ingredient = Clean::cleanArg($ing);
 		$query = "SELECT id, ingredient FROM ingredients
-		 	    WHERE ingredient='{$ingredient}'
-		 	    LIMIT 1";
+		 	      WHERE ingredient='{$ingredient}'
+		 	   	  LIMIT 1";
 		$result = mysql_query($query) or die(mysql_error());
 
 		if($result && mysql_num_rows($result)>0){
@@ -53,8 +85,8 @@ class _ingredient{
 			return false;
 		}
 	}
-	private function insertIngredient($args){
-		$ingredient = Clean::cleanArg($args['ingredient']);
+	private function insertIngredient($ing){
+		$ingredient = Clean::cleanArg($ing);
 		$query = "INSERT INTO ingredients (ingredient)
 		VALUES ('{$ingredient}')";
 		$result = mysql_query($query) or die(mysql_error());

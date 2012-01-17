@@ -166,6 +166,30 @@ $_OBJECTS = array(
 						'required' => true
 					)
 				)
+			),
+			'update' => array(
+				'args' => array(
+					'ingredient' => array(
+						'type' => 'string',
+						'required' => true
+					),
+					'amount' => array(
+						'type' => 'numeric',
+						'required' => true
+					),
+					'unit' => array(
+						'type' => 'numeric',
+						'required' => true
+					),
+					'ingredientId' => array(
+						'type' => 'numeric',
+						'required' => true
+					),
+					'recipe' => array(
+						'type' => 'numeric',
+						'required' => true
+					)
+				)
 			)
 		)
 	),

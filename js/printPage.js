@@ -72,7 +72,7 @@ recUti.recipe = function(recipe){
 				}
 			},"json");
 		},
-		removeIng: function(ingredient){
+		removeIngredient: function(ingredient){
 			var url = "api/index.php/?/json/ingredient/remove";
 			$.post(url, {recipe: recipe, ingredient: ingredient}, function(data){
 				if(data.success){
@@ -80,7 +80,26 @@ recUti.recipe = function(recipe){
 				}
 			},"json");
 		},
-		editIngredient: function(){
+		editIngredient: function(ingredient){
+			var ingRow = $('#ing_' + ingredient);
+			var ing = ingRow.find('.ingredient').text();
+			var amount = ingRow.find('.amount').text();
+			var unitId = ingRow.find('.unit').attr('id');
+			var unit = unitId.substring(unitId.indexOf('_')+1, unitId.length);
+
+			$('#e_ingredient').val(ing);
+			$('#e_amount').val(amount);
+			$('#e_ingId').val(ingredient);
+			$("#e_unit").val(unit);
+		},
+		updateIngredient: function(ingData){
+			console.debug(ingData);
+			var url = "api/index.php/?/json/ingredient/update";
+			$.post(url, ingData, function(data){
+				if(data.success){
+					console.debug(data);
+				}
+			},"json");
 		},
 		editRecipe: function(recipeData){
 			var url = "api/index.php/?/json/recipe/edit";
@@ -110,6 +129,7 @@ recUti.renderContent = function(page){
 				var categories = data.data.categories;
 				var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients, units: units, categories: categories});
 				$('#content').html(output);
+
 				var addIng = $('#addIngredient');
 				addIng.click(function(){
 					$(this).hide();
@@ -122,9 +142,25 @@ recUti.renderContent = function(page){
 					if(confirm("Är du säker på att du vill ta bort ingrediensen")){
 						var id = $(this).attr('id');
 						var ingId = id.substring(id.indexOf('_')+1, id.length);
-						recFunc.removeIng(ingId);
+						recFunc.removeIngredient(ingId);
 					}
 				});
+
+				var editIng = $('.editIng');
+				editIng.click(function(){
+					var id = $(this).attr('id');
+					var ingId = id.substring(id.indexOf('_')+1, id.length);
+					recFunc.editIngredient(ingId);
+					return false;
+				});
+
+				var updateIng = $('#updateIng');
+				updateIng.click(function(){
+					var ingData = $('#updateIngForm').serialize();
+					recFunc.updateIngredient(ingData);
+					return false;
+				});
+
 				var editRecipeBtn = $('#editRecipe');
 				editRecipeBtn.click(function(){
 					$('#recInfoWrapper').addClass('hidden');
@@ -138,6 +174,7 @@ recUti.renderContent = function(page){
 					recFunc.addIngredient(ingForm);
 					return false;
 				});
+
 				var saveRecipe = $('#saveRecipe');
 				saveRecipe.click(function(){
 					var recipeData = $('#saveRecipeForm').serialize();

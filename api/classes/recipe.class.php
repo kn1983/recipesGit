@@ -169,7 +169,7 @@ class _recipe {
 	}
 	private function getIngredients($args){
 		$recipe = $args['recipe'];
-		$query = "SELECT ingredients.id, ingredients.ingredient, units.name AS unit, recipecontains.amount
+		$query = "SELECT ingredients.id, ingredients.ingredient, units.id as unitId, units.name AS unit, recipecontains.amount
 				  FROM ingredients, units, recipecontains
 				  WHERE ingredients.id=recipecontains.ingredient
 				  AND units.id=recipecontains.unit

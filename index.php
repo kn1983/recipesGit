@@ -67,6 +67,7 @@ session_start();
 		</script>
 		<script type="text/template" id="contentDisplayRecipe">
 			<h2><%= recInfo.title %></h2>
+			<div>Kategori <span class="category"><%= recInfo.category %></span></div>
 			<div>Portioner <span class="portions"><%= recInfo.portions %></span></div>
 			<div><p><%= recInfo.description %></p></div>
 			<% if(ingredients.length > 0){ %>
@@ -138,11 +139,11 @@ session_start();
 					<ul>
 						<% for(var index = 0; index < ingredients.length; index++){ %>
 							<% ingredient = ingredients[index]; %>
-							<li><button id="delIng_<%= ingredient.id %>"class="removeIng">X</button>
-								<span><%= ingredient.amount %></span>
-								<span><%= ingredient.unit %></span>
-								<span><%= ingredient.ingredient %></span>
-								<button class="editIng">Editera</button>
+							<li id="ing_<%= ingredient.id %>" class="ingRow"><button id="delIng_<%= ingredient.id %>" class="removeIng">X</button>
+								<span class="amount"><%= ingredient.amount %></span>
+								<span class="unit" id="unit_<%= ingredient.unitId %>"><%= ingredient.unit %></span>
+								<span class="ingredient"><%= ingredient.ingredient %></span>
+								<button id="editIng_<%= ingredient.id %>" class="editIng">Editera</button>
 							</li>
 						<% } %>
 					</ul>
@@ -157,7 +158,7 @@ session_start();
 					<input type="text" name="amount" id="amount" />
 
 					<label for="unit">Enhet</label>
-					<select id="units" name="unit">
+					<select id="unit" name="unit">
 						<option value="">Välj enhet</option>
 						<% for(var index = 0; index < units.length; index++){%>
 							<% var unit = units[index]; %>
@@ -168,6 +169,32 @@ session_start();
 					<button id="saveIng">Lägg till</button>	
 					</form>					
 				</div>
+			</div>
+			<div class="dialogBg"></div>
+			<div class="dialog" id="updateIngDialog">
+				<h2>Editera ingrediens</h2>
+				<form id="updateIngForm" method="post" action="index.php">
+					<dl>
+						<dt><label for="e_ingredient">Ingrediens</label></dt>
+						<dd><input type="text" id="e_ingredient" name="ingredient" /></dd>
+
+						<dt><label for="e_amount">Mängd</label></dt>
+						<dd><input type="text" id="e_amount" name="amount" /></dd>
+
+						<dt><label for="e_enhet">Enhet</label></dt>
+						<dd>
+							<select id="e_unit" name="unit">
+								<% for(var index = 0; index < units.length; index++){%>
+									<% var unit = units[index]; %>
+									<option value="<%= unit.id %>"><%= unit.name%></option>
+								<% } %>
+							</select>
+						</dd>
+					</dl>
+					<input type="hidden" id="e_ingId" name="ingredientId" />
+					<input type="hidden" name="recipe" value="<%= recInfo.id %>" />
+					<button id="updateIng">Ändra</button>
+				</form>
 			</div>
 		</script>
 	</head>
