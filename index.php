@@ -170,8 +170,8 @@ session_start();
 					</form>					
 				</div>
 			</div>
-			<div class="dialogBg"></div>
-			<div class="dialog" id="updateIngDialog">
+			<div class="dialogBg hidden"></div>
+			<div class="dialog hidden" id="updateIngDialog">
 				<h2>Editera ingrediens</h2>
 				<form id="updateIngForm" method="post" action="index.php">
 					<dl>
@@ -194,6 +194,7 @@ session_start();
 					<input type="hidden" id="e_ingId" name="ingredientId" />
 					<input type="hidden" name="recipe" value="<%= recInfo.id %>" />
 					<button id="updateIng">Ändra</button>
+					<button class="close">Avbryt</button>
 				</form>
 			</div>
 		</script>

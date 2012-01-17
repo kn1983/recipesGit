@@ -67,6 +67,7 @@ $_OBJECTS = array(
 					),
 					'category' => array(
 						'type' => 'numeric',
+						'maxlen' => 10,
 						'required' => true
 					)
 				)
@@ -76,6 +77,7 @@ $_OBJECTS = array(
 				'args' => array(
 					'category' => array(
 						'type' => 'numeric',
+						'maxLen' => 10,
 						'required' => false
 					)
 				)
@@ -93,6 +95,7 @@ $_OBJECTS = array(
 				'args' => array(
 					'recipe' => array(
 						'type' => 'numeric',
+						'maxLen' => 10,
 						'required' => true
 					)
 				)
@@ -102,6 +105,7 @@ $_OBJECTS = array(
 				'args' => array(
 					'recipe' => array(
 						'type' => 'numeric',
+						'maxLen' => 10,
 						'required' => true
 					)	
 				)
@@ -111,6 +115,7 @@ $_OBJECTS = array(
 				'args' => array(
 					'recipe' => array(
 						'type' => 'numeric',
+						'maxLen' => 10,
 						'required' => true
 					),
 					'recipeTitle' => array(
@@ -139,30 +144,36 @@ $_OBJECTS = array(
 				'args' => array(
 					'ingredient' => array(
 						'type' => 'string',
+						'maxLen' => 100,
 						'required' => true
 					),
 					'amount' => array(
 						'type' => 'numeric',
+						'maxLen' => 11,
 						'required' => true
 					),
 					'unit' => array(
 						'type' => 'string',
+						'maxLen' => 10,
 						'required' => true
 					),
 					'recipe' => array(
 						'type' => 'numeric',
+						'maxLen' => 10,
 						'required' => true
 					)
 				)
 			),
 			'remove' => array(
 				'args' => array(
-					'ingredient' => array(
+					'ingredientId' => array(
 						'type' => 'numeric',
+						'maxLen' => 11,
 						'required' => true
 					),
 					'recipe' => array(
 						'type' => 'numeric',
+						'maxLen' => 11,
 						'required' => true
 					)
 				)
@@ -171,22 +182,27 @@ $_OBJECTS = array(
 				'args' => array(
 					'ingredient' => array(
 						'type' => 'string',
+						'maxLen' => 100,
 						'required' => true
 					),
 					'amount' => array(
 						'type' => 'numeric',
+						'maxLen' => 11,
 						'required' => true
 					),
 					'unit' => array(
 						'type' => 'numeric',
+						'maxLen' => 10,
 						'required' => true
 					),
 					'ingredientId' => array(
 						'type' => 'numeric',
+						'maxLen' => 11,
 						'required' => true
 					),
 					'recipe' => array(
 						'type' => 'numeric',
+						'maxLen' => 10,
 						'required' => true
 					)
 				)

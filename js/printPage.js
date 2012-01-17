@@ -60,10 +60,33 @@ recUti.renderSidebar = function(page){
 		}
 	}
 };
+recUti.dialog = function(dialog){
+	var dialogBg = $('.dialogBg');
+	var self = {
+		status: "CLOSED",
+		closeBtn: $('.dialog .close').bind("click", function(event){
+			self.close();
+			return false;
+		}),
+		open: function(){
+			dialogBg.removeClass('hidden');
+			dialog.removeClass('hidden');
+			self.status = "OPEN";
+			console.debug(self);
+		},
+		close: function(){
+			dialogBg.addClass('hidden');
+			dialog.addClass('hidden');
+			self.status = "CLOSED";
+			console.debug(self);
+		}	
+	}
+	return self;
+}
 recUti.recipe = function(recipe){
 	var renderContent = recUti.renderContent('myRecipes');
 	var renderSidebar = recUti.renderSidebar('myRecipes');
-	return {
+	var self = {
 		addIngredient: function(ingData){
 			var url = "api/index.php/?/json/ingredient/add";
 			$.post(url, ingData, function(data){
@@ -74,7 +97,7 @@ recUti.recipe = function(recipe){
 		},
 		removeIngredient: function(ingredient){
 			var url = "api/index.php/?/json/ingredient/remove";
-			$.post(url, {recipe: recipe, ingredient: ingredient}, function(data){
+			$.post(url, {recipe: recipe, ingredientId: ingredient}, function(data){
 				if(data.success){
 					renderContent.myRecipes('recipe', recipe);
 				}
@@ -86,6 +109,9 @@ recUti.recipe = function(recipe){
 			var amount = ingRow.find('.amount').text();
 			var unitId = ingRow.find('.unit').attr('id');
 			var unit = unitId.substring(unitId.indexOf('_')+1, unitId.length);
+			self['dialog'] = recUti.dialog($('#updateIngDialog'));
+			self.dialog.open();
+			console.debug(self);
 
 			$('#e_ingredient').val(ing);
 			$('#e_amount').val(amount);
@@ -93,11 +119,13 @@ recUti.recipe = function(recipe){
 			$("#e_unit").val(unit);
 		},
 		updateIngredient: function(ingData){
-			console.debug(ingData);
 			var url = "api/index.php/?/json/ingredient/update";
 			$.post(url, ingData, function(data){
 				if(data.success){
-					console.debug(data);
+					renderContent.myRecipes('recipe', recipe);
+					if (typeof self.dialog){
+						self.dialog.close();
+					}
 				}
 			},"json");
 		},
@@ -110,8 +138,8 @@ recUti.recipe = function(recipe){
 				}
 			},"json");
 		}
-
 	}
+	return self;
 }
 recUti.renderContent = function(page){
 	var content = $('#content');
