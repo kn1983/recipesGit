@@ -216,6 +216,20 @@ $_OBJECTS = array(
 				'args' => array()
 			) 
 		)
+	),
+	'search' => array(
+		'description' => 'The search object',
+		'methods' => array(
+			'searchRecipe' => array(
+				'args' => array(
+					'searchStr' => array(
+						'type' => 'string',
+						'maxLen' => 2000,
+						'required' => true
+					)
+				)
+			)
+		)
 	)
 );
 ?>

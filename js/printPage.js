@@ -212,7 +212,7 @@ recUti.renderContent = function(page){
 			}
 		},"json");
 	}
-	var ret = {
+	var self = {
 		recipes: function(subPage, subPageId){
 			var args = {};
 			args[subPage] = subPageId;
@@ -278,9 +278,32 @@ recUti.renderContent = function(page){
 					});
 				}
 			});
+		},
+		search: function(){
+			var template = $('#contentSearch');
+			var output = _.template(template.html());
+        	$('#content').html(output);
+
+        	var searchField = $('#searchField');
+        	searchField.keyup(function(event){
+        		var searchStr = $(this).val();
+        		if(searchStr.length > 3){
+        			recUti.searchFunc(searchStr);
+        		}
+        	});
+
+        	$('#searchBtn').click(function(){
+        		// console.debug(searchField);
+        	});
 		}
 	}
-	return ret;
+	return self;
+};
+recUti.searchFunc = function(searchStr){
+	var url = "api/index.php/?/json/search/searchRecipe";
+	$.post(url, {searchStr: searchStr}, function(data){
+		console.debug(data);
+	},"json");
 };
 
 $(function(){

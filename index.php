@@ -148,8 +148,7 @@ session_start();
 						<% } %>
 					</ul>
 				<% } %>
-				<p><button id="addIngredient">+ Ingrediens</button>
-				<div id="newIngWrapper" class="hidden">
+				<div id="newIngWrapper">
 					<form id="addIngForm" method="post" action="index.php">
 					<label for="ingredient">Ingrediens</label>
 					<input type="text" name="ingredient" id="ingredient" />
@@ -197,6 +196,12 @@ session_start();
 					<button class="close">Avbryt</button>
 				</form>
 			</div>
+		</script>
+		<script type="text/template" id="contentSearch">
+			<h2>Sök</h2>
+			<label for="searchField">Sök</label>
+			<input type="text" name="searchField" id="searchField" />
+			<button id="searchBtn">Sök</button>
 		</script>
 	</head>
 	<body>
