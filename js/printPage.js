@@ -158,13 +158,6 @@ recUti.renderContent = function(page){
 				var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients, units: units, categories: categories});
 				$('#content').html(output);
 
-				var addIng = $('#addIngredient');
-				addIng.click(function(){
-					$(this).hide();
-					$('#newIngWrapper').removeClass('hidden');
-					return false;
-				});
-
 				var removeIng = $('.removeIng');
 				removeIng.click(function(){
 					if(confirm("Är du säker på att du vill ta bort ingrediensen")){
