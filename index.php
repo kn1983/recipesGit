@@ -203,6 +203,8 @@ session_start();
 			<label for="searchField">Sök</label>
 			<input type="text" name="searchField" id="searchField" />
 			<button id="searchBtn">Sök</button>
+			<div id="searchResult">
+			</div>
 		</script>
 	</head>
 	<body>
