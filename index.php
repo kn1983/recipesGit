@@ -149,6 +149,7 @@ session_start();
 					</ul>
 				<% } %>
 				<div id="newIngWrapper">
+					<h4>Lägg till ingrediens</h4>
 					<form id="addIngForm" method="post" action="index.php">
 					<label for="ingredient">Ingrediens</label>
 					<input type="text" name="ingredient" id="ingredient" />

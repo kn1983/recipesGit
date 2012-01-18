@@ -293,7 +293,7 @@ recUti.renderContent = function(page){
 	return self;
 };
 recUti.searchFunc = function(searchStr){
-	var url = "api/index.php/?/json/search/searchRecipe";
+	var url = "api/index.php/?/json/search/searchAll";
 	$.post(url, {searchStr: searchStr}, function(data){
 		console.debug(data);
 	},"json");

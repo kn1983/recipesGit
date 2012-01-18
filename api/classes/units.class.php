@@ -1,5 +1,6 @@
 <?php
 require_once('classes/Resoponse.class.php');
+require_once('classes/Clean.class.php');
 class _units{
 	private $response;
 	function __construct(){
@@ -22,12 +23,12 @@ class _units{
 		if($result && mysql_num_rows($result)>0){
 			$units = array();
 			while($row = mysql_fetch_assoc($result)){
-				$units[] = $row;
+				$units[] = Clean::utf8Encode($row);
 			}
 			return $units;
 		} else {
 			return false;
 		}
-	}	
+	}
 }
 ?>

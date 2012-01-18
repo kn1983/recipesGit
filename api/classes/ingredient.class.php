@@ -26,7 +26,7 @@ class _ingredient{
 		$this->removeIngFromRecipe($args);	
 		$ingredient = $this->ingredientExist($args['ingredient']);
 		if(!$ingredient){
-			$ingredient =  $this->insertIngredient($args['ingredient']);
+			$ingredient = $this->insertIngredient($args['ingredient']);
 		}
 		$this->addIngToRecipe($args, $ingredient);
 		return $this->response;
