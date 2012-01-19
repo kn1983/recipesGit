@@ -107,8 +107,7 @@ recUti.recipe = function(recipe){
 			var ingRow = $('#ing_' + ingredient);
 			var ing = ingRow.find('.ingredient').text();
 			var amount = ingRow.find('.amount').text();
-			var unitId = ingRow.find('.unit').attr('id');
-			var unit = unitId.substring(unitId.indexOf('_')+1, unitId.length);
+			var unit = ingRow.find('.unit').data('unitid');
 			self['dialog'] = recUti.dialog($('#updateIngDialog'));
 			self.dialog.open();
 			console.debug(self);
@@ -161,16 +160,14 @@ recUti.renderContent = function(page){
 				var removeIng = $('.removeIng');
 				removeIng.click(function(){
 					if(confirm("Är du säker på att du vill ta bort ingrediensen")){
-						var id = $(this).attr('id');
-						var ingId = id.substring(id.indexOf('_')+1, id.length);
+						var ingId = $(this).data("ingid");
 						recFunc.removeIngredient(ingId);
 					}
 				});
 
 				var editIng = $('.editIng');
 				editIng.click(function(){
-					var id = $(this).attr('id');
-					var ingId = id.substring(id.indexOf('_')+1, id.length);
+					var ingId = $(this).data("ingid");
 					recFunc.editIngredient(ingId);
 					return false;
 				});

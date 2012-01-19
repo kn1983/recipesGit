@@ -30,11 +30,10 @@ class _search{
 				$category = $this->checkIfCategory($str);
 				$categoryArray[] = $category;
 				if($str == $category){
-					$cat = $category;
 					if($and == ""){
-						$and .= "categories.category='{$cat}' ";
+						$and .= "categories.category='{$category}' ";
 					} else {
-						$and .= "AND categories.category='{$cat}' ";	
+						$and .= "AND categories.category='{$category}' ";	
 					}
 				} else {
 					$str = '%'. $str .'%';
@@ -89,4 +88,43 @@ class _search{
 		}
 	}
 }
+
+// SELECT recipes.id, recipes.title, recipes.description, categories.category
+// 		FROM recipes
+// 		LEFT JOIN recipecontains
+// 			ON recipes.id=recipecontains.recipe
+// 		INNER JOIN categories
+// 			ON categories.id=recipes.category
+// 		LEFT JOIN ingredients
+// 			ON recipecontains.ingredient=ingredients.id
+//                 WHERE recipes.title LIKE '%banan%'
+//                 OR recipes.description LIKE '%banan%'
+//                 OR ingredients.ingredient LIKE '%banan%'
+//                 AND categories.category='efterrätter'
+
+
+
+
+
+//         SELECT recipes.id, recipes.title, recipes.description, categories.category
+// 		FROM recipes
+// 		LEFT JOIN recipecontains
+// 			ON recipes.id=recipecontains.recipe
+// 		INNER JOIN categories
+// 			ON categories.id=recipes.category
+// 		LEFT JOIN ingredients
+// 			ON recipecontains.ingredient=ingredients.id
+//                 WHERE categories.category='Efterrätter'
+//                 AND recipes.description LIKE '%banan%'
+//                 OR ingredients.ingredient LIKE '%banan%'
+//                 or recipes.title LIKE '%banan%'
+
+
+
+
+
+
+
+
+
 ?>

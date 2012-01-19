@@ -139,11 +139,12 @@ session_start();
 					<ul>
 						<% for(var index = 0; index < ingredients.length; index++){ %>
 							<% ingredient = ingredients[index]; %>
-							<li id="ing_<%= ingredient.id %>" class="ingRow"><button id="delIng_<%= ingredient.id %>" class="removeIng">X</button>
+							<li id="ing_<%= ingredient.id %>" class="ingRow">
+								<button class="removeIng" data-ingid="<%= ingredient.id %>">X</button>
 								<span class="amount"><%= ingredient.amount %></span>
-								<span class="unit" id="unit_<%= ingredient.unitId %>"><%= ingredient.unit %></span>
+								<span class="unit" data-unitid="<%= ingredient.unitId %>"><%= ingredient.unit %></span>
 								<span class="ingredient"><%= ingredient.ingredient %></span>
-								<button id="editIng_<%= ingredient.id %>" class="editIng">Editera</button>
+								<button class="editIng" data-ingid="<%= ingredient.id %>">Editera</button>
 							</li>
 						<% } %>
 					</ul>
