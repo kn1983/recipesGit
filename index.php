@@ -232,20 +232,21 @@ session_start();
 		<div id="container">
 			<div id="header">
 				<h1><a href="#">Recept</a></h1>
-				<?php if(isset($_SESSION['user']) && $_SESSION['user']){ ?>
-					<ul id="mainMenu">
-						<li><a href="#search">Sök recept</a></li>
-						<li><a href="#myRecipes">Mina recept</a></li>
-						<li><a href="#addRecipe">Lägg till recept</a></li>
-						<li><a href="#shoppinglist">Inköpslista</a></li>
-						<li><a href="#">Mitt skafferi</a></li>
-						<li><a href="#" id="logout">Logga ut</a></li>
-					</ul>
-				<?php } else { ?>
 				<ul id="mainMenu">
 					<li><a href="#">Hem</a></li>
-					<li><a href="#signup">Registrera dig</a></li>
+					<li><a href="#search">Sök recept</a></li>
+
+					<?php if(isset($_SESSION['user']) && $_SESSION['user']){ ?>
+					<li><a href="#myRecipes">Mina recept</a></li>
+					<li><a href="#addRecipe">Lägg till recept</a></li>
+					<li><a href="#shoppinglist">Inköpslista</a></li>
+					<li><a href="#">Mitt skafferi</a></li>
+					<li><a href="#" id="logout">Logga ut</a></li>
+					<?php } else { ?>
+						<li><a href="#signup">Registrera dig</a></li>
+					<? } ?>
 				</ul>
+				<?php if(!isset($_SESSION['user']) || !$_SESSION['user']){ ?>
 				<form id="loginForm" method="post" action="index.php">
 					<label for="user">Användarnamn</label>
 					<input type="text" id="user" name="user" />
