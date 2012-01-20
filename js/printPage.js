@@ -325,8 +325,36 @@ recUti.searchFunc = function(searchStr, resultDiv){
 		}
 	},"json");
 };
+recUti.loadHeader = function(){
+	function loadContent(template){
+		var output = _.template(template.html());
+		$('#header').html(output);
+	}
+	var url ="api/index.php/?/json/user/checkLogin";
+	$.getJSON(url, function(data){
+		if(data.success){
+			var user = recUti.user();
+			if(data.data.login){
+				console.debug("logged in");
+				var template = $('#headerLoggedIn');
+				loadContent(template);
+				$('#logout').click(function(){
+					user.logout();
+				});
 
+			} else {
+				console.debug("logged out");
+				var template = $('#headerLoggedOut');
+				loadContent(template);
+				$('#login').click(function(){
+					user.login();
+				});
+			}
+		}
+	});
+};
 $(function(){
+	recUti.loadHeader();
 	updateState(location.hash);
 	$(window).hashchange(function() { 
 		updateState(location.hash); 

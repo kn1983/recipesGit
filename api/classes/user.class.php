@@ -9,6 +9,14 @@ class _user {
 		$this->response = new Response();
 		$this->validate = new Validate();
 	}
+	public function checkLogin($args){
+		if(isset($_SESSION['user']) && $_SESSION['user']){
+			$this->response->addData('login', true);
+		} else {
+			$this->response->addData('login', false);
+		}
+		return $this->response;
+	}
 	
 	//Login user
 	public function login($args){

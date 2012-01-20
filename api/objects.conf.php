@@ -41,6 +41,10 @@ $_OBJECTS = array(
 			'logout' => array(
 				'description' => "Logout user",
 				'args' => array()
+			),
+			'checkLogin' => array(
+				'description' => 'Check if the user is logged in',
+				'args' => array()
 			)
 		)
 	),

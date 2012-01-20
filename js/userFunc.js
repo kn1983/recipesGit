@@ -39,7 +39,7 @@ recUti.user = function(){
 			if(user != "" && password != ""){
 				$.post(url, {user: user, password: password}, function(data){
 					if(data.success == true){
-						location = "index.php";
+						location = "index.html";
 					} else {
 						alert(data.generalMessage);
 					}
@@ -55,7 +55,7 @@ recUti.user = function(){
 		logout: function(){
 			var url = "api/index.php?json/user/logout";
 			$.getJSON(url, function(data){
-				location = "index.php";
+				location = "index.html";
 			});
 		},
 		logoutBtn: $('#logout').bind("click", function(event){
