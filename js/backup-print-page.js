@@ -133,7 +133,7 @@ recUti.recipe = function(recipe){
 			$.post(url, recipeData, function(data){
 				if(data.success){
 					renderContent.myRecipes('recipe', recipe);
-					renderSidebar.myRecipes();
+					// renderSidebar.myRecipes();
 				}
 			},"json");
 		}
@@ -155,15 +155,22 @@ recUti.renderContent = function(page){
 				var units = data.data.units;
 				var categories = data.data.categories;
 				var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients, units: units, categories: categories});
-				// $('#content').html(output);
-				// $('#content').append(outputHtml);
-				// outputHtml.find("#editRecipe").click(function(){
-				// 	$('#recInfoWrapper').addClass('hidden');
-				// 	$('#saveRecipeForm').removeClass('hidden');
-				// });
-
 				var outputHtml = $(output);
 				$('#content').append(outputHtml);
+				outputHtml.find("#editRecipe").click(function(){
+					$('#recInfoWrapper').addClass('hidden');
+					$('#saveRecipeForm').removeClass('hidden');
+				});
+				var saveRecipe = $('#saveRecipe');
+				saveRecipe.click(function(){
+					var recipeData = $('#saveRecipeForm').serialize();
+					recFunc.editRecipe(recipeData);
+					return false;
+				});
+
+
+
+
 
 				var removeIng = $('.removeIng');
 				removeIng.click(function(){
@@ -187,24 +194,10 @@ recUti.renderContent = function(page){
 					return false;
 				});
 
-				var editRecipeBtn = $('#editRecipe');
-				editRecipeBtn.click(function(){
-					$('#recInfoWrapper').addClass('hidden');
-					$('#saveRecipeForm').removeClass('hidden');
-
-				});
-
 				var saveIng = $('#saveIng');
 				saveIng.click(function(){
 					var ingForm = $('#addIngForm').serialize();
 					recFunc.addIngredient(ingForm);
-					return false;
-				});
-
-				var saveRecipe = $('#saveRecipe');
-				saveRecipe.click(function(){
-					var recipeData = $('#saveRecipeForm').serialize();
-					recFunc.editRecipe(recipeData);
 					return false;
 				});
 			}

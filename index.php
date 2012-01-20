@@ -207,6 +207,26 @@ session_start();
 			<div id="searchResult">
 			</div>
 		</script>
+		<script type="text/template" id="contentSignup">
+			<h2>Registrera dig</h2>
+			<form id="signup" action="" method="post">
+				<dl>
+					<dt><label for="regUser">Användarnamn</label></dt>
+					<dd><input type="text" id="regUser" name="regUser" /></dd>
+				</dl>
+				<dl>
+					<dt><label for="regPassword">Lösenord</label></dt>
+					<dd><input type="password" id="regPassword" name="regPassword" /></dd>
+				</dl>
+				<dl>
+					<dt><label for="regEmail">E-post</label></dt>
+					<dd><input type="text" id="regEmail" name="regEmail" /></dd>
+				</dl>
+				<div class="errors">
+				</div>
+				<button id="signupUser">Registrera dig</button>
+			</form>
+		</script>
 	</head>
 	<body>
 		<div id="container">
