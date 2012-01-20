@@ -44,7 +44,8 @@ recUti.renderSidebar = function(page){
 				var authors = data.data.authors;
 				if(data.success){
                     var output = _.template($('#sidebarRecipes').html(), { categories : categories, authors: authors } );
-        			$('#sidebar').html(output);
+        			var outputHtml = $(output);
+        			$('#sidebar').html(outputHtml);
 				}
 			});
 		},
@@ -72,13 +73,11 @@ recUti.dialog = function(dialog){
 			dialogBg.removeClass('hidden');
 			dialog.removeClass('hidden');
 			self.status = "OPEN";
-			console.debug(self);
 		},
 		close: function(){
 			dialogBg.addClass('hidden');
 			dialog.addClass('hidden');
 			self.status = "CLOSED";
-			console.debug(self);
 		}	
 	}
 	return self;
@@ -87,37 +86,43 @@ recUti.recipe = function(recipe){
 	var renderContent = recUti.renderContent('myRecipes');
 	var renderSidebar = recUti.renderSidebar('myRecipes');
 	var self = {
-		addIngredient: function(ingData){
+		addIngredient: function(){
+			var ingData = $('#addIngForm').serialize();
 			var url = "api/index.php/?/json/ingredient/add";
 			$.post(url, ingData, function(data){
 				if(data.success){
 					renderContent.myRecipes('recipe', recipe);
 				}
 			},"json");
+			return false;
 		},
-		removeIngredient: function(ingredient){
-			var url = "api/index.php/?/json/ingredient/remove";
-			$.post(url, {recipe: recipe, ingredientId: ingredient}, function(data){
-				if(data.success){
-					renderContent.myRecipes('recipe', recipe);
-				}
-			},"json");
+		removeIngredient: function(){
+			if(confirm("Är du säker på att du vill ta bort ingrediensen")){
+				var ingId = $(this).data("ingid");
+				var url = "api/index.php/?/json/ingredient/remove";
+				$.post(url, {recipe: recipe, ingredientId: ingredient}, function(data){
+					if(data.success){
+						renderContent.myRecipes('recipe', recipe);
+					}
+				},"json");
+			}
 		},
-		editIngredient: function(ingredient){
-			var ingRow = $('#ing_' + ingredient);
+		editIngredient: function(){
+			var ingId = $(this).data("ingid");
+			console.debug(ingId);
+			var ingRow = $('#ing_' + ingId);
 			var ing = ingRow.find('.ingredient').text();
 			var amount = ingRow.find('.amount').text();
 			var unit = ingRow.find('.unit').data('unitid');
-			self['dialog'] = recUti.dialog($('#updateIngDialog'));
-			self.dialog.open();
-			console.debug(self);
-
 			$('#e_ingredient').val(ing);
 			$('#e_amount').val(amount);
-			$('#e_ingId').val(ingredient);
+			$('#e_ingId').val(ingId);
 			$("#e_unit").val(unit);
+			self['dialog'] = recUti.dialog($('#updateIngDialog'));
+			self.dialog.open();
 		},
-		updateIngredient: function(ingData){
+		updateIngredient: function(){
+			var ingData = $('#updateIngForm').serialize();
 			var url = "api/index.php/?/json/ingredient/update";
 			$.post(url, ingData, function(data){
 				if(data.success){
@@ -127,8 +132,10 @@ recUti.recipe = function(recipe){
 					}
 				}
 			},"json");
+			return false;
 		},
-		editRecipe: function(recipeData){
+		editRecipe: function(){
+			var recipeData = $('#saveRecipeForm').serialize();
 			var url = "api/index.php/?/json/recipe/edit";
 			$.post(url, recipeData, function(data){
 				if(data.success){
@@ -136,12 +143,23 @@ recUti.recipe = function(recipe){
 					renderSidebar.myRecipes();
 				}
 			},"json");
+			return false;
 		}
 	}
 	return self;
 }
 recUti.renderContent = function(page){
 	var content = $('#content');
+	function renderTemplate(template, data){
+		if(typeof data === "undefined"){
+			data = {};
+		}
+		var output = _.template(template.html(), data);
+		var outputHtml = $(output);
+		$('#content').append(outputHtml);
+		return outputHtml;
+	}
+	content.empty();
 	function displayRecipe(args, template){
 		var url = "api/index.php/?/json/recipe/getRecipeIngUnitsAndCats";
 		$.post(url, args, function(data){
@@ -154,59 +172,16 @@ recUti.renderContent = function(page){
 				}
 				var units = data.data.units;
 				var categories = data.data.categories;
-				var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients, units: units, categories: categories});
-				// $('#content').html(output);
-				// $('#content').append(outputHtml);
-				// outputHtml.find("#editRecipe").click(function(){
-				// 	$('#recInfoWrapper').addClass('hidden');
-				// 	$('#saveRecipeForm').removeClass('hidden');
-				// });
-
-				var outputHtml = $(output);
-				$('#content').append(outputHtml);
-
-				var removeIng = $('.removeIng');
-				removeIng.click(function(){
-					if(confirm("Är du säker på att du vill ta bort ingrediensen")){
-						var ingId = $(this).data("ingid");
-						recFunc.removeIngredient(ingId);
-					}
-				});
-
-				var editIng = $('.editIng');
-				editIng.click(function(){
-					var ingId = $(this).data("ingid");
-					recFunc.editIngredient(ingId);
-					return false;
-				});
-
-				var updateIng = $('#updateIng');
-				updateIng.click(function(){
-					var ingData = $('#updateIngForm').serialize();
-					recFunc.updateIngredient(ingData);
-					return false;
-				});
-
-				var editRecipeBtn = $('#editRecipe');
-				editRecipeBtn.click(function(){
+				var outputHtml = renderTemplate($('#contentMyRecipes'), {recInfo: recInfo, ingredients: ingredients, units: units, categories: categories});
+				outputHtml.find("#editRecipe").click(function(){
 					$('#recInfoWrapper').addClass('hidden');
 					$('#saveRecipeForm').removeClass('hidden');
-
 				});
-
-				var saveIng = $('#saveIng');
-				saveIng.click(function(){
-					var ingForm = $('#addIngForm').serialize();
-					recFunc.addIngredient(ingForm);
-					return false;
-				});
-
-				var saveRecipe = $('#saveRecipe');
-				saveRecipe.click(function(){
-					var recipeData = $('#saveRecipeForm').serialize();
-					recFunc.editRecipe(recipeData);
-					return false;
-				});
+				outputHtml.find('.removeIng').click(recFunc.removeIngredient);
+				outputHtml.find('.editIng').click(recFunc.editIngredient);
+				outputHtml.find('#updateIng').click(recFunc.updateIngredient);
+				outputHtml.find('#saveIng').click(recFunc.addIngredient);
+				outputHtml.find('#saveRecipe').click(recFunc.editRecipe);
 			}
 		},"json");
 	}
@@ -218,18 +193,15 @@ recUti.renderContent = function(page){
 				args[subPage] = subPageId;
 			}
 			if(typeof subPage !== "undefined" && subPage === 'recipe'){
-				var template = $('#contentDisplayRecipe');
 				var url = "api/index.php/?/json/recipe/getRecipeWithIng";
 				$.post(url, args, function(data){
 					if(data.success){
 						var recInfo = data.data.recipe.info;
 						var ingredients = data.data.recipe.ingredients;
-
 						if(typeof ingredients === "undefined"){
 							ingredients = "";
 						}
-						var output = _.template(template.html(), {recInfo: recInfo, ingredients: ingredients});
-						$('#content').html(output);
+						var outputHtml = renderTemplate($('#contentDisplayRecipe'), {recInfo: recInfo, ingredients: ingredients});
 					}
 				},"json");
 			} else {
@@ -238,8 +210,7 @@ recUti.renderContent = function(page){
 					if(data.success){
 						var recipes = data.data.recipes;
 						if(data.success){
-		                    var output = _.template($('#contentRecipeList').html(), {recipes: recipes});
-		        			$('#recipes #content').html(output);
+							var outputHtml = renderTemplate($('#contentRecipeList'), {recipes: recipes});
 						}
 					} else {
 						content.append("<p>Inga recept kunde hittas</p>");
@@ -253,16 +224,15 @@ recUti.renderContent = function(page){
 			if(typeof subPage !== "undefined"){
 				args[subPage] = subPageId;
 			}
-			var template = $('#contentMyRecipes');
-			displayRecipe(args, template);
+		
+			displayRecipe(args);
 		},
 		addRecipe: function(){
 			var url = "api/index.php/?/json/recipe/getAllCategories";
 			$.getJSON(url, function(data){
 				var categories = data.data.categories;
 				if(data.success){
-                    var output = _.template($('#contentAddRecipe').html(), { categories : categories} );
-        			$('#content').html(output);
+					var outputHtml = renderTemplate($('#contentAddRecipe'), {categories : categories});
         			$('#saveRecipeBtn').click(function(){
         				var recData = $('#addRecForm').serialize();
 						var url = "api/index.php/?/json/recipe/add";
@@ -278,10 +248,7 @@ recUti.renderContent = function(page){
 			});
 		},
 		search: function(){
-			var template = $('#contentSearch');
-			var output = _.template(template.html());
-        	$('#content').html(output);
-
+			var outputHtml = renderTemplate($('#contentSearch'));
         	var searchField = $('#searchField');
         	searchField.keyup(function(event){
         		var searchStr = $(this).val();
@@ -297,9 +264,7 @@ recUti.renderContent = function(page){
         	});
 		},
 		signup: function(){
-			var template = $('#contentSignup');
-			var output = _.template(template.html());
-			$('#content').html(output);
+			var outputHtml = renderTemplate($('#contentSignup'));
 		}
 	}
 	return self;
@@ -326,7 +291,7 @@ recUti.searchFunc = function(searchStr, resultDiv){
 	},"json");
 };
 recUti.loadHeader = function(){
-	function loadContent(template){
+	function loadTemplate(template){
 		var output = _.template(template.html());
 		$('#header').html(output);
 	}
@@ -335,20 +300,14 @@ recUti.loadHeader = function(){
 		if(data.success){
 			var user = recUti.user();
 			if(data.data.login){
-				console.debug("logged in");
 				var template = $('#headerLoggedIn');
-				loadContent(template);
-				$('#logout').click(function(){
-					user.logout();
-				});
+				loadTemplate(template);
+				$('#logout').click(user.logout);
 
 			} else {
-				console.debug("logged out");
 				var template = $('#headerLoggedOut');
-				loadContent(template);
-				$('#login').click(function(){
-					user.login();
-				});
+				loadTemplate(template);
+				$('#login').click(user.login);
 			}
 		}
 	});

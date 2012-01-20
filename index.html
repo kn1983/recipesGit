@@ -38,7 +38,7 @@
 		</script>
 		<script type="text/template" id="contentAddRecipe">
 			<h2>Lägg till recept</h2>
-			<form id="addRecForm" action="index.php" method="post">
+			<form id="addRecForm" action="index.html" method="post">
 				<dl>
 					<dt><label for="recipeTitle">Titel</label></dt>
 						<dd><input type="text" id="recipeTitle" name="recipeTitle" /></dd>
@@ -101,7 +101,7 @@
 				</div>
 				<p><button id="editRecipe">Editera recept</button>
 			</div>
-			<form id="saveRecipeForm" class="hidden" method="post" action="index.php">
+			<form id="saveRecipeForm" class="hidden" method="post" action="index.html">
 				<dl>
 					<dt><label for="recipeTitle">Titel</label></dt>
 					<dd><input type="text" id="recipeTitle"  name="recipeTitle" value="<%= recInfo.title %>" /></dd>
@@ -148,7 +148,7 @@
 				<% } %>
 				<div id="newIngWrapper">
 					<h4>Lägg till ingrediens</h4>
-					<form id="addIngForm" method="post" action="index.php">
+					<form id="addIngForm" method="post" action="index.html">
 					<label for="ingredient">Ingrediens</label>
 					<input type="text" name="ingredient" id="ingredient" />
 
@@ -171,7 +171,7 @@
 			<div class="dialogBg hidden"></div>
 			<div class="dialog hidden" id="updateIngDialog">
 				<h2>Editera ingrediens</h2>
-				<form id="updateIngForm" method="post" action="index.php">
+				<form id="updateIngForm" method="post" action="index.html">
 					<dl>
 						<dt><label for="e_ingredient">Ingrediens</label></dt>
 						<dd><input type="text" id="e_ingredient" name="ingredient" /></dd>
