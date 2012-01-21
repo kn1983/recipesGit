@@ -157,7 +157,7 @@
 
 					<label for="unit">Enhet</label>
 					<select id="unit" name="unit">
-						<option value="">Välj enhet</option>
+						<option value="">Välj enhet...</option>
 						<% for(var index = 0; index < units.length; index++){%>
 							<% var unit = units[index]; %>
 							<option value="<%= unit.id %>"><%= unit.name%></option>
@@ -206,7 +206,7 @@
 		</script>
 		<script type="text/template" id="contentSignup">
 			<h2>Registrera dig</h2>
-			<form id="signup" action="" method="post">
+			<form id="signupForm" action="" method="post">
 				<dl>
 					<dt><label for="regUser">Användarnamn</label></dt>
 					<dd><input type="text" id="regUser" name="regUser" /></dd>

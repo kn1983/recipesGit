@@ -8,6 +8,7 @@ TODO
 * Validera edit ingredient
 * Validera Add ingredient
 * Validera Signup
+* Lägg till sök-funktionallitet på sök-knappen
 * Skapa Instant search för kategorier
 * Strukturera om js-filerna så att klasserna har egna filer
 * Shopponglistra

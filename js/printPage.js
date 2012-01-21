@@ -265,6 +265,8 @@ recUti.renderContent = function(page){
 		},
 		signup: function(){
 			var outputHtml = renderTemplate($('#contentSignup'));
+			var user = recUti.user();
+			outputHtml.find('#signupUser').click(user.submit);
 		}
 	}
 	return self;
