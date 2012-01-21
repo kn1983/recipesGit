@@ -1,0 +1,14 @@
+TODO
+--------------------------------------------------
+// * Escapa output
+* Strukturera om koden för login funktionerna.
+* Validera Signup
+* Validera Add recipe
+* Validera Edit recipe
+* Validera edit ingredient
+* Validera Add ingredient
+* Validera Signup
+* Skapa Instant search för kategorier
+* Strukturera om js-filerna så att klasserna har egna filer
+* Shopponglistra
+* CSS för siten

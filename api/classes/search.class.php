@@ -65,7 +65,7 @@ class _search{
 	    if($result && mysql_num_rows($result) > 0){
 	    	$searchResult = "";
 	    	while($row = mysql_fetch_assoc($result)){
-	    		$searchResult[] = Clean::utf8Encode($row);
+	    		$searchResult[] = Clean::cleanOutput($row);
 	    	}
 	    	$this->response->addData('searchResult', $searchResult);
 	    } else {

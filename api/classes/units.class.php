@@ -23,7 +23,7 @@ class _units{
 		if($result && mysql_num_rows($result)>0){
 			$units = array();
 			while($row = mysql_fetch_assoc($result)){
-				$units[] = Clean::utf8Encode($row);
+				$units[] = Clean::cleanOutput($row);
 			}
 			return $units;
 		} else {

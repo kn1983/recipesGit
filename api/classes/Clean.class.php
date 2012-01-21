@@ -8,12 +8,13 @@ class Clean{
 		$arg = utf8_decode($arg);
 		return $arg;
 	}
-	public static function utf8Encode($array){
-		$utf8Array = "";
+	public static function cleanOutput($array){
+		$cleanArray = "";
 		foreach($array as $key => $value){
-			$utf8Array[$key] = utf8_encode($value);
+			$cleanArray[$key] = strip_tags($value);
+			$cleanArray[$key] = utf8_encode($value);
 		}
-		return $utf8Array;
+		return $cleanArray;
 	}
 }
 ?>

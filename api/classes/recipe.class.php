@@ -64,7 +64,7 @@ class _recipe {
 		if($result && mysql_num_rows($result) > 0){
 			$recipes = array();
 			while($row = mysql_fetch_assoc($result)){
-				$recipes[] = Clean::utf8Encode($row);
+				$recipes[] = Clean::cleanOutput($row);
 			}
 			$this->response->addData('recipes', $recipes);
 		} else {
@@ -87,7 +87,7 @@ class _recipe {
 		if($result && mysql_num_rows($result) > 0){
 			$categories = array();
 			while($row = mysql_fetch_assoc($result)){
-				$categories[] = Clean::utf8Encode($row);
+				$categories[] = Clean::cleanOutput($row);
 			}
 			$this->response->addData('categories', $categories);
 		} else {
@@ -100,7 +100,7 @@ class _recipe {
 		if($result && mysql_num_rows($result) > 0){
 			$authors = array();
 			while($row = mysql_fetch_assoc($result)){
-				$authors[] = Clean::utf8Encode($row);
+				$authors[] = Clean::cleanOutput($row);
 			}
 			$this->response->addData('authors', $authors);
 		}
@@ -162,7 +162,7 @@ class _recipe {
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
 			$row = mysql_fetch_assoc($result);
-			return Clean::utf8Encode($row);
+			return Clean::cleanOutput($row);
 		} else {
 			return false;
 		}
@@ -178,7 +178,7 @@ class _recipe {
 		if($result && mysql_num_rows($result) > 0){
 			$ingredients = array();
 			while($row = mysql_fetch_assoc($result)){
-				$ingredients[] = Clean::utf8Encode($row);
+				$ingredients[] = Clean::cleanOutput($row);
 			}
 			return $ingredients;
 		} else {

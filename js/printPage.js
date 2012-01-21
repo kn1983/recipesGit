@@ -100,7 +100,7 @@ recUti.recipe = function(recipe){
 			if(confirm("Är du säker på att du vill ta bort ingrediensen")){
 				var ingId = $(this).data("ingid");
 				var url = "api/index.php/?/json/ingredient/remove";
-				$.post(url, {recipe: recipe, ingredientId: ingredient}, function(data){
+				$.post(url, {recipe: recipe, ingredientId: ingId}, function(data){
 					if(data.success){
 						renderContent.myRecipes('recipe', recipe);
 					}
