@@ -234,6 +234,35 @@ $_OBJECTS = array(
 				)
 			)
 		)
+	),
+	'shoppinglist' => array(
+		'description' => 'The shopping list object',
+		'methods' => array(
+			'add' => array(
+				'requiredLogin' => true,
+				'args' => array(
+					'recipe' => array(
+						'type' => 'numeric',
+						'maxLen' => 10,
+						'required' => true
+					)
+				)
+			),
+			'get' => array(
+				'requiredLogin' => true,
+				'args' => array()
+			),
+			'remove' => array(
+				'requiredLogin' => true,
+				'args' => array(
+					'itemId' => array(
+						'type' => 'numeric',
+						'maxLen' => 10,
+						'required' => true	
+					)
+				)
+			)
+		)
 	)
 );
 ?>

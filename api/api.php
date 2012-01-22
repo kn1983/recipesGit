@@ -12,11 +12,9 @@ function runAPI($format, $actions){
     $loginRequired = $_OBJECTS[$object_name]['methods'][$method_name]['requiredLogin'];
     if(isset($loginRequired) && $loginRequired){
       if(!isset($_SESSION['user'])){
-         $response->addError('Login is required!');
+         $response->addError('För detta krävs det att du loggar in!');
         echo $response->output();
         return false;
-      } else {
-       
       }
     }
     $allowedArgs = $_OBJECTS[$object_name]['methods'][$method_name]['args'];

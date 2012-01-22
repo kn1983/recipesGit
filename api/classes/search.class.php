@@ -33,7 +33,7 @@ class _search{
 					if($and == ""){
 						$and .= "categories.category LIKE '{$category}%' ";
 					} else {
-						$and .= "AND categories.category LIKE '{$category}%' ";	
+						$and .= "OR categories.category LIKE '{$category}%' ";	
 					}
 				} else {
 					$str = '%'. $str .'%';
@@ -48,12 +48,12 @@ class _search{
 			}
     	}
     	if($where == ""){
-    		$query = "{$select} WHERE {$and}{$groupBy}";	
+    		$query = "{$select} WHERE ({$and}){$groupBy}";	
     	} 
     	else if($and == ""){
     		$query = "{$select} WHERE({$where}){$groupBy}";	
     	} else {
-    		$query = "{$select} WHERE({$where}) AND {$and}{$groupBy}";
+    		$query = "{$select} WHERE({$where}) AND ({$and}){$groupBy}";
     	}
 	    $this->response->addData('categories', $categoryArray);
 	    $this->response->addData('strs', $strs);

@@ -11,8 +11,10 @@
 		<script type="text/javascript" src="js/userFunc.js"></script>
 		<script type="text/javascript" src="js/validate.js"></script>
 		<script type="text/javascript" src="js/recipeFunc.js"></script>
+		<script type="text/javascript" src="js/shoppinglistFunc.js"></script>
 		<script type="text/javascript" src="js/searchFunc.js"></script>
 		<script type="text/javascript" src="js/dialog.js"></script>
+		
 		<script type="text/template" id="sidebarRecipes">
 			<h2>Kategorier</h2>
 			<p><a href="#">Visa alla recept</a></p>
@@ -83,6 +85,9 @@
 						</li>
 					<% } %>
 				</ul>
+				<p><button id="addToShoppinglist" data-recipeid="<%= recInfo.id %>">Lägg till ingredienser i inköpslista</button></p>
+				<div class="errors"></div>
+				<div class="messages"></div>
 			<% } %>
 		</script>
 		<script type="text/template" id="sidebarMyRecipes">
@@ -226,6 +231,22 @@
 				</div>
 				<button id="signupUser">Registrera dig</button>
 			</form>
+		</script>
+		<script type="text/template" id="contentShoppinglist">
+			<h2>Inköpslista</h2>
+			<ul>
+			<% for(var index = 0; index < shoppinglist.length; index++){ %>
+				<% var item = shoppinglist[index]; %>
+				<li><%= item.amount %> <%= item.unit %> <%= item.ingredient %></li>
+			<% } %>
+			</ul>
+			<h3>Recept i inköpslistan</h3>
+			<ul>
+				<% for(var index = 0; index < recipes.length; index++){ %>
+					<% var rec = recipes[index]; %>
+					<li><button data-itemid="<%= rec.listItemId %>" class="removeShListItem">X</button> <%= rec.title %></li>
+				<% } %>
+			</ul>
 		</script>
 		<script type="text/template" id="headerLoggedIn">
 			<h1><a href="#">Recept</a></h1>

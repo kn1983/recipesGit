@@ -118,6 +118,8 @@ recUti.renderContent = function(page){
 							ingredients = "";
 						}
 						var outputHtml = renderTemplate($('#contentDisplayRecipe'), {recInfo: recInfo, ingredients: ingredients});
+						var shoppingList = recUti.shoppinglist();
+						outputHtml.find('#addToShoppinglist').click(shoppingList.add);
 					}
 				},"json");
 			} else {
@@ -181,6 +183,32 @@ recUti.renderContent = function(page){
 			var outputHtml = renderTemplate($('#contentSignup'));
 			var user = recUti.user();
 			outputHtml.find('#signupUser').click(user.signup);
+		},
+		shoppinglist: function(){
+			var url = "api/index.php/?/json/shoppinglist/get";
+			$.getJSON(url, function(data){
+				if(data.success){
+					var recipes = [];
+					var shoppinglist = data.data.shoppinglist;
+					$.each(shoppinglist, function(index, value){
+						var recItem = {title: value.title, listItemId: value.listItemId};
+						var inArray = false;
+						for(var i = 0; i < recipes.length; i++){
+							if(recipes[i].title == recItem.title && recipes[i].listItemId == recItem.listItemId){
+								inArray = true;
+							}
+						}
+						if(!inArray){
+							recipes.push(recItem);
+						}
+					});
+					var outputHtml = renderTemplate($('#contentShoppinglist'), {recipes: recipes, shoppinglist: shoppinglist});
+					var shopFunc = recUti.shoppinglist();
+					outputHtml.find('.removeShListItem').click(shopFunc.remove);
+				} else {
+					$('#content').append("<h2>Inköpslista</h2><p>Din inköpslista är tom!</p>");
+				}
+			});
 		}
 	}
 	return self;

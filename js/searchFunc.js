@@ -7,6 +7,7 @@ recUti.searchFunc = function(searchStr, resultDiv){
 		var resultTitel = $('<h2/>').text('Sökresultat');
 		resultDiv.empty();
 		resultDiv.append(resultTitel);
+		console.debug(data);
 		if(data.success){
 			var searchResult = data.data.searchResult;
 			var ul = $('<ul/>');
