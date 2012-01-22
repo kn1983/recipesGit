@@ -29,11 +29,11 @@ class _search{
 			if($str != ""){
 				$category = $this->checkIfCategory($str);
 				$categoryArray[] = $category;
-				if($str == $category){
+				if($category){
 					if($and == ""){
-						$and .= "categories.category='{$category}' ";
+						$and .= "categories.category LIKE '{$category}%' ";
 					} else {
-						$and .= "AND categories.category='{$category}' ";	
+						$and .= "AND categories.category LIKE '{$category}%' ";	
 					}
 				} else {
 					$str = '%'. $str .'%';
@@ -55,8 +55,6 @@ class _search{
     	} else {
     		$query = "{$select} WHERE({$where}) AND {$and}{$groupBy}";
     	}
-	    // $this->response->addData('where', $where);
-	    // $this->response->addData('and', $and);
 	    $this->response->addData('categories', $categoryArray);
 	    $this->response->addData('strs', $strs);
 	    $this->response->addData('query', utf8_encode($query));
@@ -75,56 +73,16 @@ class _search{
 	}
 
 	private function checkIfCategory($str){
-		// $category = Clean::cleanArg($str);
 		$query = "SELECT id, category FROM categories
-				  WHERE category='{$str}'
+				  WHERE category LIKE '{$str}%'
 				  LIMIT 1";
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
 			$row = mysql_fetch_assoc($result);
-			return $row['category'];
+			return $str;
 		} else {
 			return false;
 		}
 	}
 }
-
-// SELECT recipes.id, recipes.title, recipes.description, categories.category
-// 		FROM recipes
-// 		LEFT JOIN recipecontains
-// 			ON recipes.id=recipecontains.recipe
-// 		INNER JOIN categories
-// 			ON categories.id=recipes.category
-// 		LEFT JOIN ingredients
-// 			ON recipecontains.ingredient=ingredients.id
-//                 WHERE recipes.title LIKE '%banan%'
-//                 OR recipes.description LIKE '%banan%'
-//                 OR ingredients.ingredient LIKE '%banan%'
-//                 AND categories.category='efterrätter'
-
-
-
-
-
-//         SELECT recipes.id, recipes.title, recipes.description, categories.category
-// 		FROM recipes
-// 		LEFT JOIN recipecontains
-// 			ON recipes.id=recipecontains.recipe
-// 		INNER JOIN categories
-// 			ON categories.id=recipes.category
-// 		LEFT JOIN ingredients
-// 			ON recipecontains.ingredient=ingredients.id
-//                 WHERE categories.category='Efterrätter'
-//                 AND recipes.description LIKE '%banan%'
-//                 OR ingredients.ingredient LIKE '%banan%'
-//                 or recipes.title LIKE '%banan%'
-
-
-
-
-
-
-
-
-
 ?>

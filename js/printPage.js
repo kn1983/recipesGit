@@ -161,17 +161,20 @@ recUti.renderContent = function(page){
 		search: function(){
 			var outputHtml = renderTemplate($('#contentSearch'));
         	var searchField = $('#searchField');
+        	var resultDiv = $('#searchResult');
         	searchField.keyup(function(event){
         		var searchStr = $(this).val();
-        		var resultDiv = $('#searchResult');
-        		resultDiv.empty();
+        		if(searchStr == ""){
+        			resultDiv.empty();
+        		}
         		if(searchStr.length > 2){
         			recUti.searchFunc(searchStr, resultDiv);
         		}
         	});
 
         	$('#searchBtn').click(function(){
-        		// console.debug(searchField);
+        		var searchStr = $('#searchField').val();
+        		recUti.searchFunc(searchStr, resultDiv);
         	});
 		},
 		signup: function(){

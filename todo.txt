@@ -5,13 +5,12 @@ TODO
 // * Validera login
 // * Validera Signup
 // * Validera Add recipe
-* Validera Edit recipe
-* Validera edit ingredient
-* Validera Add ingredient
-* Fixa så att man inte kan lägga till dubletter av en ingrediens
+// * Validera Edit recipe
+// * Validera edit ingredient
+// * Validera Add ingredient
+// * Skapa Instant search för kategorier
 * Förhindra att utloggade användare kommer åt sidor för inloggade användare
 * Lägg till sök-funktionallitet på sök-knappen
-* Skapa Instant search för kategorier
 * Strukturera om js-filerna så att klasserna har egna filer
 * Shopponglistra
 * CSS för siten

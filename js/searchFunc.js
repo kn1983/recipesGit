@@ -1,7 +1,11 @@
 recUti.searchFunc = function(searchStr, resultDiv){
 	var url = "api/index.php/?/json/search/searchAll";
+	if(searchStr == ""){
+		resultDiv.empty();
+	}
 	$.post(url, {searchStr: searchStr}, function(data){
 		var resultTitel = $('<h2/>').text('Sökresultat');
+		resultDiv.empty();
 		resultDiv.append(resultTitel);
 		if(data.success){
 			var searchResult = data.data.searchResult;
