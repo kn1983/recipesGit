@@ -117,28 +117,6 @@ class _recipe {
 		} else {
 			$this->response->addError('Couldnt fetch the units!');
 		}
-
-
-		if($recipe){
-			$recData['info'] = $recipe;
-		} else {
-			$this->response->addError('Couldnt fetch the recipe!');
-			return $this->response;
-		}
-
-
-		if($ingredients){
-			$recData['ingredients'] = $ingredients;
-		}
-		$this->response->addData('recipe', $recData);
-		return $this->response;
-	}
-	public function getRecipeWithIng($args){
-		$recipeId = $args['recipe'];
-		$recipe = $this->getRecipe($args);
-		$ingredients = $this->getIngredients($args);
-		$recData = "";
-
 		if($recipe){
 			$recData['info'] = $recipe;
 		} else {
@@ -169,7 +147,7 @@ class _recipe {
 	}
 	private function getIngredients($args){
 		$recipe = $args['recipe'];
-		$query = "SELECT ingredients.id, ingredients.ingredient, units.id as unitId, units.name AS unit, recipecontains.amount
+		$query = "SELECT recipecontains.id as recConId, ingredients.id as ingId, ingredients.ingredient, units.id as unitId, units.name AS unit, recipecontains.amount
 				  FROM ingredients, units, recipecontains
 				  WHERE ingredients.id=recipecontains.ingredient
 				  AND units.id=recipecontains.unit

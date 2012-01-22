@@ -94,16 +94,6 @@ $_OBJECTS = array(
 				'description' => 'Get all categories',
 				'args' => array()
 			),
-			'getRecipeWithIng' => array(
-				'description' => 'Displays one recipe',
-				'args' => array(
-					'recipe' => array(
-						'type' => 'numeric',
-						'maxLen' => 10,
-						'required' => true
-					)
-				)
-			),
 			'getRecipeIngUnitsAndCats' => array(
 				'description' => 'Get the recipe, the ingredients, the units and the categories',
 				'args' => array(
@@ -170,7 +160,7 @@ $_OBJECTS = array(
 			),
 			'remove' => array(
 				'args' => array(
-					'ingredientId' => array(
+					'recConId' => array(
 						'type' => 'numeric',
 						'maxLen' => 11,
 						'required' => true
@@ -199,14 +189,9 @@ $_OBJECTS = array(
 						'maxLen' => 10,
 						'required' => true
 					),
-					'ingredientId' => array(
+					'recConId' => array(
 						'type' => 'numeric',
 						'maxLen' => 11,
-						'required' => true
-					),
-					'recipe' => array(
-						'type' => 'numeric',
-						'maxLen' => 10,
 						'required' => true
 					)
 				)

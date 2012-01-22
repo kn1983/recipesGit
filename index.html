@@ -9,6 +9,10 @@
 		<script type="text/javascript" src="js/jquery.hashchange-1.0.0.js"></script>
 		<script type="text/javascript" src="js/printPage.js"></script>
 		<script type="text/javascript" src="js/userFunc.js"></script>
+		<script type="text/javascript" src="js/validate.js"></script>
+		<script type="text/javascript" src="js/recipeFunc.js"></script>
+		<script type="text/javascript" src="js/searchFunc.js"></script>
+		<script type="text/javascript" src="js/dialog.js"></script>
 		<script type="text/template" id="sidebarRecipes">
 			<h2>Kategorier</h2>
 			<p><a href="#">Visa alla recept</a></p>
@@ -41,11 +45,11 @@
 			<form id="addRecForm" action="index.html" method="post">
 				<dl>
 					<dt><label for="recipeTitle">Titel</label></dt>
-						<dd><input type="text" id="recipeTitle" name="recipeTitle" /></dd>
+						<dd><input type="text" id="recipeTitle" name="recipeTitle" maxlength="60" /></dd>
 					<dt><label for="recipeDescription">Beskrivning</label></dt>
-						<dd><textarea id="recipeDescription" name="recipeDescription"></textarea></dd>
+						<dd><textarea id="recipeDescription" name="recipeDescription" rows="15"></textarea></dd>
 					<dt><label for="portions">Portioner</label</dt>
-						<dd><input type="text" id="portions" name="portions" maxlength="3" size="3"/></dd>
+						<dd><input type="number" id="portions" name="portions" maxlength="3" size="3"/></dd>
 					<dt><label for="selCategories">Kategorier</label></dt>
 						<dd>
 							<select id="selCategories" name="category">
@@ -104,7 +108,7 @@
 			<form id="saveRecipeForm" class="hidden" method="post" action="index.html">
 				<dl>
 					<dt><label for="recipeTitle">Titel</label></dt>
-					<dd><input type="text" id="recipeTitle"  name="recipeTitle" value="<%= recInfo.title %>" /></dd>
+					<dd><input type="text" id="recipeTitle"  name="recipeTitle" value="<%= recInfo.title %>" maxlength="60"/></dd>
 
 					<dt><label for="category">Kategori</label></dt>
 					<dd>
@@ -121,7 +125,7 @@
 					</dd>
 
 					<dt><label for="portions">Portioner</label></dt>
-					<dd><input type="text" id="portions" name="portions" value="<%= recInfo.portions %>" /></dd>
+					<dd><input type="number" id="portions" name="portions" value="<%= recInfo.portions %>" maxlength="3"/></dd>
 
 					<dt><label for="recipeDescription">Beskrivning</label></dt>
 					<dd><textarea id="recipeDescription" name="recipeDescription"><%= recInfo.description %></textarea></dd>
@@ -136,12 +140,12 @@
 					<ul>
 						<% for(var index = 0; index < ingredients.length; index++){ %>
 							<% ingredient = ingredients[index]; %>
-							<li id="ing_<%= ingredient.id %>" class="ingRow">
-								<button class="removeIng" data-ingid="<%= ingredient.id %>">X</button>
+							<li id="ing_<%= ingredient.recConId %>" class="ingRow">
+								<button class="removeIng" data-recconid="<%= ingredient.recConId %>">X</button>
 								<span class="amount"><%= ingredient.amount %></span>
 								<span class="unit" data-unitid="<%= ingredient.unitId %>"><%= ingredient.unit %></span>
 								<span class="ingredient"><%= ingredient.ingredient %></span>
-								<button class="editIng" data-ingid="<%= ingredient.id %>">Editera</button>
+								<button class="editIng" data-recconid="<%= ingredient.recConId %>">Editera</button>
 							</li>
 						<% } %>
 					</ul>
@@ -150,10 +154,10 @@
 					<h4>Lägg till ingrediens</h4>
 					<form id="addIngForm" method="post" action="index.html">
 					<label for="ingredient">Ingrediens</label>
-					<input type="text" name="ingredient" id="ingredient" />
+					<input type="text" name="ingredient" id="ingredient" maxlength="100" />
 
 					<label for="amount">Mängd</label>
-					<input type="text" name="amount" id="amount" />
+					<input type="number" name="amount" id="amount" maxlength="4"/>
 
 					<label for="unit">Enhet</label>
 					<select id="unit" name="unit">
@@ -174,10 +178,10 @@
 				<form id="updateIngForm" method="post" action="index.html">
 					<dl>
 						<dt><label for="e_ingredient">Ingrediens</label></dt>
-						<dd><input type="text" id="e_ingredient" name="ingredient" /></dd>
+						<dd><input type="text" id="e_ingredient" name="ingredient" maxlength="100" /></dd>
 
 						<dt><label for="e_amount">Mängd</label></dt>
-						<dd><input type="text" id="e_amount" name="amount" /></dd>
+						<dd><input type="number" id="e_amount" name="amount" maxlength="4"/></dd>
 
 						<dt><label for="e_enhet">Enhet</label></dt>
 						<dd>
@@ -189,8 +193,7 @@
 							</select>
 						</dd>
 					</dl>
-					<input type="hidden" id="e_ingId" name="ingredientId" />
-					<input type="hidden" name="recipe" value="<%= recInfo.id %>" />
+					<input type="hidden" id="e_recConId" name="recConId" />
 					<button id="updateIng">Ändra</button>
 					<button class="close">Avbryt</button>
 				</form>
@@ -199,7 +202,7 @@
 		<script type="text/template" id="contentSearch">
 			<h2>Sök</h2>
 			<label for="searchField">Sök</label>
-			<input type="text" name="searchField" id="searchField" />
+			<input type="text" name="searchField" id="searchField" maxlength="2000" />
 			<button id="searchBtn">Sök</button>
 			<div id="searchResult">
 			</div>
@@ -209,15 +212,15 @@
 			<form id="signupForm" action="" method="post">
 				<dl>
 					<dt><label for="regUser">Användarnamn</label></dt>
-					<dd><input type="text" id="regUser" name="regUser" /></dd>
+					<dd><input type="text" id="regUser" name="regUser" maxlength="100" /></dd>
 				</dl>
 				<dl>
 					<dt><label for="regPassword">Lösenord</label></dt>
-					<dd><input type="password" id="regPassword" name="regPassword" /></dd>
+					<dd><input type="password" id="regPassword" name="regPassword" maxlength="100" /></dd>
 				</dl>
 				<dl>
 					<dt><label for="regEmail">E-post</label></dt>
-					<dd><input type="text" id="regEmail" name="regEmail" /></dd>
+					<dd><input type="email" id="regEmail" name="regEmail" maxlength="100" /></dd>
 				</dl>
 				<div class="errors">
 				</div>
@@ -245,9 +248,9 @@
 			</ul>
 			<form id="loginForm" method="post" action="index.html">
 				<label for="user">Användarnamn</label>
-				<input type="text" id="user" name="user" />
+				<input type="text" id="user" name="user" maxlength="100" />
 				<label for="password">Lösenord</label>
-				<input type="password" id="password" name="password" />
+				<input type="password" id="password" name="password" maxlength="100"/>
 				<button type="submit" id="login" name="login">Logga in</button>
 			</form>
 		</script>

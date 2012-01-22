@@ -23,12 +23,20 @@ class _ingredient{
 		
 	}
 	public function update($args){
-		$this->removeIngFromRecipe($args);	
+		$unit = Clean::cleanArg($args['unit']);
+		$amount = Clean::cleanArg($args['amount']);
+		$recConId = Clean::cleanArg($args['recConId']);
 		$ingredient = $this->ingredientExist($args['ingredient']);
 		if(!$ingredient){
 			$ingredient = $this->insertIngredient($args['ingredient']);
 		}
-		$this->addIngToRecipe($args, $ingredient);
+		$query = "UPDATE recipecontains
+				  SET ingredient='{$ingredient}', amount='{$amount}', unit='{$unit}'
+				  WHERE id='{$recConId}'";
+		$result = mysql_query($query) or die(mysql_error());
+		if(!$result){
+			$this->response->addError('Couldnt update the ingredient');
+		}
 		return $this->response;
 	}
 	private function addIngToRecipe($args, $ingredient){
@@ -46,12 +54,12 @@ class _ingredient{
 		
 	}
 	private function removeIngFromRecipe($args){
-		$ingredient = Clean::cleanArg($args['ingredientId']);
+		$id = Clean::cleanArg($args['recConId']);
 		$recipe = Clean::cleanArg($args['recipe']);
 	
 		$query = "DELETE FROM recipecontains
 				  WHERE recipe={$recipe}
-				  AND ingredient={$ingredient}";
+				  AND id={$id}";
 		$result = mysql_query($query)or die(mysql_error());
 		if(!$result){
 			$this->addError('Couldnt remove the ingredient!');

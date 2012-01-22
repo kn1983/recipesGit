@@ -61,93 +61,6 @@ recUti.renderSidebar = function(page){
 		}
 	}
 };
-recUti.dialog = function(dialog){
-	var dialogBg = $('.dialogBg');
-	var self = {
-		status: "CLOSED",
-		closeBtn: $('.dialog .close').bind("click", function(event){
-			self.close();
-			return false;
-		}),
-		open: function(){
-			dialogBg.removeClass('hidden');
-			dialog.removeClass('hidden');
-			self.status = "OPEN";
-		},
-		close: function(){
-			dialogBg.addClass('hidden');
-			dialog.addClass('hidden');
-			self.status = "CLOSED";
-		}	
-	}
-	return self;
-}
-recUti.recipe = function(recipe){
-	var renderContent = recUti.renderContent('myRecipes');
-	var renderSidebar = recUti.renderSidebar('myRecipes');
-	var self = {
-		addIngredient: function(){
-			var ingData = $('#addIngForm').serialize();
-			var url = "api/index.php/?/json/ingredient/add";
-			$.post(url, ingData, function(data){
-				if(data.success){
-					renderContent.myRecipes('recipe', recipe);
-				}
-			},"json");
-			return false;
-		},
-		removeIngredient: function(){
-			if(confirm("Är du säker på att du vill ta bort ingrediensen")){
-				var ingId = $(this).data("ingid");
-				var url = "api/index.php/?/json/ingredient/remove";
-				$.post(url, {recipe: recipe, ingredientId: ingId}, function(data){
-					if(data.success){
-						renderContent.myRecipes('recipe', recipe);
-					}
-				},"json");
-			}
-		},
-		editIngredient: function(){
-			var ingId = $(this).data("ingid");
-			console.debug(ingId);
-			var ingRow = $('#ing_' + ingId);
-			var ing = ingRow.find('.ingredient').text();
-			var amount = ingRow.find('.amount').text();
-			var unit = ingRow.find('.unit').data('unitid');
-			$('#e_ingredient').val(ing);
-			$('#e_amount').val(amount);
-			$('#e_ingId').val(ingId);
-			$("#e_unit").val(unit);
-			self['dialog'] = recUti.dialog($('#updateIngDialog'));
-			self.dialog.open();
-		},
-		updateIngredient: function(){
-			var ingData = $('#updateIngForm').serialize();
-			var url = "api/index.php/?/json/ingredient/update";
-			$.post(url, ingData, function(data){
-				if(data.success){
-					renderContent.myRecipes('recipe', recipe);
-					if (typeof self.dialog){
-						self.dialog.close();
-					}
-				}
-			},"json");
-			return false;
-		},
-		editRecipe: function(){
-			var recipeData = $('#saveRecipeForm').serialize();
-			var url = "api/index.php/?/json/recipe/edit";
-			$.post(url, recipeData, function(data){
-				if(data.success){
-					renderContent.myRecipes('recipe', recipe);
-					renderSidebar.myRecipes();
-				}
-			},"json");
-			return false;
-		}
-	}
-	return self;
-}
 recUti.renderContent = function(page){
 	var content = $('#content');
 	function renderTemplate(template, data){
@@ -157,6 +70,9 @@ recUti.renderContent = function(page){
 		var output = _.template(template.html(), data);
 		var outputHtml = $(output);
 		$('#content').append(outputHtml);
+		var formEls = outputHtml.find('input, textarea, select');
+		var validate = recUti.validate();
+		formEls.focus(validate.removeError);
 		return outputHtml;
 	}
 	content.empty();
@@ -193,7 +109,7 @@ recUti.renderContent = function(page){
 				args[subPage] = subPageId;
 			}
 			if(typeof subPage !== "undefined" && subPage === 'recipe'){
-				var url = "api/index.php/?/json/recipe/getRecipeWithIng";
+				var url = "api/index.php/?/json/recipe/getRecipeIngUnitsAndCats";
 				$.post(url, args, function(data){
 					if(data.success){
 						var recInfo = data.data.recipe.info;
@@ -233,17 +149,12 @@ recUti.renderContent = function(page){
 				var categories = data.data.categories;
 				if(data.success){
 					var outputHtml = renderTemplate($('#contentAddRecipe'), {categories : categories});
-        			$('#saveRecipeBtn').click(function(){
-        				var recData = $('#addRecForm').serialize();
-						var url = "api/index.php/?/json/recipe/add";
-						$.post(url, recData, function(data){
-							if(data.success){
-								var recipe = data.data.recipe;
-								location.hash = "#myRecipes/recipe/" + recipe;
-							}
-						},"json");
-						return false;
-					});
+					var recipe = recUti.recipe();
+					var formEls = outputHtml.find('input, textarea, select');
+					var validate = recUti.validate();
+					formEls.focus(validate.removeError);
+					outputHtml.find('#saveRecipeBtn').click(recipe.addRecipe);
+
 				}
 			});
 		},
@@ -266,36 +177,22 @@ recUti.renderContent = function(page){
 		signup: function(){
 			var outputHtml = renderTemplate($('#contentSignup'));
 			var user = recUti.user();
-			outputHtml.find('#signupUser').click(user.submit);
+			outputHtml.find('#signupUser').click(user.signup);
 		}
 	}
 	return self;
 };
-recUti.searchFunc = function(searchStr, resultDiv){
-	var url = "api/index.php/?/json/search/searchAll";
-	$.post(url, {searchStr: searchStr}, function(data){
-		var resultTitel = $('<h2/>').text('Sökresultat');
-		resultDiv.append(resultTitel);
-		if(data.success){
-			var searchResult = data.data.searchResult;
-			var ul = $('<ul/>');
-			$.each(searchResult, function(index, value){
-				var title = value.title;
-				var recId = value.id;
-				var category = value.category;
-				var li = $('<li><h3><a href="#recipes/recipe/' + value.id + '">' + value.title + '</a></h3><div>Kategori ' + value.category + '</div></li>');
-				ul.append(li);
-			});
-			resultDiv.append(ul);
-		} else {
-			resultDiv.append('<p>Din sökning gav tyvärr inga träffar!</p>');
-		}
-	},"json");
-};
 recUti.loadHeader = function(){
 	function loadTemplate(template){
-		var output = _.template(template.html());
-		$('#header').html(output);
+		var output = _.template(template.html(), {});
+		var outputHtml = $(output);
+		$('#header').empty();
+		$('#header').append(outputHtml);
+		var formEls = outputHtml.find('input');
+		var validate = recUti.validate();
+		formEls.focus(validate.removeError);
+
+
 	}
 	var url ="api/index.php/?/json/user/checkLogin";
 	$.getJSON(url, function(data){
