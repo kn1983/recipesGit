@@ -45,7 +45,7 @@ recUti.renderSidebar = function(page){
 				if(data.success){
                     var output = _.template($('#sidebarRecipes').html(), { categories : categories, authors: authors } );
         			var outputHtml = $(output);
-        			$('#sidebar').html(outputHtml);
+        			$('#sidebar').append(outputHtml);
 				}
 			});
 		},
@@ -55,7 +55,7 @@ recUti.renderSidebar = function(page){
 				if(data.success){
 					var recipes = data.data.recipes;
 					var output = _.template($('#sidebarMyRecipes').html(), { recipes : recipes} );
-        			$('#sidebar').html(output);
+        			$('#sidebar').append(output);
 				}
 			},"json");
 		}

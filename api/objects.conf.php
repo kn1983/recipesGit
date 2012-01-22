@@ -5,6 +5,7 @@ $_OBJECTS = array(
 		'methods' => array(
 			'signup' => array(
 				'description' => "Signup user",
+				'requiredLogin' => false,
 				'args' => array(
 					'regUser' => array(
 						'type' => 'string',
@@ -25,6 +26,7 @@ $_OBJECTS = array(
 			),
 			'login' => array(
 				'description' => 'Login user',
+				'requiredLogin' => false,
 				'args' => array(
 					'user' => array(
 						'type' => 'string',
@@ -40,10 +42,12 @@ $_OBJECTS = array(
 			),
 			'logout' => array(
 				'description' => "Logout user",
+				'requiredLogin' => true,
 				'args' => array()
 			),
 			'checkLogin' => array(
 				'description' => 'Check if the user is logged in',
+				'requiredLogin' => false,
 				'args' => array()
 			)
 		)
@@ -53,6 +57,7 @@ $_OBJECTS = array(
 		'methods' => array(
 			'add' => array(
 				'description' => "Add recipe",
+				'requiredLogin' => true,
 				'args' => array(
 					'recipeTitle' => array(
 						'type' => 'string',
@@ -78,6 +83,7 @@ $_OBJECTS = array(
 			),
 			'listRecipes' => array(
 				'description' => 'Lists all recipes',
+				'requiredLogin' => false,
 				'args' => array(
 					'category' => array(
 						'type' => 'numeric',
@@ -88,14 +94,17 @@ $_OBJECTS = array(
 			),
 			'getCatsAndAuthors' => array(
 				'description' => 'Get categories and authors',
+				'requiredLogin' => false,
 				'args' => array()
 			),
 			'getAllCategories' => array(
 				'description' => 'Get all categories',
+				'requiredLogin' => false,
 				'args' => array()
 			),
 			'getRecipeIngUnitsAndCats' => array(
 				'description' => 'Get the recipe, the ingredients, the units and the categories',
+				'requiredLogin' => false,
 				'args' => array(
 					'recipe' => array(
 						'type' => 'numeric',
@@ -106,6 +115,7 @@ $_OBJECTS = array(
 			),
 			'edit' => array(
 				'description' => 'Edit the recipe',
+				'requiredLogin' => true,
 				'args' => array(
 					'recipe' => array(
 						'type' => 'numeric',
@@ -135,6 +145,7 @@ $_OBJECTS = array(
 		'description' => 'The ingredient object',
 		'methods' => array(
 			'add' => array(
+				'requiredLogin' => true,
 				'args' => array(
 					'ingredient' => array(
 						'type' => 'string',
@@ -159,6 +170,7 @@ $_OBJECTS = array(
 				)
 			),
 			'remove' => array(
+				'requiredLogin' => true,
 				'args' => array(
 					'recConId' => array(
 						'type' => 'numeric',
@@ -173,6 +185,7 @@ $_OBJECTS = array(
 				)
 			),
 			'update' => array(
+				'requiredLogin' => true,
 				'args' => array(
 					'ingredient' => array(
 						'type' => 'string',
@@ -202,6 +215,7 @@ $_OBJECTS = array(
 		'description' => 'Units',
 		'methods' => array(
 			'get' => array(
+				'requiredLogin' => false,
 				'args' => array()
 			) 
 		)
@@ -210,6 +224,7 @@ $_OBJECTS = array(
 		'description' => 'The search object',
 		'methods' => array(
 			'searchAll' => array(
+				'requiredLogin' => false,
 				'args' => array(
 					'searchStr' => array(
 						'type' => 'string',

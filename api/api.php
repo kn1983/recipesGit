@@ -9,6 +9,16 @@ function runAPI($format, $actions){
   $args = $_POST;
  
   if(in_array($object_name, array_keys($_OBJECTS))){
+    $loginRequired = $_OBJECTS[$object_name]['methods'][$method_name]['requiredLogin'];
+    if(isset($loginRequired) && $loginRequired){
+      if(!isset($_SESSION['user'])){
+         $response->addError('Login is required!');
+        echo $response->output();
+        return false;
+      } else {
+       
+      }
+    }
     $allowedArgs = $_OBJECTS[$object_name]['methods'][$method_name]['args'];
     $validate = new Validate();
     $return = $validate->validateArgs($args, $allowedArgs);

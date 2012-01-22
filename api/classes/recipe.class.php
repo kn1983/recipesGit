@@ -30,16 +30,20 @@ class _recipe {
 		return $this->response;
 	}
 	public function edit($args){
-		$recipe = Clean::cleanArg($args['recipe']);
-		$title = Clean::cleanArg($args['recipeTitle']);
-		$description = Clean::cleanArg($args['recipeDescription']);
-		$portions = Clean::cleanArg($args['portions']);
-		$category = Clean::cleanArg($args['category']);
-		$query = "UPDATE recipes
-				  SET title='{$title}', description='{$description}', portions='{$portions}', category='{$category}'
-				  WHERE id={$recipe}";
-		if(!mysql_query($query)){
-			$this->response->addError('Couldnt edit the recipe!');
+		if($this->user){
+			$recipe = Clean::cleanArg($args['recipe']);
+			$title = Clean::cleanArg($args['recipeTitle']);
+			$description = Clean::cleanArg($args['recipeDescription']);
+			$portions = Clean::cleanArg($args['portions']);
+			$category = Clean::cleanArg($args['category']);
+			$query = "UPDATE recipes
+					  SET title='{$title}', description='{$description}', portions='{$portions}', category='{$category}'
+					  WHERE id={$recipe}";
+			if(!mysql_query($query)){
+				$this->response->addError('Couldnt edit the recipe!');
+			}
+		} else {
+			$this->response->addError('Login is required!');
 		}
 		return $this->response;
 	}
