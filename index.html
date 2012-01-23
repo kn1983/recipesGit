@@ -3,18 +3,8 @@
 	<head>
 		<title>Recept</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link href="css/reset.css" type="text/css" rel="stylesheet">
 		<link href="css/style.css" type="text/css" rel="stylesheet">
-		<script type="text/javascript" src="js/jquery-1.6.4.js"></script>
-		<script type="text/javascript" src="js/underscore.js"></script>
-		<script type="text/javascript" src="js/jquery.hashchange-1.0.0.js"></script>
-		<script type="text/javascript" src="js/printPage.js"></script>
-		<script type="text/javascript" src="js/userFunc.js"></script>
-		<script type="text/javascript" src="js/validate.js"></script>
-		<script type="text/javascript" src="js/recipeFunc.js"></script>
-		<script type="text/javascript" src="js/shoppinglistFunc.js"></script>
-		<script type="text/javascript" src="js/searchFunc.js"></script>
-		<script type="text/javascript" src="js/dialog.js"></script>
-		
 		<script type="text/template" id="sidebarRecipes">
 			<h2>Kategorier</h2>
 			<p><a href="#">Visa alla recept</a></p>
@@ -25,7 +15,7 @@
 	        <% } %>
 	        </ul>
 
-	        <h2>Authors</h2>
+	        <h2>Användarnas recept</h2>
 	        <ul>
 	        <% for (var index = 0; index < authors.length; index++){ %>
 	            <% var author = authors[index]; %>
@@ -245,36 +235,39 @@
 			<ul>
 				<% for(var index = 0; index < recipes.length; index++){ %>
 					<% var rec = recipes[index]; %>
-					<li><button data-itemid="<%= rec.listItemId %>" class="removeShListItem">X</button> <%= rec.title %></li>
+					<li><button data-itemid="<%= rec.listItemId %>" class="removeShListItem">X</button><a href="#recipes/recipe/<%= rec.recipeId %>"><%= rec.title %></a></li>
 				<% } %>
 			</ul>
 		</script>
 		<script type="text/template" id="headerLoggedIn">
 			<h1><a href="#">Recept</a></h1>
-			<ul id="mainMenu">
-				<li><a href="#">Hem</a></li>
-				<li><a href="#search">Sök recept</a></li>
-				<li><a href="#myRecipes">Mina recept</a></li>
-				<li><a href="#addRecipe">Lägg till recept</a></li>
-				<li><a href="#shoppinglist">Inköpslista</a></li>
-				<li><a href="#">Mitt skafferi</a></li>
-				<li><a href="#" id="logout">Logga ut</a></li>
-			</ul>
+			<div class="headerContentWrapper">
+				<ul id="mainMenu">
+					<li><a href="#">Hem</a></li>
+					<li><a href="#search">Sök recept</a></li>
+					<li><a href="#myRecipes">Mina recept</a></li>
+					<li><a href="#addRecipe">Lägg till recept</a></li>
+					<li><a href="#shoppinglist">Inköpslista</a></li>
+					<li><a href="#" id="logout">Logga ut</a></li>
+				</ul>
+			</div>
 		</script>
 		<script type="text/template" id="headerLoggedOut">
 			<h1><a href="#">Recept</a></h1>
-			<ul id="mainMenu">
-				<li><a href="#">Hem</a></li>
-				<li><a href="#search">Sök recept</a></li>
-				<li><a href="#signup">Registrera dig</a></li>
-			</ul>
-			<form id="loginForm" method="post" action="index.html">
-				<label for="user">Användarnamn</label>
-				<input type="text" id="user" name="user" maxlength="100" />
-				<label for="password">Lösenord</label>
-				<input type="password" id="password" name="password" maxlength="100"/>
-				<button type="submit" id="login" name="login">Logga in</button>
-			</form>
+			<div class="headerContentWrapper">
+				<ul id="mainMenu">
+					<li><a href="#">Hem</a></li>
+					<li><a href="#search">Sök recept</a></li>
+					<li><a href="#signup">Registrera dig</a></li>
+				</ul>
+				<form id="loginForm" method="post" action="index.html">
+					<label for="user">Användarnamn</label>
+					<input type="text" id="user" name="user" maxlength="100" />
+					<label for="password">Lösenord</label>
+					<input type="password" id="password" name="password" maxlength="100"/>
+					<button type="submit" id="login" name="login">Logga in</button>
+				</form>
+			</div>
 		</script>
 	</head>
 	<body>
@@ -283,5 +276,15 @@
 			<div id="sidebar"></div>
 			<div id="content"></div>
 		</div>
+		<script type="text/javascript" src="js/jquery-1.6.4.js"></script>
+		<script type="text/javascript" src="js/underscore.js"></script>
+		<script type="text/javascript" src="js/jquery.hashchange-1.0.0.js"></script>
+		<script type="text/javascript" src="js/printPage.js"></script>
+		<script type="text/javascript" src="js/userFunc.js"></script>
+		<script type="text/javascript" src="js/validate.js"></script>
+		<script type="text/javascript" src="js/recipeFunc.js"></script>
+		<script type="text/javascript" src="js/shoppinglistFunc.js"></script>
+		<script type="text/javascript" src="js/searchFunc.js"></script>
+		<script type="text/javascript" src="js/dialog.js"></script>
 	</body>
 </html>

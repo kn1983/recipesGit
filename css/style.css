@@ -1,24 +1,50 @@
+/* Global elements */
 body, html {
 	height: 100%;
 }
+body {
+	background: #ccc;
+	font-family: arial,Helvetica,sans-serif;
+}
+h1 {
+	float: left;
+}
+a {
+	text-decoration: none;
+}
+
+
+
 #container {
 	width: 960px;
 	margin: 0 auto;
-	background-color: #ccc;
+	background-color: #fff;
 	overflow: hidden;
 }
 #header {
-	background-color: gold;
+	overflow: hidden;
 }
+	.headerContentWrapper{
+		float: right;
+	}
+		#loginForm {
+			clear: both;
+		}
+	#mainMenu {
+		float: right;
+	}
+		#mainMenu li {
+			display: inline-block;
+		}
+
+
 #sidebar {
 	width: 350px;
 	float: left;
-	background-color: yellow;
 }
 #content {
 	width: 610px;
 	float: right;
-	background-color: #eee;
 }
 .error {
 	border: 1px solid red;

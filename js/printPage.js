@@ -52,7 +52,7 @@ recUti.renderSidebar = function(page){
 		myRecipes: function(){
 			var url = "api/index.php/?/json/recipe/listRecipes";
 			$.post(url, {myRecipes: true}, function(data){
-				if(data.success){
+				if(data.success && data.loggedIn){
 					var recipes = data.data.recipes;
 					var output = _.template($('#sidebarMyRecipes').html(), { recipes : recipes} );
         			$('#sidebar').append(output);
@@ -79,7 +79,7 @@ recUti.renderContent = function(page){
 	function displayRecipe(args, template){
 		var url = "api/index.php/?/json/recipe/getRecipeIngUnitsAndCats";
 		$.post(url, args, function(data){
-			if(data.success){
+			if(data.success && data.loggedIn){
 				var recInfo = data.data.recipe.info;
 				var recFunc = recUti.recipe(recInfo.id);
 				var ingredients = data.data.recipe.ingredients;
@@ -151,7 +151,7 @@ recUti.renderContent = function(page){
 			var url = "api/index.php/?/json/recipe/getAllCategories";
 			$.getJSON(url, function(data){
 				var categories = data.data.categories;
-				if(data.success){
+				if(data.success && data.loggedIn){
 					var outputHtml = renderTemplate($('#contentAddRecipe'), {categories : categories});
 					var recipe = recUti.recipe();
 					var formEls = outputHtml.find('input, textarea, select');
@@ -190,10 +190,12 @@ recUti.renderContent = function(page){
 			var url = "api/index.php/?/json/shoppinglist/get";
 			$.getJSON(url, function(data){
 				if(data.success){
+					if(data.loggedIn){
 					var recipes = [];
 					var shoppinglist = data.data.shoppinglist;
+					console.debug(shoppinglist);
 					$.each(shoppinglist, function(index, value){
-						var recItem = {title: value.title, listItemId: value.listItemId};
+						var recItem = {title: value.title, listItemId: value.listItemId, recipeId: value.recipeId};
 						var inArray = false;
 						for(var i = 0; i < recipes.length; i++){
 							if(recipes[i].title == recItem.title && recipes[i].listItemId == recItem.listItemId){
@@ -207,8 +209,13 @@ recUti.renderContent = function(page){
 					var outputHtml = renderTemplate($('#contentShoppinglist'), {recipes: recipes, shoppinglist: shoppinglist});
 					var shopFunc = recUti.shoppinglist();
 					outputHtml.find('.removeShListItem').click(shopFunc.remove);
+					} else {
+						$('#content').append('<p>För detta krävs det att du loggar in</p>');
+					} 
 				} else {
-					$('#content').append("<h2>Inköpslista</h2><p>Din inköpslista är tom!</p>");
+					$.each(data.errors, function(index, value){
+						$('#content').append('<p>' + value + '</p>');
+					});
 				}
 			});
 		}

@@ -47,7 +47,7 @@ class _shoppinglist{
 			}
 			$this->response->addData('shoppinglist', $ret);
 		} else {
-			$this->response->addError('Couldnt fetch the shopping list');
+			$this->response->addError('Din inköpslista är tom!');
 		}
 		return $this->response;
 	}

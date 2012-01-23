@@ -27,11 +27,17 @@ class Response{
 		}
 	}	
 	public function output(){
+		if(isset($_SESSION['user']) && $_SESSION['user']){
+			$loggedIn = true;
+		} else {
+			$loggedIn = false;
+		}
 		$ret = array(
 			'success' => $this->success,
 			'generalMessage' => $this->msg,
 			'errors' => $this->errors,
-			'data' => $this->data
+			'data' => $this->data,
+			'loggedIn' => $loggedIn
 		);
 		return json_encode($ret);
 	}
