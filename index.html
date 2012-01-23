@@ -87,7 +87,6 @@
 				</ul>
 				<p><button id="addToShoppinglist" data-recipeid="<%= recInfo.id %>">Lägg till ingredienser i inköpslista</button></p>
 				<div class="errors"></div>
-				<div class="messages"></div>
 			<% } %>
 		</script>
 		<script type="text/template" id="sidebarMyRecipes">
@@ -154,6 +153,8 @@
 							</li>
 						<% } %>
 					</ul>
+					<button id="addToShoppinglist" data-recipeid="<%= recInfo.id %>">Lägg till ingredienser i inköpslista</button>
+					<div class="errors"></div>
 				<% } %>
 				<div id="newIngWrapper">
 					<h4>Lägg till ingrediens</h4>

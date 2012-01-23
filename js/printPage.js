@@ -89,6 +89,7 @@ recUti.renderContent = function(page){
 				var units = data.data.units;
 				var categories = data.data.categories;
 				var outputHtml = renderTemplate($('#contentMyRecipes'), {recInfo: recInfo, ingredients: ingredients, units: units, categories: categories});
+				var shoppingList = recUti.shoppinglist();
 				outputHtml.find("#editRecipe").click(function(){
 					$('#recInfoWrapper').addClass('hidden');
 					$('#saveRecipeForm').removeClass('hidden');
@@ -98,6 +99,7 @@ recUti.renderContent = function(page){
 				outputHtml.find('#updateIng').click(recFunc.updateIngredient);
 				outputHtml.find('#saveIng').click(recFunc.addIngredient);
 				outputHtml.find('#saveRecipe').click(recFunc.editRecipe);
+				outputHtml.find('#addToShoppinglist').click(shoppingList.add);
 			}
 		},"json");
 	}

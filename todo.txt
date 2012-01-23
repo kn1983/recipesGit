@@ -11,6 +11,8 @@ TODO
 // * Skapa Instant search för kategorier
 // * Lägg till sök-funktionallitet på sök-knappen
 // * Strukturera om js-filerna så att klasserna har egna filer
+// * Shopponglista
+// * Bugfix för dubbla meddelanden på Lägg till ingredienser i inköpslista knappen.
+// * Lägg till en Lägg till i inköpslista-knapp på mina recept-sidan
 * Förhindra att utloggade användare kommer åt sidor för inloggade användare
-* Shopponglista
 * CSS för siten

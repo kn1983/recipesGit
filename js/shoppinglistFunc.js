@@ -5,10 +5,7 @@ recUti.shoppinglist = function(){
 			var url = "api/index.php/?/json/shoppinglist/add";
 			$.post(url, {recipe: recId}, function(data){
 				if(data.success){
-					var messagesDiv = $('#content .messages');
-					messagesDiv.empty();
-					messagesDiv.append('<p/>').text('Receptet är nu tillagt i inköpslistan!');
-					// location.hash = '#shoppinglist';
+					alert('Receptet är nu tillagt i inköpslistan!');
 				} else {
 					var errors = data.errors;
 					var errorDiv = $('#content .errors');
