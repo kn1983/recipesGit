@@ -3,49 +3,157 @@ body, html {
 	height: 100%;
 }
 body {
-	background: #ccc;
 	font-family: arial,Helvetica,sans-serif;
+	font-size: 15px;
+	/*background: url('../images/bodyBg.jpg');*/
 }
 h1 {
-	float: left;
+	display: inline-block;
+	margin-bottom: 15px;
+}
+h2, h3, h4 {
+	font-weight: bold;
+}
+h2 {
+	font-size: 20px;
+}
+h3 {
+	font-size: 17px;
+	margin-bottom: 10px;
+}
+h4 {
+	margin-bottom: 10px;
 }
 a {
 	text-decoration: none;
 }
-
-
-
-#container {
-	width: 960px;
-	margin: 0 auto;
-	background-color: #fff;
-	overflow: hidden;
+p {
+	margin-bottom: 10px;
 }
+
+/* Forms */
+input, textarea, select { 
+	padding: 9px;
+	border: solid 1px #C9C9C9;
+	/*border-radius: 10px;*/
+	outline: 0;
+	background: #FFFFFF url('bg_form.png') left top repeat-x;
+	background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
+	background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);
+}
+button {
+	padding: 9px;
+}
+
+textarea { 
+	line-height: 150%;
+	}
+	form dl dt {
+		margin-bottom: 5px;
+	}
+	form dl dd {
+		margin-bottom: 15px;
+	}
+/* Header */
 #header {
-	overflow: hidden;
-}
-	.headerContentWrapper{
-		float: right;
+		padding-top: 30px;
 	}
 		#loginForm {
+			float: right;
+		}
+			#loginForm input {
+				margin: 25px 10px 0 0;
+			}
+
+		#mainMenu {
 			clear: both;
 		}
-	#mainMenu {
-		float: right;
+			#mainMenu {
+				background-color: #464646;
+				padding-left: 10px;
+				margin-bottom: 15px;
+			}
+				#mainMenu li {
+					display: inline-block;
+				}
+				#mainMenu li a {
+					display: block;
+					color: #fff;
+					font-weight: bold;
+					padding: 7px 10px;
+				}
+	
+#container {
+	width: 960px;
+	margin: 0 auto 30px;
+}
+	#main {
+		background-color: #fff;
+		overflow: hidden;
+		padding: 20px;
+		border: 1px solid #ccc;
 	}
-		#mainMenu li {
-			display: inline-block;
+		#sidebar {
+			width: 328px;
+			float: left;
 		}
+			#sidebar h2 {
+				margin-bottom: 5px;
+			}
+			#sidebar ul {
+				margin: 0 20px 30px 0;
+			}
+				#sidebar ul li {
+					border-bottom: 1px dotted #ccc;
+				}
+					#sidebar ul li a {
+						padding: 10px 0;
+						display: block;
+						font-weight: bold;
+						color: #464646;
+					}
+		#content {
+			width: 590px;
+			float: right;
+		}
+			#content h2 {
+				margin-bottom: 15px;
+			}
+			#content dl,
+			#content ul {
+				margin-bottom: 20px;
+			}
+				#content li {
+					margin-bottom: 10px;
+				}
+			.contentMenu a {
+				font-weight: bold;
+			}
 
+/* Recipes */
+.recipeInfo {
+}
+	.recipeInfo dt,
+	.recipeInfo dd {
+		display: inline-block;
+	}
+	.recipeInfo dt {
+		margin-right: 5px;
+		font-weight: bold;
+	}
+	.recipeInfo dd {
+		margin-right: 20px;
+	}
+.recipeDescription {
+	margin-top: 15px;
+}
+#recInfoWrapper {
+	margin-bottom: 15px;
+}
+.ingredientsWrapper {
+	margin-bottom: 20px;
+}
 
-#sidebar {
-	width: 350px;
-	float: left;
-}
-#content {
-	width: 610px;
-	float: right;
-}
 .error {
 	border: 1px solid red;
 }
@@ -53,6 +161,27 @@ a {
 	display: none;
 }
 
+#addIngForm {
+	
+}
+	#addIngForm ul li {
+		display: inline-block;
+		margin-right: 15px;
+	}
+	#addIngForm label {
+		display: block;
+		margin-bottom: 5px;
+	}
+#searchResult {
+	margin-top: 30px;
+}
+	#searchResult ul li {
+		margin-bottom: 20px;
+	}
+	#searchResult .category {
+		margin-right: 10px;
+		font-weight: bold;
+	}
 /* Dialogs */
 .dialogBg {
 	background-color: #000;
@@ -64,9 +193,16 @@ a {
 	left: 0;
 }
 .dialog {
+	width: 250px;
+	margin-left: -125px;
 	position: fixed;
 	left: 50%;
 	top: 100px;
-	padding: 10px;
+	padding: 20px;
 	background-color: #fff;
+	box-shadow:0px 0px 20px #000
 }
+	.dialog input, 
+	.dialog textarea {
+		width: 230px;
+	}

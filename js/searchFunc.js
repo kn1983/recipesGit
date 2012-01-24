@@ -15,7 +15,7 @@ recUti.searchFunc = function(searchStr, resultDiv){
 				var title = value.title;
 				var recId = value.id;
 				var category = value.category;
-				var li = $('<li><h3><a href="#recipes/recipe/' + value.id + '">' + value.title + '</a></h3><div>Kategori ' + value.category + '</div></li>');
+				var li = $('<li><h3><a href="#recipes/recipe/' + value.id + '">' + value.title + '</a></h3><span class="category">Kategori</span>' + value.category + '</li>');
 				ul.append(li);
 			});
 			resultDiv.append(ul);

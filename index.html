@@ -7,8 +7,8 @@
 		<link href="css/style.css" type="text/css" rel="stylesheet">
 		<script type="text/template" id="sidebarRecipes">
 			<h2>Kategorier</h2>
-			<p><a href="#">Visa alla recept</a></p>
 			<ul>
+				<li><a href="#">Visa alla recept</a></li>
 	        <% for (var index = 0; index < categories.length; index++){ %>
 	            <% var category = categories[index]; %>
 	                <li><a href="#recipes/category/<%= category.id %>"><%= category.category %></a></li>
@@ -25,7 +25,7 @@
 		</script>
 		<script type="text/template" id="contentRecipeList">
 			<h2>Recept</h2>
-			<ul>
+			<ul class="contentMenu">
 			<% for (var index = 0; index < recipes.length; index++){ %>
 				<% var recipe = recipes[index]; %>
 				<li><a href="#recipes/recipe/<%= recipe.id %>"><%= recipe.title %></a></li>
@@ -36,12 +36,6 @@
 			<h2>Lägg till recept</h2>
 			<form id="addRecForm" action="index.html" method="post">
 				<dl>
-					<dt><label for="recipeTitle">Titel</label></dt>
-						<dd><input type="text" id="recipeTitle" name="recipeTitle" maxlength="60" /></dd>
-					<dt><label for="recipeDescription">Beskrivning</label></dt>
-						<dd><textarea id="recipeDescription" name="recipeDescription" rows="15"></textarea></dd>
-					<dt><label for="portions">Portioner</label</dt>
-						<dd><input type="number" id="portions" name="portions" maxlength="3" size="3"/></dd>
 					<dt><label for="selCategories">Kategorier</label></dt>
 						<dd>
 							<select id="selCategories" name="category">
@@ -52,6 +46,12 @@
 								<% } %>
 							</select>
 						</dd>
+					<dt><label for="recipeTitle">Titel</label></dt>
+						<dd><input type="text" id="recipeTitle" name="recipeTitle" maxlength="60" size="40"/></dd>
+					<dt><label for="recipeDescription">Beskrivning</label></dt>
+						<dd><textarea id="recipeDescription" name="recipeDescription" rows="10" cols="60"></textarea></dd>
+					<dt><label for="portions">Portioner</label</dt>
+						<dd><input type="number" id="portions" name="portions" maxlength="3" size="3"/></dd>
 				</dl>
 				<p><button id="saveRecipeBtn">Spara recept</button>
 			</form>
@@ -60,24 +60,28 @@
 		</script>
 		<script type="text/template" id="contentDisplayRecipe">
 			<h2><%= recInfo.title %></h2>
-			<div>Kategori <span class="category"><%= recInfo.category %></span></div>
-			<div>Portioner <span class="portions"><%= recInfo.portions %></span></div>
-			<div><p><%= recInfo.description %></p></div>
+			<dl class="recipeInfo">
+				<dt>Kategori</dt>
+					<dd><span class="category"><%= recInfo.category %></dd>
+				<dt>Portioner</dt>
+					<dd><span class="portions"><%= recInfo.portions %></dd>
+			</dl>
 			<% if(ingredients.length > 0){ %>
 				<h3>Ingredienser</h3>
 				<ul>
 					<% for(var index = 0; index < ingredients.length; index++){ %>
 						<% ingredient = ingredients[index]; %>
-						<li>
-							<span><%= ingredient.amount %></span>
-							<span><%= ingredient.unit %></span>
-							<span><%= ingredient.ingredient %></span>
+						<li><%= ingredient.amount %>&nbsp;<%= ingredient.unit %>&nbsp;<%= ingredient.ingredient %>
 						</li>
 					<% } %>
 				</ul>
 				<p><button id="addToShoppinglist" data-recipeid="<%= recInfo.id %>">Lägg till ingredienser i inköpslista</button></p>
 				<div class="errors"></div>
 			<% } %>
+			<div class="recipeDescription">
+				<h3>Beskrivning</h3>
+				<p><%= recInfo.description %></p>
+			</div>
 		</script>
 		<script type="text/template" id="sidebarMyRecipes">
 			<h2>Mina recept</h2>
@@ -91,8 +95,12 @@
 		<script type="text/template" id="contentMyRecipes">
 			<div id="recInfoWrapper">
 				<h2><%= recInfo.title %></h2>
-				<div>Kategori <span class="category"><%= recInfo.category %></span></div>
-				<div>Portioner <span class="portions"><%= recInfo.portions %></span></div>
+				<dl class="recipeInfo">
+					<dt>Kategori</dt>
+						<dd><%= recInfo.category %></dd>
+					<dt>Portioner</dt>
+						<dd><%= recInfo.portions %></dd>
+				</dl>
 				<div>
 					<h3>Beskrivning</h3>
 					<p><%= recInfo.description %></p>
@@ -102,7 +110,7 @@
 			<form id="saveRecipeForm" class="hidden" method="post" action="index.html">
 				<dl>
 					<dt><label for="recipeTitle">Titel</label></dt>
-					<dd><input type="text" id="recipeTitle"  name="recipeTitle" value="<%= recInfo.title %>" maxlength="60"/></dd>
+					<dd><input type="text" id="recipeTitle"  name="recipeTitle" value="<%= recInfo.title %>" maxlength="60" size="40"/></dd>
 
 					<dt><label for="category">Kategori</label></dt>
 					<dd>
@@ -119,10 +127,10 @@
 					</dd>
 
 					<dt><label for="portions">Portioner</label></dt>
-					<dd><input type="number" id="portions" name="portions" value="<%= recInfo.portions %>" maxlength="3"/></dd>
+					<dd><input type="number" id="portions" name="portions" value="<%= recInfo.portions %>" maxlength="3" size="3"/></dd>
 
 					<dt><label for="recipeDescription">Beskrivning</label></dt>
-					<dd><textarea id="recipeDescription" name="recipeDescription"><%= recInfo.description %></textarea></dd>
+					<dd><textarea id="recipeDescription" name="recipeDescription" cols="60" rows="10"><%= recInfo.description %></textarea></dd>
 				</dl>
 
 				<input type="hidden" name="recipe" id="recipe" value="<%= recInfo.id %>" />
@@ -146,28 +154,38 @@
 					<button id="addToShoppinglist" data-recipeid="<%= recInfo.id %>">Lägg till ingredienser i inköpslista</button>
 					<div class="errors"></div>
 				<% } %>
+				</div>
 				<div id="newIngWrapper">
 					<h4>Lägg till ingrediens</h4>
 					<form id="addIngForm" method="post" action="index.html">
-					<label for="ingredient">Ingrediens</label>
-					<input type="text" name="ingredient" id="ingredient" maxlength="100" />
+					<ul>
+						<li>
+							<label for="ingredient">Ingrediens</label>
+							<input type="text" name="ingredient" id="ingredient" maxlength="60" size="30" />
+						</li>
 
-					<label for="amount">Mängd</label>
-					<input type="number" name="amount" id="amount" maxlength="4"/>
+						<li>
+							<label for="amount">Mängd</label>
+							<input type="number" name="amount" id="amount" maxlength="4" size="4" />
+						</li>
+						<li>
+							<label for="unit">Enhet</label>
+							<select id="unit" name="unit">
+								<option value="">Välj enhet...</option>
+								<% for(var index = 0; index < units.length; index++){%>
+									<% var unit = units[index]; %>
+									<option value="<%= unit.id %>"><%= unit.name%></option>
+								<% } %>
+							</select>
+						</li>
+						<li>
+							<input type="hidden" name="recipe" value="<%= recInfo.id %>" />
+							<button id="saveIng">Lägg till</button>	
+						</li>
 
-					<label for="unit">Enhet</label>
-					<select id="unit" name="unit">
-						<option value="">Välj enhet...</option>
-						<% for(var index = 0; index < units.length; index++){%>
-							<% var unit = units[index]; %>
-							<option value="<%= unit.id %>"><%= unit.name%></option>
-						<% } %>
-					</select>
-					<input type="hidden" name="recipe" value="<%= recInfo.id %>" />
-					<button id="saveIng">Lägg till</button>	
 					</form>					
 				</div>
-			</div>
+			
 			<div class="dialogBg hidden"></div>
 			<div class="dialog hidden" id="updateIngDialog">
 				<h2>Editera ingrediens</h2>
@@ -196,10 +214,10 @@
 			</div>
 		</script>
 		<script type="text/template" id="contentSearch">
-			<h2>Sök</h2>
-			<label for="searchField">Sök</label>
-			<input type="text" name="searchField" id="searchField" maxlength="2000" />
-			<button id="searchBtn">Sök</button>
+			<h2>Sök recept</h2>
+			<p><label for="searchField">Sök</label></p>
+			<input type="text" name="searchField" id="searchField" maxlength="2000" size="50"/>
+			<button class="button" id="searchBtn">Sök</button>
 			<div id="searchResult">
 			</div>
 		</script>
@@ -240,41 +258,39 @@
 			</ul>
 		</script>
 		<script type="text/template" id="headerLoggedIn">
-			<h1><a href="#">Recept</a></h1>
-			<div class="headerContentWrapper">
-				<ul id="mainMenu">
-					<li><a href="#">Hem</a></li>
-					<li><a href="#search">Sök recept</a></li>
-					<li><a href="#myRecipes">Mina recept</a></li>
-					<li><a href="#addRecipe">Lägg till recept</a></li>
-					<li><a href="#shoppinglist">Inköpslista</a></li>
-					<li><a href="#" id="logout">Logga ut</a></li>
-				</ul>
-			</div>
+			<h1><a href="#"><img src="images/recipesLogo.png" alt="Recept" title="Recept" /></a></h1>
+			<ul id="mainMenu">
+				<li><a href="#">Hem</a></li>
+				<li><a href="#search">Sök recept</a></li>
+				<li><a href="#myRecipes">Mina recept</a></li>
+				<li><a href="#addRecipe">Lägg till recept</a></li>
+				<li><a href="#shoppinglist">Inköpslista</a></li>
+				<li><a href="#" id="logout">Logga ut</a></li>
+			</ul>
 		</script>
 		<script type="text/template" id="headerLoggedOut">
-			<h1><a href="#">Recept</a></h1>
-			<div class="headerContentWrapper">
-				<ul id="mainMenu">
-					<li><a href="#">Hem</a></li>
-					<li><a href="#search">Sök recept</a></li>
-					<li><a href="#signup">Registrera dig</a></li>
-				</ul>
-				<form id="loginForm" method="post" action="index.html">
-					<label for="user">Användarnamn</label>
-					<input type="text" id="user" name="user" maxlength="100" />
-					<label for="password">Lösenord</label>
-					<input type="password" id="password" name="password" maxlength="100"/>
-					<button type="submit" id="login" name="login">Logga in</button>
-				</form>
-			</div>
+			<h1><a href="#"><img src="images/recipesLogo.png" alt="Recept" title="Recept" /></a></h1>
+			<form id="loginForm" method="post" action="index.html">
+				<label for="user">Användarnamn</label>
+				<input type="text" id="user" name="user" maxlength="100" />
+				<label for="password">Lösenord</label>
+				<input type="password" id="password" name="password" maxlength="100"/>
+				<button type="submit" id="login" name="login">Logga in</button>
+			</form>
+			<ul id="mainMenu">
+				<li><a href="#">Hem</a></li>
+				<li><a href="#search">Sök recept</a></li>
+				<li><a href="#signup">Registrera dig</a></li>
+			</ul>
 		</script>
 	</head>
 	<body>
 		<div id="container">
 			<div id="header"></div>
-			<div id="sidebar"></div>
-			<div id="content"></div>
+			<div id="main">
+				<div id="sidebar"></div>
+				<div id="content"></div>
+			</div>
 		</div>
 		<script type="text/javascript" src="js/jquery-1.6.4.js"></script>
 		<script type="text/javascript" src="js/underscore.js"></script>
