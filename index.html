@@ -53,7 +53,7 @@
 					<dt><label for="portions">Portioner</label</dt>
 						<dd><input type="number" id="portions" name="portions" maxlength="3" size="3"/></dd>
 				</dl>
-				<p><button id="saveRecipeBtn">Spara recept</button>
+				<p><button id="saveRecipeBtn">Lägg till recept</button>
 			</form>
 			<div id="ingredients">
 			</div>
@@ -143,7 +143,7 @@
 						<% for(var index = 0; index < ingredients.length; index++){ %>
 							<% ingredient = ingredients[index]; %>
 							<li id="ing_<%= ingredient.recConId %>" class="ingRow">
-								<button class="removeIng" data-recconid="<%= ingredient.recConId %>">X</button>
+								<button class="removeIng removeBtn" data-recconid="<%= ingredient.recConId %>">X</button>
 								<span class="amount"><%= ingredient.amount %></span>
 								<span class="unit" data-unitid="<%= ingredient.unitId %>"><%= ingredient.unit %></span>
 								<span class="ingredient"><%= ingredient.ingredient %></span>
@@ -253,7 +253,7 @@
 			<ul>
 				<% for(var index = 0; index < recipes.length; index++){ %>
 					<% var rec = recipes[index]; %>
-					<li><button data-itemid="<%= rec.listItemId %>" class="removeShListItem">X</button><a href="#recipes/recipe/<%= rec.recipeId %>"><%= rec.title %></a></li>
+					<li><button data-itemid="<%= rec.listItemId %>" class="removeShListItem removeBtn">X</button><a href="#recipes/recipe/<%= rec.recipeId %>"><%= rec.title %></a></li>
 				<% } %>
 			</ul>
 		</script>

@@ -36,6 +36,7 @@ recUti.renderPage = function(page, urlParams){
 	}
 };
 recUti.renderSidebar = function(page){
+	var sidebar = $('#sidebar');
 	return {
 		recipes: function(){
 			var url = "api/index.php/?/json/recipe/getCatsAndAuthors";
@@ -45,7 +46,8 @@ recUti.renderSidebar = function(page){
 				if(data.success){
                     var output = _.template($('#sidebarRecipes').html(), { categories : categories, authors: authors } );
         			var outputHtml = $(output);
-        			$('#sidebar').append(outputHtml);
+        			sidebar.empty();
+        			sidebar.append(outputHtml);
 				}
 			});
 		},
@@ -55,7 +57,8 @@ recUti.renderSidebar = function(page){
 				if(data.success && data.loggedIn){
 					var recipes = data.data.recipes;
 					var output = _.template($('#sidebarMyRecipes').html(), { recipes : recipes} );
-        			$('#sidebar').append(output);
+					sidebar.empty();
+        			sidebar.append(output);
 				}
 			},"json");
 		}
@@ -79,7 +82,7 @@ recUti.renderContent = function(page){
 	function displayRecipe(args, template){
 		var url = "api/index.php/?/json/recipe/getRecipeIngUnitsAndCats";
 		$.post(url, args, function(data){
-			if(data.success && data.loggedIn){
+			if(data.success){
 				var recInfo = data.data.recipe.info;
 				var recFunc = recUti.recipe(recInfo.id);
 				var ingredients = data.data.recipe.ingredients;

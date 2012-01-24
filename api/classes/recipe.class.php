@@ -55,6 +55,7 @@ class _recipe {
 					INNER JOIN users
 							ON users.id=recipes.author ";
 			$where = " ";
+			$orderBy = "ORDER BY recipes.title ASC ";
 			if(isset($args['category']) && $args['category']){
 				$where .= "WHERE recipes.category={$args['category']} ";
 			} else if(isset($args['author']) && $args['author']){
@@ -62,7 +63,7 @@ class _recipe {
 			} else if(isset($args['myRecipes']) && $args['myRecipes'] == true){
 				$where .= "WHERE recipes.author={$_SESSION['user']} ";
 			}
-			$query = $select .= $from .= $join .= $where;
+			$query = $select .= $from .= $join .= $where .= $orderBy;
 
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){

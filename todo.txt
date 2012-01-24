@@ -14,5 +14,9 @@ TODO
 // * Shopponglista
 // * Bugfix för dubbla meddelanden på Lägg till ingredienser i inköpslista knappen.
 // * Lägg till en Lägg till i inköpslista-knapp på mina recept-sidan
-* Förhindra att utloggade användare kommer åt sidor för inloggade användare
+// * Förhindra att utloggade användare kommer åt sidor för inloggade användare
+* Lägg till ett meddelandet "För detta krävs det att du loggar in" för sidan addRecipe och myRecipes.
+* Lägg till ett meddelande på mina recept om det inte finns några recept inlagda.
+// * Fixa dubletter i sidebaren på my recipes
+* Lägg till on cascade delete i databasen
 * CSS för siten
