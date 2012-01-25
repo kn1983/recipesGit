@@ -49,33 +49,25 @@ class Shoppinglist{
 				  	ON recipecontains.unit=units.id
 				  WHERE shoppinglist.user='{$_SESSION['user']}'
 				  GROUP BY recipecontains.ingredient, recipecontains.unit";
-		$result = mysql_query($query) or die(mysql_error());
-		if($result && mysql_num_rows($result) > 0){
-			$listItems = array();
-			while($row = mysql_fetch_assoc($result)){
-				$listItems[] = Clean::cleanOutput($row);
-			}
-			return $listItems;
+		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
+		if($cleanResult){
+			return $cleanResult;
 		} else {
 			return false;
-		}		  
+		}	  
 	}
 	private function getRecipes(){
 		$query = "SELECT shoppinglist.id AS listItemId, recipes.id AS recipeId, recipes.title
 				  FROM shoppinglist
 				  INNER JOIN recipes
 					ON shoppinglist.recipe=recipes.id
-				  WHERE shoppinglist.user='{$_SESSION['user']}'";	
-		$result = mysql_query($query) or die(mysql_error());
-		if($result && mysql_num_rows($result) > 0){
-			$recipeTitles = array();
-			while($row = mysql_fetch_assoc($result)){
-				$recipeTitles[] = Clean::cleanOutput($row);
-			}
-			return $recipeTitles;
+				  WHERE shoppinglist.user='{$_SESSION['user']}'";
+		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
+		if($cleanResult){
+			return $cleanResult;
 		} else {
 			return false;
-		}		  
+		}	  
 	}
 }
 ?>

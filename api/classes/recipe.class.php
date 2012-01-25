@@ -1,5 +1,4 @@
 <?php
-// require_once('ingredient.class.php');
 require_once('classes/Resoponse.class.php');
 require_once('classes/Clean.class.php');
 require_once('classes/units.class.php');
@@ -30,20 +29,16 @@ class Recipe {
 		return $this->response;
 	}
 	public function edit($args){
-		if($this->user){
-			$recipe = Clean::cleanArg($args['recipe']);
-			$title = Clean::cleanArg($args['recipeTitle']);
-			$description = Clean::cleanArg($args['recipeDescription']);
-			$portions = Clean::cleanArg($args['portions']);
-			$category = Clean::cleanArg($args['category']);
-			$query = "UPDATE recipes
-					  SET title='{$title}', description='{$description}', portions='{$portions}', category='{$category}'
-					  WHERE id={$recipe}";
-			if(!mysql_query($query)){
-				$this->response->addError('Couldnt edit the recipe!');
-			}
-		} else {
-			$this->response->addError('Login is required!');
+		$recipe = Clean::cleanArg($args['recipe']);
+		$title = Clean::cleanArg($args['recipeTitle']);
+		$description = Clean::cleanArg($args['recipeDescription']);
+		$portions = Clean::cleanArg($args['portions']);
+		$category = Clean::cleanArg($args['category']);
+		$query = "UPDATE recipes
+				  SET title='{$title}', description='{$description}', portions='{$portions}', category='{$category}'
+				  WHERE id={$recipe}";
+		if(!mysql_query($query)){
+			$this->response->addError('Couldnt edit the recipe!');
 		}
 		return $this->response;
 	}
@@ -64,14 +59,10 @@ class Recipe {
 				$where .= "WHERE recipes.author={$_SESSION['user']} ";
 			}
 			$query = $select .= $from .= $join .= $where .= $orderBy;
-
-		$result = mysql_query($query) or die(mysql_error());
-		if($result && mysql_num_rows($result) > 0){
-			$recipes = array();
-			while($row = mysql_fetch_assoc($result)){
-				$recipes[] = Clean::cleanOutput($row);
-			}
-			$this->response->addData('recipes', $recipes);
+		
+		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
+		if($cleanResult){
+			$this->response->addData('recipes', $cleanResult);
 		} else {
 			$this->response->addError("Couldn't fetch the recipes!");
 		}
@@ -88,26 +79,20 @@ class Recipe {
 	}
 	private function getCategories(){
 		$query = "SELECT id, category FROM categories";
-		$result = mysql_query($query) or die(mysql_error());
-		if($result && mysql_num_rows($result) > 0){
-			$categories = array();
-			while($row = mysql_fetch_assoc($result)){
-				$categories[] = Clean::cleanOutput($row);
-			}
-			$this->response->addData('categories', $categories);
+		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
+		if($cleanResult){
+			$this->response->addData('categories', $cleanResult);
 		} else {
-			$this->response->addError('Couldnt fetch the categories!');
+			$this->response->addError("Couldn't fetch the categories!");
 		}
 	}
 	private function getAuthors(){
 		$query = "SELECT id, user as author FROM users";
-		$result = mysql_query($query) or die(mysql_error());
-		if($result && mysql_num_rows($result) > 0){
-			$authors = array();
-			while($row = mysql_fetch_assoc($result)){
-				$authors[] = Clean::cleanOutput($row);
-			}
-			$this->response->addData('authors', $authors);
+		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
+		if($cleanResult){
+			$this->response->addData('authors', $cleanResult);
+		} else {
+			$this->response->addError("Couldn't fetch the authors!");
 		}
 	}
 	public function getRecipeIngUnitsAndCats($args){
@@ -142,10 +127,9 @@ class Recipe {
 				  AND recipes.author=users.id
 				  AND recipes.category=categories.id
 				  LIMIT 1";
-		$result = mysql_query($query) or die(mysql_error());
-		if($result && mysql_num_rows($result) > 0){
-			$row = mysql_fetch_assoc($result);
-			return Clean::cleanOutput($row);
+		$cleanResult = Clean::executeQueryAndCleanResult($query, true);
+		if($cleanResult){
+			return $cleanResult;
 		} else {
 			return false;
 		}
@@ -157,13 +141,9 @@ class Recipe {
 				  WHERE ingredients.id=recipecontains.ingredient
 				  AND units.id=recipecontains.unit
 				  AND recipecontains.recipe={$recipe}";
-		$result = mysql_query($query)or die(mysql_error());
-		if($result && mysql_num_rows($result) > 0){
-			$ingredients = array();
-			while($row = mysql_fetch_assoc($result)){
-				$ingredients[] = Clean::cleanOutput($row);
-			}
-			return $ingredients;
+		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
+		if($cleanResult){
+			return $cleanResult;
 		} else {
 			return false;
 		}

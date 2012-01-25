@@ -16,5 +16,23 @@ class Clean{
 		}
 		return $cleanArray;
 	}
+	public static function executeQueryAndCleanResult($query, $limit){
+		$result = mysql_query($query) or die(mysql_error());
+		$rowsLen = mysql_num_rows($result);
+		if($result && $rowsLen > 0){
+			if($limit){
+				$row = mysql_fetch_assoc($result);
+				$ret = self::cleanOutput($row);
+			} else {
+				$ret = array();
+				while($row = mysql_fetch_assoc($result)){
+					$ret[] = self::cleanOutput($row);
+				}
+			}
+			return $ret;
+		} else {
+			return false;
+		}
+	}
 }
 ?>

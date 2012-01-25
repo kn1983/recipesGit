@@ -70,11 +70,9 @@ class Ingredient{
 		$query = "SELECT id, ingredient FROM ingredients
 		 	      WHERE ingredient='{$ingredient}'
 		 	   	  LIMIT 1";
-		$result = mysql_query($query) or die(mysql_error());
-
-		if($result && mysql_num_rows($result)>0){
-			$row = mysql_fetch_assoc($result);
-			return $row['id'];
+		$cleanResult = Clean::executeQueryAndCleanResult($query, true);
+		if($cleanResult){
+			return $cleanResult['id'];
 		} else {
 			return false;
 		}

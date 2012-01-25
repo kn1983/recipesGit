@@ -58,14 +58,9 @@ class Search{
 	    $this->response->addData('categories', $categoryArray);
 	    $this->response->addData('strs', $strs);
 	    $this->response->addData('query', utf8_encode($query));
-
-	    $result = mysql_query($query) or die(mysql_error());
-	    if($result && mysql_num_rows($result) > 0){
-	    	$searchResult = "";
-	    	while($row = mysql_fetch_assoc($result)){
-	    		$searchResult[] = Clean::cleanOutput($row);
-	    	}
-	    	$this->response->addData('searchResult', $searchResult);
+	    $cleanResult = Clean::executeQueryAndCleanResult($query, false);
+	    if($cleanResult){
+	    	$this->response->addData('searchResult', $cleanResult);
 	    } else {
 	    	$this->response->addError('No hits');
 	    }
@@ -78,7 +73,6 @@ class Search{
 				  LIMIT 1";
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
-			$row = mysql_fetch_assoc($result);
 			return $str;
 		} else {
 			return false;
