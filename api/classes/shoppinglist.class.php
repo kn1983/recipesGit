@@ -1,7 +1,7 @@
 <?php
 require_once('classes/Resoponse.class.php');
 require_once('classes/Clean.class.php');
-class _shoppinglist{
+class Shoppinglist{
 	private $response;
 	function __construct(){
 		$this->response = new Response();
@@ -27,12 +27,22 @@ class _shoppinglist{
 		return $this->response;
 	}
 	public function get($args){
-		$query = "SELECT shoppinglist.id AS listItemId, recipes.id AS recipeId, recipes.title, ingredients.ingredient, SUM(recipecontains.amount) AS amount, units.name AS unit
+		$recipes = $this->getRecipes();
+		$listItems = $this->getListItems();
+
+		if($recipes && $listItems){
+			$this->response->addData('recipes', $recipes);
+			$this->response->addData('listItems', $listItems);
+		} else {
+			$this->addError('Choldnt fetch the shopping list');
+		}
+		return $this->response;
+	}
+	private function getListItems(){
+		$query = "SELECT ingredients.ingredient, SUM(recipecontains.amount) AS amount, units.name AS unit
 				  FROM shoppinglist
 				  INNER JOIN recipecontains
 				  	ON recipecontains.recipe=shoppinglist.recipe
-				  INNER JOIN recipes
-				  	ON shoppinglist.recipe=recipes.id
 				  INNER JOIN ingredients
 				  	ON recipecontains.ingredient=ingredients.id
 				  INNER JOIN units
@@ -41,15 +51,31 @@ class _shoppinglist{
 				  GROUP BY recipecontains.ingredient, recipecontains.unit";
 		$result = mysql_query($query) or die(mysql_error());
 		if($result && mysql_num_rows($result) > 0){
-			$ret;
+			$listItems = array();
 			while($row = mysql_fetch_assoc($result)){
-				$ret[] = Clean::cleanOutput($row);
+				$listItems[] = Clean::cleanOutput($row);
 			}
-			$this->response->addData('shoppinglist', $ret);
+			return $listItems;
 		} else {
-			$this->response->addError('Din inköpslista är tom!');
-		}
-		return $this->response;
+			return false;
+		}		  
+	}
+	private function getRecipes(){
+		$query = "SELECT shoppinglist.id AS listItemId, recipes.id AS recipeId, recipes.title
+				  FROM shoppinglist
+				  INNER JOIN recipes
+					ON shoppinglist.recipe=recipes.id
+				  WHERE shoppinglist.user='{$_SESSION['user']}'";	
+		$result = mysql_query($query) or die(mysql_error());
+		if($result && mysql_num_rows($result) > 0){
+			$recipeTitles = array();
+			while($row = mysql_fetch_assoc($result)){
+				$recipeTitles[] = Clean::cleanOutput($row);
+			}
+			return $recipeTitles;
+		} else {
+			return false;
+		}		  
 	}
 }
 ?>

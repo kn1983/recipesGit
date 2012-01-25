@@ -25,7 +25,7 @@ function runAPI($format, $actions){
        echo $return->output();
     } else {
       require_once("classes/".$object_name.".class.php");
-      $object_name = "_".$object_name;
+      $object_name = $object_name;
       $object = new $object_name();
       if(method_exists($object,$method_name)){
         if($format == 'json'){

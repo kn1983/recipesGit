@@ -49,6 +49,10 @@ button {
 	border: solid 1px #808282;
 	font-weight: bold;
 }
+label {
+	padding-bottom: 5px;
+	display: block;
+}
 .removeBtn {
 	padding: 3px;
 	margin-right: 7px;
@@ -58,7 +62,7 @@ textarea {
 	line-height: 150%;
 	}
 	form dl dt {
-		margin-bottom: 5px;
+		/*margin-bottom: 5px;*/
 	}
 	form dl dd {
 		margin-bottom: 15px;
@@ -70,8 +74,9 @@ textarea {
 		#loginForm {
 			float: right;
 		}
-			#loginForm input {
-				margin: 25px 10px 0 0;
+			#loginForm ul li {
+				display: inline-block;
+				margin-left: 10px;
 			}
 
 		#mainMenu {
@@ -138,6 +143,9 @@ textarea {
 			.contentMenu a {
 				font-weight: bold;
 			}
+			#searchField {
+				margin-right: 10px;
+			}
 
 /* Recipes */
 .recipeInfo {
@@ -181,10 +189,6 @@ textarea {
 		display: inline-block;
 		margin-right: 15px;
 	}
-	#addIngForm label {
-		display: block;
-		margin-bottom: 5px;
-	}
 #searchResult {
 	margin-top: 30px;
 }
@@ -195,6 +199,7 @@ textarea {
 		margin-right: 10px;
 		font-weight: bold;
 	}
+	
 /* Dialogs */
 .dialogBg {
 	background-color: #000;

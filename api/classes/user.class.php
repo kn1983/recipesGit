@@ -2,7 +2,7 @@
 require_once('classes/Resoponse.class.php');
 require_once('classes/Validate.class.php');
 require_once('classes/Clean.class.php');
-class _user {
+class User {
 	private $response;
 	private $validate;
 	function __construct(){

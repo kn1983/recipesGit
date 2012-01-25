@@ -3,7 +3,7 @@
 require_once('classes/Resoponse.class.php');
 require_once('classes/Clean.class.php');
 require_once('classes/units.class.php');
-class _recipe {
+class Recipe {
 	private $user;
 	private $response;
 	function __construct(){
@@ -114,7 +114,7 @@ class _recipe {
 		$this->getCategories();
 		$recipe = $this->getRecipe($args);
 		$ingredients = $this->getIngredients($args);
-		$unitsClass = new _units();
+		$unitsClass = new Units();
 		$units = $unitsClass->getUnits($args);
 		$recData = "";
 		if($units){

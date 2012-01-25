@@ -20,8 +20,6 @@ recUti.shoppinglist = function(){
 			if(confirm("Är du säker på att du vill ta bort receptet från inköpslistan?")){
 				var url = "api/index.php/?/json/shoppinglist/remove";
 				var itemId = $(this).data('itemid');
-				console.debug(itemId);
-				console.debug(itemId.length);
 				$.post(url, {itemId: itemId}, function(data){
 					var renderContent = recUti.renderContent('shoppinglist');
 					renderContent.shoppinglist();

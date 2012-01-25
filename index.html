@@ -53,7 +53,7 @@
 					<dt><label for="portions">Portioner</label</dt>
 						<dd><input type="number" id="portions" name="portions" maxlength="3" size="3"/></dd>
 				</dl>
-				<p><button id="saveRecipeBtn">Lägg till recept</button>
+				<p><button id="addRecipeBtn">Lägg till recept</button>
 			</form>
 			<div id="ingredients">
 			</div>
@@ -215,7 +215,7 @@
 		</script>
 		<script type="text/template" id="contentSearch">
 			<h2>Sök recept</h2>
-			<p><label for="searchField">Sök</label></p>
+			<label for="searchField">Sök</label>
 			<input type="text" name="searchField" id="searchField" maxlength="2000" size="50"/>
 			<button class="button" id="searchBtn">Sök</button>
 			<div id="searchResult">
@@ -244,8 +244,8 @@
 		<script type="text/template" id="contentShoppinglist">
 			<h2>Inköpslista</h2>
 			<ul>
-			<% for(var index = 0; index < shoppinglist.length; index++){ %>
-				<% var item = shoppinglist[index]; %>
+			<% for(var index = 0; index < listItems.length; index++){ %>
+				<% var item = listItems[index]; %>
 				<li><%= item.amount %> <%= item.unit %> <%= item.ingredient %></li>
 			<% } %>
 			</ul>
@@ -271,11 +271,17 @@
 		<script type="text/template" id="headerLoggedOut">
 			<h1><a href="#"><img src="images/recipesLogo.png" alt="Recept" title="Recept" /></a></h1>
 			<form id="loginForm" method="post" action="index.html">
-				<label for="user">Användarnamn</label>
-				<input type="text" id="user" name="user" maxlength="100" />
-				<label for="password">Lösenord</label>
-				<input type="password" id="password" name="password" maxlength="100"/>
-				<button type="submit" id="login" name="login">Logga in</button>
+				<ul>
+					<li>
+						<label for="user">Användarnamn</label>
+						<input type="text" id="user" name="user" maxlength="100" />
+					</li>
+					<li>
+						<label for="password">Lösenord</label>
+						<input type="password" id="password" name="password" maxlength="100"/>
+					</li>
+					<li><button type="submit" id="login" name="login">Logga in</button></li>
+				</ul>
 			</form>
 			<ul id="mainMenu">
 				<li><a href="#">Hem</a></li>

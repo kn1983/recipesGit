@@ -160,7 +160,7 @@ recUti.renderContent = function(page){
 					var formEls = outputHtml.find('input, textarea, select');
 					var validate = recUti.validate();
 					formEls.focus(validate.removeError);
-					outputHtml.find('#saveRecipeBtn').click(recipe.addRecipe);
+					outputHtml.find('#addRecipeBtn').click(recipe.addRecipe);
 
 				}
 			});
@@ -194,24 +194,11 @@ recUti.renderContent = function(page){
 			$.getJSON(url, function(data){
 				if(data.success){
 					if(data.loggedIn){
-					var recipes = [];
-					var shoppinglist = data.data.shoppinglist;
-					console.debug(shoppinglist);
-					$.each(shoppinglist, function(index, value){
-						var recItem = {title: value.title, listItemId: value.listItemId, recipeId: value.recipeId};
-						var inArray = false;
-						for(var i = 0; i < recipes.length; i++){
-							if(recipes[i].title == recItem.title && recipes[i].listItemId == recItem.listItemId){
-								inArray = true;
-							}
-						}
-						if(!inArray){
-							recipes.push(recItem);
-						}
-					});
-					var outputHtml = renderTemplate($('#contentShoppinglist'), {recipes: recipes, shoppinglist: shoppinglist});
-					var shopFunc = recUti.shoppinglist();
-					outputHtml.find('.removeShListItem').click(shopFunc.remove);
+						var listItems = data.data.listItems;
+						var recipes = data.data.recipes;
+						var outputHtml = renderTemplate($('#contentShoppinglist'), {recipes: recipes, listItems: listItems});
+						var shopFunc = recUti.shoppinglist();
+						outputHtml.find('.removeShListItem').click(shopFunc.remove);
 					} else {
 						$('#content').append('<p>För detta krävs det att du loggar in</p>');
 					} 

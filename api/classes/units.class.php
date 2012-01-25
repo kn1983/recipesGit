@@ -1,7 +1,7 @@
 <?php
 require_once('classes/Resoponse.class.php');
 require_once('classes/Clean.class.php');
-class _units{
+class Units{
 	private $response;
 	function __construct(){
 		$this->response = new Response();
