@@ -19,13 +19,9 @@ class Units{
 
 	public function getUnits($args){
 		$query = "SELECT id, name FROM units";
-		$result = mysql_query($query) or die(mysql_error());
-		if($result && mysql_num_rows($result)>0){
-			$units = array();
-			while($row = mysql_fetch_assoc($result)){
-				$units[] = Clean::cleanOutput($row);
-			}
-			return $units;
+		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
+		if($cleanResult){
+			return $cleanResult;
 		} else {
 			return false;
 		}
