@@ -24,7 +24,6 @@ class User {
 			return $this->response;
 		} else {
 			$this->response->addError("Fel användarnamn eller lösenord!");
-			// $this->response->setGeneralMsg("Fel användarnamn eller lösenord!");
 			return $this->response;
 		}
 	}

@@ -127,17 +127,6 @@ $_OBJECTS = array(
 				'requiredLogin' => true,
 				'args' => array()
 			),
-			// 'getFullRecipe' => array(
-			// 	'description' => 'Get the recipe, the ingredients, the units and the categories',
-			// 	'requiredLogin' => false,
-			// 	'args' => array(
-			// 		'recipe' => array(
-			// 			'type' => 'numeric',
-			// 			'maxLen' => 10,
-			// 			'required' => true
-			// 		)	
-			// 	)
-			// ),
 			'edit' => array(
 				'description' => 'Edit the recipe',
 				'requiredLogin' => true,

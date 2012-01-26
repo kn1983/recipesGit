@@ -74,8 +74,6 @@ class Recipe {
 				$where .= "WHERE recipes.category={$args['category']} ";
 			} else if(isset($args['author']) && $args['author']){
 				$where .= "WHERE recipes.author={$args['author']} ";
-			} else if(isset($args['myRecipes']) && $args['myRecipes'] == true){
-				$where .= "WHERE recipes.author={$_SESSION['user']} ";
 			}
 			$query = $select .= $from .= $join .= $where .= $orderBy;
 		
