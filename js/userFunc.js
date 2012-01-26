@@ -36,7 +36,7 @@ recUti.user = function(){
 					if(data.success == true){
 						location = "index.html";
 					} else {
-						alert(data.generalMessage);
+						alert(data.errors[0]);
 					}
 				},"json");
 			}

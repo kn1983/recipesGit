@@ -44,7 +44,7 @@ recUti.renderSidebar = function(page){
 				var categories = data.data.categories;
 				var authors = data.data.authors;
 				if(data.success){
-                    var output = _.template($('#sidebarRecipes').html(), { categories : categories, authors: authors } );
+                    var output = _.template($('#sidebarRecipes').html(), { categories : categories, authors: authors });
         			var outputHtml = $(output);
         			sidebar.empty();
         			sidebar.append(outputHtml);
@@ -52,15 +52,22 @@ recUti.renderSidebar = function(page){
 			});
 		},
 		myRecipes: function(){
-			var url = "api/index.php/?/json/recipe/listRecipes";
-			$.post(url, {myRecipes: true}, function(data){
-				if(data.success && data.loggedIn){
+			var url = "api/index.php/?/json/recipe/listMyRecipes";
+			$.getJSON(url, function(data){
+				if(data.success){
 					var recipes = data.data.recipes;
-					var output = _.template($('#sidebarMyRecipes').html(), { recipes : recipes} );
+					var output = _.template($('#sidebarMyRecipes').html(), { recipes : recipes});
 					sidebar.empty();
         			sidebar.append(output);
+				} else {
+					var errors = data.errors;
+					var content = $('#content');
+					content.empty();
+					$.each(errors, function(index, value){
+						content.append('<p/>').text(value);
+					});
 				}
-			},"json");
+			});
 		}
 	}
 };
@@ -80,7 +87,7 @@ recUti.renderContent = function(page){
 	}
 	content.empty();
 	function displayRecipe(args, template){
-		var url = "api/index.php/?/json/recipe/getRecipeIngUnitsAndCats";
+		var url = "api/index.php/?/json/recipe/getRecipeMyRecipes";
 		$.post(url, args, function(data){
 			if(data.success){
 				var recInfo = data.data.recipe.info;
@@ -115,6 +122,7 @@ recUti.renderContent = function(page){
 			}
 			if(typeof subPage !== "undefined" && subPage === 'recipe'){
 				var url = "api/index.php/?/json/recipe/getRecipeIngUnitsAndCats";
+				// var url = "api/index.php/?/json/recipe/getFullRecipe";
 				$.post(url, args, function(data){
 					if(data.success){
 						var recInfo = data.data.recipe.info;
@@ -146,9 +154,8 @@ recUti.renderContent = function(page){
 			args[subPage] = subPageId;
 			if(typeof subPage !== "undefined"){
 				args[subPage] = subPageId;
+				displayRecipe(args);
 			}
-		
-			displayRecipe(args);
 		},
 		addRecipe: function(){
 			var url = "api/index.php/?/json/recipe/getAllCategories";
@@ -199,9 +206,7 @@ recUti.renderContent = function(page){
 						var outputHtml = renderTemplate($('#contentShoppinglist'), {recipes: recipes, listItems: listItems});
 						var shopFunc = recUti.shoppinglist();
 						outputHtml.find('.removeShListItem').click(shopFunc.remove);
-					} else {
-						$('#content').append('<p>För detta krävs det att du loggar in</p>');
-					} 
+					}
 				} else {
 					$.each(data.errors, function(index, value){
 						$('#content').append('<p>' + value + '</p>');

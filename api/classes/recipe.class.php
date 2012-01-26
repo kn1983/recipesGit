@@ -42,6 +42,25 @@ class Recipe {
 		}
 		return $this->response;
 	}
+	public function listMyRecipes($args){
+		$select = "SELECT recipes.id, recipes.title, categories.category, categories.id AS categoryid, users.user as author ";
+		$from = "FROM recipes ";
+		$join = "INNER JOIN categories 
+							ON categories.id=recipes.category
+					INNER JOIN users
+							ON users.id=recipes.author ";
+		$where = "WHERE recipes.author='{$_SESSION['user']}' ";
+		$orderBy = "ORDER BY recipes.title ASC ";
+		
+		$query = $select .= $from .= $join .= $where .= $orderBy; 
+		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
+		if($cleanResult){
+			$this->response->addData('recipes', $cleanResult);
+		} else {
+			$this->response->addError("Din receptlista är tom!");
+		}
+		return $this->response;
+	}
 	public function listRecipes($args){
 			$select = "SELECT recipes.id, recipes.title, categories.category, categories.id AS categoryid, users.user as author ";
 			$from = "FROM recipes ";
@@ -93,6 +112,26 @@ class Recipe {
 			$this->response->addData('authors', $cleanResult);
 		} else {
 			$this->response->addError("Couldn't fetch the authors!");
+		}
+	}
+	public function getRecipeMyRecipes($args){
+		if($this->checkAccessToRecipe($args)){
+			$this->getRecipeIngUnitsAndCats($args);	
+		} else {
+			$this->response->addError('You havent access to the recipe!');
+		}
+		return $this->response;
+	}
+	private function checkAccessToRecipe($args){
+		$recipe = Clean::cleanArg($args['recipe']);
+		$query = "SELECT recipes.id FROM recipes
+				  WHERE recipes.id='{$recipe}'
+				  AND recipes.author='{$_SESSION['user']}'";
+		$result = mysql_query($query) or die(mysql_error());
+		if($result && mysql_num_rows($result)>0){
+			return true;
+		} else {
+			return false;
 		}
 	}
 	public function getRecipeIngUnitsAndCats($args){

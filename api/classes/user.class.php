@@ -23,8 +23,8 @@ class User {
 		if($this->validLogin($args)){
 			return $this->response;
 		} else {
-			$this->response->addError("Invalid login");
-			$this->response->setGeneralMsg("Wrong username or password!");
+			$this->response->addError("Fel användarnamn eller lösenord!");
+			// $this->response->setGeneralMsg("Fel användarnamn eller lösenord!");
 			return $this->response;
 		}
 	}
@@ -56,10 +56,10 @@ class User {
 	//Signup user
 	public function signup($args){
 		if(!$this->validate->email($args['regEmail'])){
-			$this->response->addError('Invalid E-mail address!');
+			$this->response->addError('Ogiltig epostadress!');
 		}
 		if(!$this->userExist($args)){
-			$this->response->addError('The username is already taken!');
+			$this->response->addError('Användarnamnet är redan upptaget!');
 		}
 		if(!$this->response->checkSuccess()){
 			return $this->response;	

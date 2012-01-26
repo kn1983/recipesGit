@@ -34,7 +34,7 @@ class Shoppinglist{
 			$this->response->addData('recipes', $recipes);
 			$this->response->addData('listItems', $listItems);
 		} else {
-			$this->addError('Choldnt fetch the shopping list');
+			$this->response->addError('Din inköpslista är tom!');
 		}
 		return $this->response;
 	}
