@@ -91,7 +91,7 @@ class User {
 		 		  VALUES('{$user}', '{$password}', '{$email}')";
 		$result = mysql_query($query)or die(mysql_error());
 		if(!$result){
-			$this->response->addError("Could not add user!");
+			$this->response->addError("Kunde inte lägga till användaren!");
 		}
 	}
 }

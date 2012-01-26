@@ -62,7 +62,7 @@ class Search{
 	    if($cleanResult){
 	    	$this->response->addData('searchResult', $cleanResult);
 	    } else {
-	    	$this->response->addError('No hits');
+	    	$this->response->addError('Inga sökresultat!');
 	    }
 	    return $this->response;
 	}

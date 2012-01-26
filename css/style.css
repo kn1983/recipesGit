@@ -5,7 +5,6 @@ body, html {
 body {
 	font-family: arial,Helvetica,sans-serif;
 	font-size: 15px;
-	/*background: url('../images/bodyBg.jpg');*/
 }
 h1 {
 	display: inline-block;
@@ -48,6 +47,7 @@ button {
 	color: #fff;
 	border: solid 1px #808282;
 	font-weight: bold;
+	cursor: pointer;
 }
 label {
 	padding-bottom: 5px;
@@ -60,9 +60,6 @@ label {
 
 textarea { 
 	line-height: 150%;
-	}
-	form dl dt {
-		/*margin-bottom: 5px;*/
 	}
 	form dl dd {
 		margin-bottom: 15px;

@@ -81,6 +81,16 @@ $_OBJECTS = array(
 					)
 				)
 			),
+			'remove' => array(
+				'requiredLogin' => true,
+				'args' => array(
+					'recipe' => array(
+						'type' => 'numeric',
+						'maxLen' => 10,
+						'required' => true
+					)
+				)
+			),
 			'listRecipes' => array(
 				'description' => 'Lists all recipes',
 				'requiredLogin' => false,

@@ -22,7 +22,7 @@ class Shoppinglist{
 				  WHERE id='{$listItem}'";
 		$result = mysql_query($query);
 		if(!$result){
-			$this->response->addError('Couldnt remove the recipe from the list!');
+			$this->response->addError('Kunde inte ta bort receptet från inköpslistan!');
 		}
 		return $this->response;
 	}

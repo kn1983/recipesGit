@@ -107,13 +107,17 @@ recUti.renderContent = function(page){
 					$('#recInfoWrapper').addClass('hidden');
 					$('#saveRecipeForm').removeClass('hidden');
 				});
+				outputHtml.find('#removeRecipe').click(recFunc.removeRecipe);
 				outputHtml.find('.removeIng').click(recFunc.removeIngredient);
 				outputHtml.find('.editIng').click(recFunc.editIngredient);
 				outputHtml.find('#updateIng').click(recFunc.updateIngredient);
 				outputHtml.find('#saveIng').click(recFunc.addIngredient);
 				outputHtml.find('#saveRecipe').click(recFunc.editRecipe);
 				outputHtml.find('#addToShoppinglist').click(shoppingList.add);
+
+
 			}
+
 		},"json");
 	}
 	var self = {

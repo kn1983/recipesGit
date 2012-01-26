@@ -35,7 +35,7 @@ class Ingredient{
 				  WHERE id='{$recConId}'";
 		$result = mysql_query($query) or die(mysql_error());
 		if(!$result){
-			$this->response->addError('Couldnt update the ingredient');
+			$this->response->addError('Kunde inte uppdatera ingrediensen!');
 		}
 		return $this->response;
 	}
@@ -49,7 +49,7 @@ class Ingredient{
 		VALUES ('{$recipe}', '{$ing}', '{$unit}', '{$amount}')";
 		$result = mysql_query($query);
 		if(!$result){
-			$this->response->addError('Couldnt add the ingredient!');
+			$this->response->addError('Kunde inte lägga till ingrediensen!');
 		}
 		
 	}
@@ -62,7 +62,7 @@ class Ingredient{
 				  AND id={$id}";
 		$result = mysql_query($query)or die(mysql_error());
 		if(!$result){
-			$this->addError('Couldnt remove the ingredient!');
+			$this->addError('Kunde inte ta bort ingrediensen!');
 		}
 	}
 	private function ingredientExist($ing){

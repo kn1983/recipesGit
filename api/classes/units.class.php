@@ -12,7 +12,7 @@ class Units{
 		if($units){
 			$this->response->addData('units', $units);
 		} else {
-			$this->response->addError("Couldn't fetch the units!");
+			$this->response->addError("Kunde inte hämta enheterna!");
 		}
 		return $this->response;
 	}

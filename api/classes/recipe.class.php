@@ -11,6 +11,7 @@ class Recipe {
 			$this->user = $_SESSION['user'];
 		}
 	}
+
 	public function add($args){
 		$title = Clean::cleanArg($args['recipeTitle']);
 		$description = Clean::cleanArg($args['recipeDescription']);
@@ -24,10 +25,11 @@ class Recipe {
 			$recipe = mysql_insert_id();
 			$this->response->addData('recipe', $recipe);
 		} else {
-			$this->response->addError('Couldnt add the recipe');
+			$this->response->addError('Kunde inte lägga till receptet!');
 		}
 		return $this->response;
 	}
+
 	public function edit($args){
 		$recipe = Clean::cleanArg($args['recipe']);
 		$title = Clean::cleanArg($args['recipeTitle']);
@@ -38,21 +40,21 @@ class Recipe {
 				  SET title='{$title}', description='{$description}', portions='{$portions}', category='{$category}'
 				  WHERE id={$recipe}";
 		if(!mysql_query($query)){
-			$this->response->addError('Couldnt edit the recipe!');
+			$this->response->addError('Kunde inte editera receptet!');
 		}
 		return $this->response;
 	}
+
 	public function listMyRecipes($args){
-		$select = "SELECT recipes.id, recipes.title, categories.category, categories.id AS categoryid, users.user as author ";
-		$from = "FROM recipes ";
-		$join = "INNER JOIN categories 
-							ON categories.id=recipes.category
-					INNER JOIN users
-							ON users.id=recipes.author ";
-		$where = "WHERE recipes.author='{$_SESSION['user']}' ";
-		$orderBy = "ORDER BY recipes.title ASC ";
+		$query = "SELECT recipes.id, recipes.title, categories.category, categories.id AS categoryid, users.user as author
+				FROM recipes
+				INNER JOIN categories 
+					ON categories.id=recipes.category
+				INNER JOIN users
+					ON users.id=recipes.author
+				WHERE recipes.author='{$_SESSION['user']}'
+				ORDER BY recipes.title ASC ";
 		
-		$query = $select .= $from .= $join .= $where .= $orderBy; 
 		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
 		if($cleanResult){
 			$this->response->addData('recipes', $cleanResult);
@@ -61,6 +63,7 @@ class Recipe {
 		}
 		return $this->response;
 	}
+
 	public function listRecipes($args){
 			$select = "SELECT recipes.id, recipes.title, categories.category, categories.id AS categoryid, users.user as author ";
 			$from = "FROM recipes ";
@@ -81,45 +84,67 @@ class Recipe {
 		if($cleanResult){
 			$this->response->addData('recipes', $cleanResult);
 		} else {
-			$this->response->addError("Couldn't fetch the recipes!");
+			$this->response->addError("Kunde inte hämta recepten!");
 		}
 		return $this->response;
 	}
+
 	public function getAllCategories($args){
 		$this->getCategories();
 		return $this->response;
 	}
+
 	public function getCatsAndAuthors($args){
 		$this->getCategories();
 		$this->getAuthors();
 		return $this->response;
 	}
+
 	private function getCategories(){
 		$query = "SELECT id, category FROM categories";
 		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
 		if($cleanResult){
 			$this->response->addData('categories', $cleanResult);
 		} else {
-			$this->response->addError("Couldn't fetch the categories!");
+			$this->response->addError("Kunde inte hämta kategorierna!");
 		}
 	}
+
 	private function getAuthors(){
 		$query = "SELECT id, user as author FROM users";
 		$cleanResult = Clean::executeQueryAndCleanResult($query, false);
 		if($cleanResult){
 			$this->response->addData('authors', $cleanResult);
 		} else {
-			$this->response->addError("Couldn't fetch the authors!");
+			$this->response->addError("Kunde inte hämta användare!");
 		}
 	}
+
 	public function getRecipeMyRecipes($args){
 		if($this->checkAccessToRecipe($args)){
 			$this->getRecipeIngUnitsAndCats($args);	
 		} else {
-			$this->response->addError('You havent access to the recipe!');
+			$this->response->addError('Kunde inte hämta recepten!');
 		}
 		return $this->response;
 	}
+
+	public function remove($args){
+		if($this->checkAccessToRecipe($args)){
+			$this->removeRecipe($args);
+		} else {
+			$this->response->addError('Kunde inte ta bort receptet!');
+		}
+		return $this->response;
+	}
+
+	private function removeRecipe($args){
+		$recipe = Clean::cleanArg($args['recipe']);
+		$query = "DELETE FROM recipes
+				  WHERE recipes.id='{$recipe}'";
+		mysql_query($query) or die(mysql_error());
+	}
+
 	private function checkAccessToRecipe($args){
 		$recipe = Clean::cleanArg($args['recipe']);
 		$query = "SELECT recipes.id FROM recipes
@@ -132,6 +157,7 @@ class Recipe {
 			return false;
 		}
 	}
+
 	public function getRecipeIngUnitsAndCats($args){
 		$this->getCategories();
 		$recipe = $this->getRecipe($args);
@@ -142,12 +168,12 @@ class Recipe {
 		if($units){
 			$this->response->addData('units', $units);
 		} else {
-			$this->response->addError('Couldnt fetch the units!');
+			$this->response->addError('Kunde inte hämta receptet!');
 		}
 		if($recipe){
 			$recData['info'] = $recipe;
 		} else {
-			$this->response->addError('Couldnt fetch the recipe!');
+			$this->response->addError('Kunde inte hämta receptet!');
 			return $this->response;
 		}
 		if($ingredients){
@@ -156,6 +182,7 @@ class Recipe {
 		$this->response->addData('recipe', $recData);
 		return $this->response;
 	}
+
 	private function getRecipe($args){
 		$recipe = $args['recipe'];
 		$query = "SELECT recipes.id, recipes.title, recipes.description, recipes.portions, categories.id AS categoryId, categories.category, users.user as author
@@ -171,6 +198,7 @@ class Recipe {
 			return false;
 		}
 	}
+
 	private function getIngredients($args){
 		$recipe = $args['recipe'];
 		$query = "SELECT recipecontains.id as recConId, ingredients.id as ingId, ingredients.ingredient, units.id as unitId, units.name AS unit, recipecontains.amount

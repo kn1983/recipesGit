@@ -94,6 +94,17 @@ recUti.recipe = function(recipe){
 				},"json");
 			}
 			return false;
+		},
+		removeRecipe: function(){
+			if(confirm("Är du säker på att du vill ta bort receptet?")){
+				var recipe = $(this).data('recipeid');
+				var url = "api/index.php/?/json/recipe/remove";
+				$.post(url, {recipe: recipe}, function(data){
+					location.hash = "#myRecipes";
+					renderSidebar.myRecipes();
+				},"json");
+			}
+			return false;
 		}
 	};
 	return self;
